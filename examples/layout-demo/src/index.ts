@@ -245,37 +245,37 @@ const baseTemplate = `
 `;
 
 // 渲染页面函数
-function renderPage(filePath: string, theme: string = 'base'): string {
+async function renderPage(filePath: string, theme: string = 'base'): Promise<string> {
     // 设置当前主题
-    setCurrentTheme(theme);
+    await setCurrentTheme(theme);
 
-    // 读取示例 Markdown 文件
-    const markdownContent = fs.readFileSync(filePath, 'utf-8');
+    // 读取 Markdown 文件内容
+    const content = fs.readFileSync(filePath, 'utf-8');
 
     // 渲染 Markdown 内容
-    const renderedContent = pageRenderer.render(markdownContent);
+    const renderedContent = pageRenderer.render(content).content;
 
-    // 获取生成的 Tailwind CSS
-    const tailwindCSS = getGeneratedCSS();
+    // 获取生成的 CSS
+    const tailwindCSS = await getGeneratedCSS();
 
     // 替换模板变量
     return baseTemplate
         .replace('{{ title }}', 'Layout Demo')
         .replace('{{ description }}', 'A demo of layout components')
         .replace('{{ theme }}', `theme-${theme}`)
-        .replace('{{ content }}', renderedContent.content)
-        .replace('{{ tailwindCSS }}', tailwindCSS);
+        .replace('{{ tailwindCSS }}', tailwindCSS)
+        .replace('{{ content }}', renderedContent);
 }
 
-// 路由处理
-app.get('/', (req, res) => {
+// 设置路由
+app.get('/', async (req, res) => {
     try {
-        const theme = (req.query.theme as string) || 'base';
-        const html = renderPage(path.join(__dirname, 'example.md'), theme);
+        const theme = req.query.theme as string || 'base';
+        const html = await renderPage(path.join(__dirname, 'example.md'), theme);
         res.send(html);
     } catch (error) {
-        console.error('Rendering error:', error);
-        res.status(500).send('Error rendering page');
+        console.error('Error rendering page:', error);
+        res.status(500).send('Internal Server Error');
     }
 });
 

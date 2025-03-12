@@ -55,8 +55,8 @@ themeManager.registerTheme({
 });
 
 // 设置当前主题
-export function setCurrentTheme(theme: string) {
-    themeManager.switchTheme(theme);
+export async function setCurrentTheme(theme: string) {
+    await themeManager.switchTheme(theme);
 }
 
 // 获取当前主题
@@ -74,8 +74,8 @@ export function getCurrentTheme(): Theme {
 }
 
 // 获取生成的 Tailwind CSS
-export function getGeneratedCSS(): string {
-    return tailwindAdapter.generateCSS();
+export async function getGeneratedCSS(): Promise<string> {
+    return await tailwindAdapter.generateCSS();
 }
 
 // 注册所有组件

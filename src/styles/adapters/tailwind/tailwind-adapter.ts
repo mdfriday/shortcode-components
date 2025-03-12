@@ -1,4 +1,6 @@
-import { CSSFrameworkAdapter, StyleDefinition, CSSResource, CSSFrameworkAdapterOptions, ComponentStyleConfig } from '../../types';
+import { CSSFrameworkAdapter, CSSResource, CSSFrameworkAdapterOptions } from '../../types/adapter';
+import { StyleDefinition } from '../../types/style';
+import { ComponentStyleConfig } from '../../types/component';
 import { TailwindGenerator } from './tailwind-generator';
 import { TailwindThemeConfig, defaultTheme } from './theme';
 
@@ -216,20 +218,58 @@ export class TailwindAdapter implements CSSFrameworkAdapter {
   /**
    * 生成CSS代码
    */
-  generateCSS(): string {
-    return this.generator.generateUtilities();
+  async generateCSS(): Promise<string> {
+    const css = `
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+    `;
+
+    // 配置 tailwind
+    const tailwindConfig = {
+      content: [], // 不需要扫描文件
+      prefix: this.options.prefix || '',
+      theme: this.convertThemeToTailwindConfig(),
+      corePlugins: {
+        preflight: false, // 禁用默认样式重置
+      }
+    };
+
+    try {
+      // 使用 require 导入依赖
+      const postcss = require('postcss');
+      const tailwindcss = require('tailwindcss');
+      const autoprefixer = require('autoprefixer');
+
+      // 创建 postcss 处理器
+      const processor = postcss([
+        tailwindcss(tailwindConfig),
+        autoprefixer()
+      ]);
+
+      // 处理 CSS
+      const result = await processor.process(css, {
+        from: undefined
+      });
+
+      // 生成我们自己的工具类
+      const ourUtilities = this.generator.generateUtilities();
+
+      // 合并样式
+      return `${result.css}\n${ourUtilities}`;
+    } catch (error) {
+      console.error('Error generating CSS:', error);
+      // 如果出错，至少返回我们自己的工具类
+      return this.generator.generateUtilities();
+    }
   }
 
   /**
    * 获取外部资源
    */
   getExternalResources(): CSSResource[] {
-    return [
-      {
-        type: 'link',
-        href: 'https://cdn.tailwindcss.com'
-      } as CSSResource
-    ];
+    // 不再需要返回 CDN 资源，因为我们已经内联了所有样式
+    return [];
   }
 
   /**

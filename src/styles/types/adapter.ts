@@ -60,7 +60,7 @@ export interface CSSFrameworkAdapter {
    * 生成完整的 CSS
    * @param options 选项
    */
-  generateCSS(options?: CSSFrameworkAdapterOptions): string;
+  generateCSS(options?: CSSFrameworkAdapterOptions): Promise<string>;
 
   /**
    * 获取外部资源

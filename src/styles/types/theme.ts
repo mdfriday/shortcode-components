@@ -1,5 +1,5 @@
 import { ComponentThemeConfig } from './component-theme';
-import { CSSFrameworkAdapter } from './css-framework';
+import { CSSFrameworkAdapter } from './adapter';
 
 /**
  * 主题配置

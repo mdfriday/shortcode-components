@@ -85,7 +85,7 @@ export class DefaultThemeManager implements ThemeManager {
   /**
    * 应用主题CSS
    */
-  private applyThemeCSS(config: any): void {
+  private async applyThemeCSS(config: any): Promise<void> {
     if (!this.options.autoApplyCSS || !this.options.targetElement) {
       return;
     }
@@ -103,7 +103,7 @@ export class DefaultThemeManager implements ThemeManager {
       // 更新适配器的主题配置
       this.adapter.updateTheme?.(config);
       // 生成CSS
-      const css = this.adapter.generateCSS();
+      const css = await this.adapter.generateCSS();
       styleElement.textContent = css;
     }
   }
@@ -179,7 +179,7 @@ export class DefaultThemeManager implements ThemeManager {
   /**
    * 切换主题
    */
-  switchTheme(themeName: string): void {
+  async switchTheme(themeName: string): Promise<void> {
     if (!this.themes.has(themeName)) {
       throw new Error(`Theme "${themeName}" not found`);
     }
@@ -189,7 +189,7 @@ export class DefaultThemeManager implements ThemeManager {
 
     // 应用主题
     const config = this.getThemeConfig(themeName);
-    this.applyThemeCSS(config);
+    await this.applyThemeCSS(config);
 
     // 保存到存储
     this.saveTheme(themeName);
@@ -249,5 +249,15 @@ export class DefaultThemeManager implements ThemeManager {
     if (themeName === this.currentTheme) {
       this.applyThemeCSS(theme.config);
     }
+  }
+
+  /**
+   * 生成CSS代码
+   */
+  async generateCSS(): Promise<string> {
+    if (!this.adapter) {
+      throw new Error('No CSS framework adapter configured');
+    }
+    return await this.adapter.generateCSS();
   }
 } 

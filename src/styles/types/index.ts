@@ -33,7 +33,7 @@ export interface CSSFrameworkAdapter {
   /**
    * 生成CSS代码
    */
-  generateCSS(): string;
+  generateCSS(): Promise<string>;
 
   /**
    * 获取外部资源
