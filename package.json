@@ -1,0 +1,28 @@
+{
+  "name": "@mdfriday/shortcode-components",
+  "version": "1.0.0",
+  "description": "Shortcode Components for MDFriday",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "shortcode",
+    "components",
+    "mdfriday"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@mdfriday/shortcode-compiler": "^0.2.0"
+  }
+}
