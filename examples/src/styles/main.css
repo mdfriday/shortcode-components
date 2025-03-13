@@ -1,0 +1,108 @@
+/* 基础样式 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* 暗色模式样式 */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+/* 按钮基础样式 */
+button {
+  cursor: pointer;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+/* 卡片基础样式 */
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 组件容器样式 */
+.component-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* 暗色模式下的组件容器 */
+body.dark-mode .component-section {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 变体容器样式 */
+.variant-container {
+  margin: 0.5rem;
+  text-align: center;
+}
+
+/* 控制面板样式 */
+.controls {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+/* 暗色模式下的控制面板 */
+body.dark-mode .controls {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 选择器样式 */
+select {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 1rem;
+}
+
+/* 暗色模式下的选择器 */
+body.dark-mode select {
+  background-color: #333;
+  color: white;
+  border-color: #555;
+}
+
+/* CSS 显示区域 */
+.css-display {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  overflow: auto;
+}
+
+/* 暗色模式下的 CSS 显示区域 */
+body.dark-mode .css-display {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+  .component-variants {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+} 
