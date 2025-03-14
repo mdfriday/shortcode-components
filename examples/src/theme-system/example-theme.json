@@ -446,17 +446,17 @@
     },
     "components": {
       "button": {
-        "base": "d-inline-block font-weight-400 text-center align-middle user-select-none border transition",
+        "base": "btn",
         "variants": {
           "variant": {
-            "primary": "btn-primary bg-primary text-white border-primary",
-            "secondary": "btn-secondary bg-secondary text-white border-secondary",
-            "outline": "btn-outline-primary text-primary border-primary bg-transparent"
+            "primary": "btn-primary",
+            "secondary": "btn-secondary",
+            "outline": "btn-outline-primary"
           },
           "size": {
-            "sm": "btn-sm py-1 px-2 font-size-sm rounded",
-            "md": "py-2 px-3 font-size-base rounded",
-            "lg": "btn-lg py-3 px-4 font-size-lg rounded"
+            "sm": "btn-sm",
+            "md": "btn-md",
+            "lg": "btn-lg"
           }
         }
       }
@@ -481,17 +481,17 @@
     },
     "components": {
       "button": {
-        "base": "d-inline-block font-weight-400 text-center align-middle user-select-none border transition",
+        "base": "btn",
         "variants": {
           "variant": {
-            "primary": "btn-primary bg-primary text-white border-primary",
-            "secondary": "btn-secondary bg-secondary text-white border-secondary",
-            "outline": "btn-outline-primary text-white border-primary bg-transparent"
+            "primary": "btn-primary",
+            "secondary": "btn-secondary",
+            "outline": "btn-outline-primary"
           },
           "size": {
-            "sm": "btn-sm py-1 px-2 font-size-sm rounded",
-            "md": "py-2 px-3 font-size-base rounded",
-            "lg": "btn-lg py-3 px-4 font-size-lg rounded"
+            "sm": "btn-sm",
+            "md": "btn-md",
+            "lg": "btn-lg"
           }
         }
       }

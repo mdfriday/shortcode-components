@@ -1,5 +1,6 @@
-import { Theme, ThemeManager, ThemeMode } from './types';
+import { Theme, ThemeManager, ThemeMode, ThemeComponents, ComponentVariant } from './types';
 import { mergeThemes, addPrefix, validateTheme } from './utils';
+import { ThemeComponentsRegistry } from './components';
 
 /**
  * Implementation of the ThemeManager interface
@@ -21,11 +22,17 @@ export class ThemeManagerImpl implements ThemeManager {
   private prefix: string;
   
   /**
+   * Components registry
+   */
+  private componentsRegistry: ThemeComponents;
+  
+  /**
    * Create a new ThemeManagerImpl
    * @param prefix Optional prefix for CSS classes
    */
   constructor(prefix: string = '') {
     this.prefix = prefix;
+    this.componentsRegistry = new ThemeComponentsRegistry();
   }
   
   /**
@@ -104,25 +111,60 @@ export class ThemeManagerImpl implements ThemeManager {
    */
   getComponentClasses(componentName: string, props: Record<string, any>): string {
     const theme = this.getCurrentTheme();
-    const component = theme.components[componentName];
     
+    // 尝试从主题中获取组件
+    let component = theme.components[componentName];
+    
+    // 如果在主题中找不到组件，尝试从组件注册表中获取
     if (!component) {
-      return '';
+      try {
+        const componentsRegistry = this.getComponentsManager();
+        const registeredComponent = componentsRegistry.getComponent(componentName);
+        component = registeredComponent.variant;
+        console.log(`Found custom component: ${componentName}`, component);
+      } catch (error) {
+        // 如果组件不存在，返回空字符串
+        console.error(`Component not found: ${componentName}`, error);
+        return '';
+      }
     }
     
-    // Start with base class
+    // 开始使用基础类名
     let classes = component.base;
     
-    // Add variant classes based on props
+    // 根据属性添加变体类名
     for (const [propName, propValue] of Object.entries(props)) {
       if (component.variants[propName] && component.variants[propName][propValue]) {
         classes += ` ${component.variants[propName][propValue]}`;
       }
     }
     
-    // Add prefix if specified
+    // 如果指定了前缀，添加前缀
     if (this.prefix) {
-      classes = addPrefix(classes, this.prefix);
+      // 处理 Tailwind 类名中的特殊字符
+      classes = classes.split(' ')
+        .map(cls => {
+          if (!cls || !cls.trim()) return '';
+          
+          // 如果类名包含 : 或 / 等特殊字符，需要特殊处理
+          if (cls.includes(':') || cls.includes('/')) {
+            // 对于 Tailwind 类名，我们需要使用更简单的类名
+            // 例如，将 hover:bg-primary-dark 简化为 btn-hover
+            const simplifiedClass = cls
+              .replace(/hover:/g, 'hover-')
+              .replace(/focus:/g, 'focus-')
+              .replace(/active:/g, 'active-')
+              .replace(/disabled:/g, 'disabled-')
+              .replace(/:/g, '-')
+              .replace(/\//g, '-');
+            
+            return `${this.prefix}-${simplifiedClass}`;
+          }
+          
+          return `${this.prefix}-${cls}`;
+        })
+        .filter(cls => cls)
+        .join(' ');
     }
     
     return classes;
@@ -142,8 +184,12 @@ export class ThemeManagerImpl implements ThemeManager {
     // Generate base CSS
     css += this.generateBaseCSS(theme, prefix);
     
-    // Generate component CSS
-    css += this.generateComponentCSS(theme, prefix);
+    // Generate component CSS using the component registry
+    css += this.componentsRegistry.generateAllComponentsCSS(theme, prefix);
+    
+    // 移除空的类选择器
+    css = css.replace(/\.[\w-]+\s*\{\s*\/\*.*\*\/\s*\}\s*\n*/g, '');
+    css = css.replace(/\.theme-\s*\{\s*\}\s*\n*/g, '');
     
     return css;
   }
@@ -160,10 +206,32 @@ export class ThemeManagerImpl implements ThemeManager {
     for (const themeData of themesJson) {
       if (validateTheme(themeData)) {
         this.register(themeData);
+        
+        // 为主题中的每个组件创建组件实例
+        if (themeData.components) {
+          const componentsRegistry = this.getComponentsManager() as ThemeComponentsRegistry;
+          
+          Object.entries(themeData.components).forEach(([componentName, componentVariant]) => {
+            console.log(`Registering component: ${componentName}`, componentVariant);
+            const component = componentsRegistry.createComponentFromVariant(
+              componentName, 
+              componentVariant as ComponentVariant
+            );
+            componentsRegistry.registerComponent(component);
+          });
+        }
       } else {
         console.warn(`Invalid theme data: ${JSON.stringify(themeData)}`);
       }
     }
+  }
+  
+  /**
+   * Get the theme components manager
+   * @returns The theme components manager
+   */
+  getComponentsManager(): ThemeComponents {
+    return this.componentsRegistry;
   }
   
   /**
@@ -227,364 +295,6 @@ export class ThemeManagerImpl implements ThemeManager {
     });
     
     css += `}\n\n`;
-    
-    return css;
-  }
-  
-  /**
-   * Generate CSS for component styles
-   * @param theme The theme
-   * @param prefix The prefix
-   * @returns The CSS string
-   */
-  private generateComponentCSS(theme: Theme, prefix: string): string {
-    let css = '';
-    
-    // Generate component CSS
-    Object.entries(theme.components).forEach(([componentName, component]) => {
-      // Base class
-      const baseClass = prefix ? `${prefix}-${component.base}` : component.base;
-      css += `.${baseClass} {\n`;
-      
-      // 解析基础类名并添加实际样式
-      if (componentName === 'button') {
-        if (theme.name === 'tailwind') {
-          // 为tailwind主题的按钮添加基础样式
-          css += `  display: inline-flex;\n`;
-          css += `  align-items: center;\n`;
-          css += `  justify-content: center;\n`;
-          css += `  font-weight: 500;\n`;
-          css += `  transition-property: color, background-color, border-color;\n`;
-          css += `  transition-duration: 150ms;\n`;
-          css += `  transition-timing-function: ease-in-out;\n`;
-          css += `  outline: none;\n`;
-          css += `  cursor: pointer;\n`;
-        } else if (theme.name === 'bootstrap') {
-          // 为bootstrap主题的按钮添加基础样式
-          css += `  display: inline-block;\n`;
-          css += `  font-weight: 400;\n`;
-          css += `  text-align: center;\n`;
-          css += `  vertical-align: middle;\n`;
-          css += `  user-select: none;\n`;
-          css += `  border: 1px solid transparent;\n`;
-          css += `  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;\n`;
-          css += `  cursor: pointer;\n`;
-        }
-      } else if (componentName === 'card') {
-        // 为卡片添加基础样式
-        css += `  display: block;\n`;
-        css += `  background-color: ${theme.base.colors.background};\n`;
-        css += `  color: ${theme.base.colors.text};\n`;
-        css += `  overflow: hidden;\n`;
-      } else if (componentName === 'input') {
-        // 为输入框添加基础样式
-        css += `  display: block;\n`;
-        css += `  width: 100%;\n`;
-        css += `  font-family: ${theme.base.typography.fontFamily.sans};\n`;
-        css += `  color: ${theme.base.colors.text};\n`;
-        css += `  background-color: ${theme.base.colors.background};\n`;
-        css += `  transition: ${theme.base.transitions.default};\n`;
-      }
-      css += `}\n\n`;
-      
-      // Variant classes
-      Object.entries(component.variants).forEach(([variantName, variants]) => {
-        Object.entries(variants).forEach(([variantValue, className]) => {
-          const variantClass = prefix ? `${prefix}-${className}` : className;
-          css += `.${variantClass} {\n`;
-          
-          // 为不同变体添加实际样式
-          if (componentName === 'button') {
-            if (theme.name === 'tailwind') {
-              // 为tailwind主题的按钮变体添加样式
-              if (variantName === 'variant') {
-                if (variantValue === 'primary') {
-                  css += `  background-color: ${theme.base.colors.primary};\n`;
-                  css += `  color: white;\n`;
-                } else if (variantValue === 'secondary') {
-                  css += `  background-color: ${theme.base.colors.secondary};\n`;
-                  css += `  color: white;\n`;
-                } else if (variantValue === 'outline') {
-                  css += `  border: 1px solid ${theme.base.colors.border};\n`;
-                  css += `  color: ${theme.base.colors.text};\n`;
-                  css += `  background-color: transparent;\n`;
-                } else if (variantValue === 'ghost') {
-                  css += `  background-color: transparent;\n`;
-                  css += `  color: ${theme.base.colors.text};\n`;
-                  css += `  border: none;\n`;
-                } else if (variantValue === 'success') {
-                  css += `  background-color: ${theme.base.colors.success};\n`;
-                  css += `  color: white;\n`;
-                } else if (variantValue === 'danger') {
-                  css += `  background-color: ${theme.base.colors.danger};\n`;
-                  css += `  color: white;\n`;
-                } else if (variantValue === 'warning') {
-                  css += `  background-color: ${theme.base.colors.warning};\n`;
-                  css += `  color: #1f2937;\n`;
-                } else if (variantValue === 'info') {
-                  css += `  background-color: ${theme.base.colors.info};\n`;
-                  css += `  color: white;\n`;
-                }
-              } else if (variantName === 'size') {
-                if (variantValue === 'xs') {
-                  css += `  padding-left: 0.5rem;\n`;
-                  css += `  padding-right: 0.5rem;\n`;
-                  css += `  padding-top: 0.25rem;\n`;
-                  css += `  padding-bottom: 0.25rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.xs};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.sm};\n`;
-                } else if (variantValue === 'sm') {
-                  css += `  padding-left: 0.75rem;\n`;
-                  css += `  padding-right: 0.75rem;\n`;
-                  css += `  padding-top: 0.375rem;\n`;
-                  css += `  padding-bottom: 0.375rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.sm};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-                } else if (variantValue === 'md') {
-                  css += `  padding-left: 1rem;\n`;
-                  css += `  padding-right: 1rem;\n`;
-                  css += `  padding-top: 0.5rem;\n`;
-                  css += `  padding-bottom: 0.5rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.base};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-                } else if (variantValue === 'lg') {
-                  css += `  padding-left: 1.25rem;\n`;
-                  css += `  padding-right: 1.25rem;\n`;
-                  css += `  padding-top: 0.625rem;\n`;
-                  css += `  padding-bottom: 0.625rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.lg};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-                } else if (variantValue === 'xl') {
-                  css += `  padding-left: 1.5rem;\n`;
-                  css += `  padding-right: 1.5rem;\n`;
-                  css += `  padding-top: 0.75rem;\n`;
-                  css += `  padding-bottom: 0.75rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.xl};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.lg};\n`;
-                }
-              } else if (variantName === 'rounded') {
-                if (variantValue === 'true') {
-                  css += `  border-radius: ${theme.base.borderRadius.full};\n`;
-                }
-              } else if (variantName === 'disabled') {
-                if (variantValue === 'true') {
-                  css += `  opacity: 0.5;\n`;
-                  css += `  cursor: not-allowed;\n`;
-                  css += `  pointer-events: none;\n`;
-                }
-              }
-            } else if (theme.name === 'bootstrap') {
-              // 为bootstrap主题的按钮变体添加样式
-              if (variantName === 'variant') {
-                if (variantValue === 'primary') {
-                  css += `  background-color: ${theme.base.colors.primary};\n`;
-                  css += `  color: white;\n`;
-                  css += `  border-color: ${theme.base.colors.primary};\n`;
-                } else if (variantValue === 'secondary') {
-                  css += `  background-color: ${theme.base.colors.secondary};\n`;
-                  css += `  color: white;\n`;
-                  css += `  border-color: ${theme.base.colors.secondary};\n`;
-                } else if (variantValue === 'outline') {
-                  css += `  color: ${theme.base.colors.primary};\n`;
-                  css += `  border-color: ${theme.base.colors.primary};\n`;
-                  css += `  background-color: transparent;\n`;
-                } else if (variantValue === 'ghost') {
-                  css += `  background-color: transparent;\n`;
-                  css += `  color: ${theme.base.colors.text};\n`;
-                  css += `  border: none;\n`;
-                } else if (variantValue === 'success') {
-                  css += `  background-color: ${theme.base.colors.success};\n`;
-                  css += `  color: white;\n`;
-                  css += `  border-color: ${theme.base.colors.success};\n`;
-                } else if (variantValue === 'danger') {
-                  css += `  background-color: ${theme.base.colors.danger};\n`;
-                  css += `  color: white;\n`;
-                  css += `  border-color: ${theme.base.colors.danger};\n`;
-                } else if (variantValue === 'warning') {
-                  css += `  background-color: ${theme.base.colors.warning};\n`;
-                  css += `  color: #212529;\n`;
-                  css += `  border-color: ${theme.base.colors.warning};\n`;
-                } else if (variantValue === 'info') {
-                  css += `  background-color: ${theme.base.colors.info};\n`;
-                  css += `  color: white;\n`;
-                  css += `  border-color: ${theme.base.colors.info};\n`;
-                }
-              } else if (variantName === 'size') {
-                if (variantValue === 'xs') {
-                  css += `  padding: 0.2rem 0.4rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.xs};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.sm};\n`;
-                } else if (variantValue === 'sm') {
-                  css += `  padding: 0.25rem 0.5rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.sm};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.default};\n`;
-                } else if (variantValue === 'md') {
-                  css += `  padding: 0.5rem 0.75rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.base};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.default};\n`;
-                } else if (variantValue === 'lg') {
-                  css += `  padding: 0.75rem 1rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.lg};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.default};\n`;
-                } else if (variantValue === 'xl') {
-                  css += `  padding: 1rem 1.5rem;\n`;
-                  css += `  font-size: ${theme.base.fontSize.xl};\n`;
-                  css += `  border-radius: ${theme.base.borderRadius.lg};\n`;
-                }
-              } else if (variantName === 'rounded') {
-                if (variantValue === 'true') {
-                  css += `  border-radius: ${theme.base.borderRadius.full};\n`;
-                }
-              } else if (variantName === 'disabled') {
-                if (variantValue === 'true') {
-                  css += `  opacity: 0.65;\n`;
-                  css += `  cursor: not-allowed;\n`;
-                  css += `  pointer-events: none;\n`;
-                }
-              }
-            }
-          } else if (componentName === 'card') {
-            // 为卡片变体添加样式
-            if (variantName === 'variant') {
-              if (variantValue === 'default') {
-                css += `  background-color: ${theme.base.colors.background};\n`;
-                css += `  border: 1px solid ${theme.base.colors.border};\n`;
-              } else if (variantValue === 'primary') {
-                css += `  background-color: ${theme.base.colors.primary};\n`;
-                css += `  color: white;\n`;
-              } else if (variantValue === 'outline') {
-                css += `  background-color: transparent;\n`;
-                css += `  border: 1px solid ${theme.base.colors.border};\n`;
-              } else if (variantValue === 'ghost') {
-                css += `  background-color: transparent;\n`;
-                css += `  border: none;\n`;
-              }
-            } else if (variantName === 'padding') {
-              if (variantValue === 'none') {
-                css += `  padding: 0;\n`;
-              } else if (variantValue === 'sm') {
-                css += `  padding: ${theme.base.spacing[2]};\n`;
-              } else if (variantValue === 'md') {
-                css += `  padding: ${theme.base.spacing[4]};\n`;
-              } else if (variantValue === 'lg') {
-                css += `  padding: ${theme.base.spacing[6]};\n`;
-              }
-            } else if (variantName === 'shadow') {
-              if (variantValue === 'none') {
-                css += `  box-shadow: none;\n`;
-              } else if (variantValue === 'sm') {
-                css += `  box-shadow: ${theme.base.shadows.sm};\n`;
-              } else if (variantValue === 'md') {
-                css += `  box-shadow: ${theme.base.shadows.md};\n`;
-              } else if (variantValue === 'lg') {
-                css += `  box-shadow: ${theme.base.shadows.lg};\n`;
-              }
-            }
-          } else if (componentName === 'input') {
-            // 为输入框变体添加样式
-            if (variantName === 'variant') {
-              if (variantValue === 'default') {
-                css += `  border: 1px solid ${theme.base.colors.border};\n`;
-                css += `  border-radius: ${theme.base.borderRadius.default};\n`;
-              } else if (variantValue === 'outline') {
-                css += `  border: 1px solid ${theme.base.colors.border};\n`;
-                css += `  border-radius: ${theme.base.borderRadius.default};\n`;
-                css += `  background-color: transparent;\n`;
-              } else if (variantValue === 'filled') {
-                css += `  border: 1px solid transparent;\n`;
-                css += `  border-radius: ${theme.base.borderRadius.default};\n`;
-                css += `  background-color: rgba(0, 0, 0, 0.05);\n`;
-              } else if (variantValue === 'underline') {
-                css += `  border: none;\n`;
-                css += `  border-bottom: 1px solid ${theme.base.colors.border};\n`;
-                css += `  border-radius: 0;\n`;
-                css += `  background-color: transparent;\n`;
-              }
-            } else if (variantName === 'size') {
-              if (variantValue === 'sm') {
-                css += `  padding: 0.25rem 0.5rem;\n`;
-                css += `  font-size: ${theme.base.fontSize.sm};\n`;
-              } else if (variantValue === 'md') {
-                css += `  padding: 0.5rem 0.75rem;\n`;
-                css += `  font-size: ${theme.base.fontSize.base};\n`;
-              } else if (variantValue === 'lg') {
-                css += `  padding: 0.75rem 1rem;\n`;
-                css += `  font-size: ${theme.base.fontSize.lg};\n`;
-              }
-            } else if (variantName === 'disabled') {
-              if (variantValue === 'true') {
-                css += `  opacity: 0.6;\n`;
-                css += `  cursor: not-allowed;\n`;
-              }
-            } else if (variantName === 'error') {
-              if (variantValue === 'true') {
-                css += `  border-color: ${theme.base.colors.danger};\n`;
-              }
-            }
-          }
-          
-          css += `}\n\n`;
-        });
-      });
-    });
-    
-    // 添加悬停和焦点状态样式
-    if (theme.name === 'tailwind') {
-      // Tailwind 按钮悬停状态
-      css += `.${prefix}-btn-primary:hover {\n`;
-      css += `  background-color: #2563eb; /* 深一点的蓝色 */\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-secondary:hover {\n`;
-      css += `  background-color: #4b5563; /* 深一点的灰色 */\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-outline:hover {\n`;
-      css += `  background-color: rgba(0, 0, 0, 0.05);\n`;
-      css += `}\n\n`;
-      
-      // Tailwind 按钮焦点状态
-      css += `.${prefix}-btn-primary:focus {\n`;
-      css += `  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-secondary:focus {\n`;
-      css += `  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-outline:focus {\n`;
-      css += `  box-shadow: 0 0 0 2px rgba(229, 231, 235, 0.5);\n`;
-      css += `}\n\n`;
-    } else if (theme.name === 'bootstrap') {
-      // Bootstrap 按钮悬停状态
-      css += `.${prefix}-btn-primary:hover {\n`;
-      css += `  background-color: #0b5ed7; /* 深一点的蓝色 */\n`;
-      css += `  border-color: #0a58ca;\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-secondary:hover {\n`;
-      css += `  background-color: #5c636a; /* 深一点的灰色 */\n`;
-      css += `  border-color: #565e64;\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-outline-primary:hover {\n`;
-      css += `  background-color: ${theme.base.colors.primary};\n`;
-      css += `  color: white;\n`;
-      css += `}\n\n`;
-      
-      // Bootstrap 按钮焦点状态
-      css += `.${prefix}-btn-primary:focus {\n`;
-      css += `  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-secondary:focus {\n`;
-      css += `  box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25);\n`;
-      css += `}\n\n`;
-      
-      css += `.${prefix}-btn-outline-primary:focus {\n`;
-      css += `  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);\n`;
-      css += `}\n\n`;
-    }
     
     return css;
   }

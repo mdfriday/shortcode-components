@@ -1,4 +1,4 @@
-import { Theme, Components, ThemeBase } from './types';
+import { Theme, ThemeBase } from './types';
 
 /**
  * Check if a value is an object
@@ -48,7 +48,7 @@ export function mergeThemes(parent: Theme, child: Theme): Theme {
   return {
     ...parent,
     ...child,
-    base: mergeThemeBase(parent.base, child.base),
+    base: mergeThemeBase(parent.base, child.base as ThemeBase),
     components: mergeComponents(parent.components, child.components)
   };
 }
@@ -59,7 +59,7 @@ export function mergeThemes(parent: Theme, child: Theme): Theme {
  * @param childBase The child theme base
  * @returns The merged theme base
  */
-export function mergeThemeBase(parentBase: ThemeBase, childBase: ThemeBase): ThemeBase {
+export function mergeThemeBase(parentBase: ThemeBase, childBase: Partial<ThemeBase>): ThemeBase {
   return deepMerge(parentBase, childBase);
 }
 
@@ -69,7 +69,10 @@ export function mergeThemeBase(parentBase: ThemeBase, childBase: ThemeBase): The
  * @param childComponents The child components
  * @returns The merged components
  */
-export function mergeComponents(parentComponents: Components, childComponents: Components): Components {
+export function mergeComponents(
+  parentComponents: Record<string, any>,
+  childComponents: Record<string, any>
+): Record<string, any> {
   const result = { ...parentComponents };
   
   Object.entries(childComponents).forEach(([name, component]) => {

@@ -71,11 +71,94 @@ export interface ComponentVariant {
 }
 
 /**
- * Components interface
- * Maps component names to their variant definitions
+ * Component interface
+ * Defines the behavior of a component in the theme system
  */
-export interface Components {
-  [componentName: string]: ComponentVariant;
+export interface ThemeComponent {
+  /**
+   * Component name
+   */
+  name: string;
+  
+  /**
+   * Component variant definition
+   */
+  variant: ComponentVariant;
+  
+  /**
+   * Parent component name (for component extension)
+   */
+  parent?: string;
+  
+  /**
+   * Generate CSS for this component
+   * @param theme The theme
+   * @param prefix Optional prefix for CSS classes
+   * @returns The CSS string
+   */
+  generateCSS(theme: Theme, prefix?: string): string;
+}
+
+/**
+ * Base component implementation
+ * Provides common functionality for all components
+ */
+export abstract class BaseThemeComponent implements ThemeComponent {
+  name: string;
+  variant: ComponentVariant;
+  parent?: string;
+  
+  constructor(name: string, variant: ComponentVariant, parent?: string) {
+    this.name = name;
+    this.variant = variant;
+    this.parent = parent;
+  }
+  
+  /**
+   * Generate CSS for this component
+   * @param theme The theme
+   * @param prefix Optional prefix for CSS classes
+   * @returns The CSS string
+   */
+  abstract generateCSS(theme: Theme, prefix?: string): string;
+  
+  /**
+   * Generate base class CSS
+   * @param theme The theme
+   * @param prefix Optional prefix for CSS classes
+   * @returns The CSS string
+   */
+  protected generateBaseCSS(theme: Theme, prefix?: string): string {
+    const baseClass = prefix ? `${prefix}-${this.variant.base}` : this.variant.base;
+    return `.${baseClass} {\n  /* Base styles for ${this.name} */\n}\n\n`;
+  }
+  
+  /**
+   * Generate variant class CSS
+   * @param theme The theme
+   * @param prefix Optional prefix for CSS classes
+   * @returns The CSS string
+   */
+  protected generateVariantCSS(theme: Theme, prefix?: string): string {
+    let css = '';
+    
+    Object.entries(this.variant.variants).forEach(([variantName, variants]) => {
+      Object.entries(variants).forEach(([variantValue, className]) => {
+        const variantClass = prefix ? `${prefix}-${className}` : className;
+        css += `.${variantClass} {\n  /* Variant styles for ${this.name} ${variantName}=${variantValue} */\n}\n\n`;
+      });
+    });
+    
+    return css;
+  }
+}
+
+/**
+ * Components registry interface
+ * Maps component names to their implementations
+ */
+export interface ComponentsRegistry {
+  [componentName: string]: ThemeComponent;
 }
 
 /**
@@ -101,12 +184,45 @@ export interface Theme {
   /**
    * Component styles
    */
-  components: Components;
+  components: Record<string, ComponentVariant>;
   
   /**
    * Parent theme name (for theme extension)
    */
   parent?: string;
+}
+
+/**
+ * Theme components interface
+ * Defines methods for managing theme components
+ */
+export interface ThemeComponents {
+  /**
+   * Register a component
+   * @param component The component to register
+   */
+  registerComponent(component: ThemeComponent): void;
+  
+  /**
+   * Get a component by name
+   * @param name The component name
+   * @returns The component
+   */
+  getComponent(name: string): ThemeComponent;
+  
+  /**
+   * Get all components
+   * @returns All components
+   */
+  getAllComponents(): ThemeComponent[];
+  
+  /**
+   * Generate CSS for all components
+   * @param theme The theme
+   * @param prefix Optional prefix for CSS classes
+   * @returns The CSS string
+   */
+  generateAllComponentsCSS(theme: Theme, prefix?: string): string;
 }
 
 /**
@@ -161,4 +277,10 @@ export interface ThemeManager {
    * @param themesJson The themes JSON
    */
   preloadThemes(themesJson: any): void;
+  
+  /**
+   * Get the theme components manager
+   * @returns The theme components manager
+   */
+  getComponentsManager(): ThemeComponents;
 } 

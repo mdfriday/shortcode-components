@@ -1,34 +1,52 @@
-/* 基础样式 */
+/* Base styles */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  transition: background-color 0.3s, color 0.3s;
-}
-
-/* 暗色模式样式 */
-body.dark-mode {
-  background-color: #1a1a1a;
-  color: #f0f0f0;
-}
-
-/* 按钮基础样式 */
-button {
-  cursor: pointer;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+/* 自定义按钮样式 */
+.theme-custom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 500;
-  transition: all 0.2s;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #8b5cf6;
+  color: white;
 }
 
-/* 卡片基础样式 */
-.card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.theme-custom-btn-special {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-custom-btn-special::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+  transition: all 0.6s ease;
+}
+
+.theme-custom-btn-special:hover::before {
+  left: 100%;
+}
+
+.theme-custom-btn-xl {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
 }
 
 /* 组件容器样式 */
@@ -44,12 +62,6 @@ body.dark-mode .component-section {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* 变体容器样式 */
-.variant-container {
-  margin: 0.5rem;
-  text-align: center;
-}
-
 /* 控制面板样式 */
 .controls {
   background-color: rgba(0, 0, 0, 0.05);
@@ -63,35 +75,20 @@ body.dark-mode .controls {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 选择器样式 */
-select {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background-color: white;
-  font-size: 1rem;
+/* 组件变体容器 */
+.variant-container {
+  margin-bottom: 20px;
 }
 
-/* 暗色模式下的选择器 */
-body.dark-mode select {
-  background-color: #333;
-  color: white;
-  border-color: #555;
-}
-
-/* CSS 显示区域 */
-.css-display {
-  background-color: #f5f5f5;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 2rem;
-  overflow: auto;
-}
-
-/* 暗色模式下的 CSS 显示区域 */
-body.dark-mode .css-display {
-  background-color: #2a2a2a;
+/* 暗色模式样式 */
+body.dark-mode {
+  background-color: #1a1a1a;
   color: #f0f0f0;
+}
+
+/* Dark mode transitions */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* 响应式布局 */

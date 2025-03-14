@@ -1,4 +1,4 @@
-import { ThemeManagerImpl, ThemeMode } from './theme-system';
+import { ThemeManagerImpl, ThemeMode, ButtonComponent, CardComponent, InputComponent, ComponentVariant } from './theme-system';
 import exampleThemes from './theme-system/example-theme.json';
 import './styles/main.css';
 
@@ -9,7 +9,28 @@ const themeManager = new ThemeManagerImpl('theme');
 themeManager.preloadThemes(exampleThemes);
 
 // 设置默认主题
-themeManager.setCurrentTheme('tailwind', 'light');
+themeManager.setCurrentTheme('bootstrap', 'light');
+
+// 获取组件管理器
+const componentsManager = themeManager.getComponentsManager();
+
+// 注册自定义组件
+// 创建一个自定义按钮组件
+const customButtonVariant: ComponentVariant = {
+  base: 'custom-btn',
+  variants: {
+    variant: {
+      special: 'custom-btn-special'
+    },
+    size: {
+      xl: 'custom-btn-xl'
+    }
+  }
+};
+
+// 创建并注册自定义按钮组件
+const customButton = new ButtonComponent(customButtonVariant, 'custom-button');
+componentsManager.registerComponent(customButton);
 
 // DOM 元素
 const themeSelector = document.getElementById('theme-selector') as HTMLSelectElement;
@@ -17,8 +38,37 @@ const modeSelector = document.getElementById('mode-selector') as HTMLSelectEleme
 const componentsContainer = document.getElementById('components-container') as HTMLDivElement;
 const cssOutput = document.getElementById('css-output') as HTMLPreElement;
 
+// 定义组件变体类型
+type ButtonVariant = {
+  variant: string;
+  size: string;
+  text: string;
+};
+
+type CardVariant = {
+  variant: string;
+  padding: string;
+  text: string;
+  shadow?: string;
+};
+
+type InputVariant = {
+  variant: string;
+  size: string;
+  placeholder: string;
+  error?: string;
+};
+
+type ComponentVariants = ButtonVariant | CardVariant | InputVariant;
+
 // 组件定义
-const components = [
+interface ComponentDefinition {
+  name: string;
+  title: string;
+  variants: ComponentVariants[];
+}
+
+const components: ComponentDefinition[] = [
   {
     name: 'button',
     title: 'Buttons',
@@ -32,12 +82,31 @@ const components = [
     ]
   },
   {
+    name: 'custom-button',
+    title: 'Custom Buttons',
+    variants: [
+      { variant: 'special', size: 'xl', text: 'Custom Special Button' }
+    ]
+  },
+  {
     name: 'card',
     title: 'Cards',
     variants: [
       { variant: 'default', padding: 'md', text: 'Default Card' },
       { variant: 'primary', padding: 'md', text: 'Primary Card' },
-      { variant: 'outline', padding: 'md', text: 'Outline Card' }
+      { variant: 'outline', padding: 'md', text: 'Outline Card' },
+      { variant: 'default', padding: 'md', shadow: 'lg', text: 'Card with Shadow' }
+    ]
+  },
+  {
+    name: 'input',
+    title: 'Inputs',
+    variants: [
+      { variant: 'default', size: 'md', placeholder: 'Default Input' },
+      { variant: 'outline', size: 'md', placeholder: 'Outline Input' },
+      { variant: 'filled', size: 'md', placeholder: 'Filled Input' },
+      { variant: 'underline', size: 'md', placeholder: 'Underline Input' },
+      { variant: 'default', size: 'md', error: 'true', placeholder: 'Error Input' }
     ]
   }
 ];
@@ -54,6 +123,10 @@ function updateThemeMode(mode: ThemeMode) {
 // 渲染组件
 function renderComponents() {
   componentsContainer.innerHTML = '';
+  
+  // 首先生成并应用主题系统的 CSS
+  const css = themeManager.getAllCSS();
+  updateCSSOutput(css);
   
   components.forEach(component => {
     // 创建组件部分
@@ -77,12 +150,14 @@ function renderComponents() {
       
       // 获取组件类名
       const classes = themeManager.getComponentClasses(component.name, variantProps);
+      console.log(`Component: ${component.name}, Props:`, variantProps, `Classes: ${classes}`);
       
       // 创建组件元素
       let element;
-      if (component.name === 'button') {
+      if (component.name === 'button' || component.name === 'custom-button') {
         element = document.createElement('button');
-        element.textContent = variantProps.text || 'Button';
+        const buttonProps = variantProps as ButtonVariant;
+        element.textContent = buttonProps.text || 'Button';
       } else if (component.name === 'card') {
         element = document.createElement('div');
         element.style.width = '200px';
@@ -90,10 +165,16 @@ function renderComponents() {
         element.style.display = 'flex';
         element.style.alignItems = 'center';
         element.style.justifyContent = 'center';
-        element.textContent = variantProps.text || 'Card';
+        const cardProps = variantProps as CardVariant;
+        element.textContent = cardProps.text || 'Card';
+      } else if (component.name === 'input') {
+        element = document.createElement('input');
+        const inputProps = variantProps as InputVariant;
+        element.setAttribute('placeholder', inputProps.placeholder || 'Input');
+        element.style.width = '200px';
       } else {
         element = document.createElement('div');
-        element.textContent = variantProps.text || component.name;
+        element.textContent = 'Component';
       }
       
       // 应用类名
@@ -105,7 +186,7 @@ function renderComponents() {
       
       // 创建标签文本
       const variantText = Object.entries(variantProps)
-        .filter(([key]) => key !== 'text')
+        .filter(([key]) => key !== 'text' && key !== 'placeholder')
         .map(([key, value]) => `${key}="${value}"`)
         .join(', ');
       
@@ -120,14 +201,10 @@ function renderComponents() {
     section.appendChild(variantsContainer);
     componentsContainer.appendChild(section);
   });
-  
-  // 更新CSS输出
-  updateCSSOutput();
 }
 
 // 更新CSS输出
-function updateCSSOutput() {
-  const css = themeManager.getAllCSS();
+function updateCSSOutput(css: string) {
   cssOutput.textContent = css;
   
   // 创建或更新样式标签
