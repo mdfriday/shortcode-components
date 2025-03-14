@@ -53,10 +53,9 @@ export interface ThemeBase {
   transitions: Record<string, string>;
   
   /**
-   * Button component specific settings
-   * Contains all button related configuration like padding, colors, etc.
+   * Opacity settings
    */
-  button?: Record<string, any>;
+  opacity?: Record<string, string>;
 }
 
 /**

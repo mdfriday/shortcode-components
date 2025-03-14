@@ -24,25 +24,22 @@ export class ButtonComponent extends BaseComponent {
     const baseClass = prefix ? `${prefix}-${this.variant.base}` : this.variant.base;
     let css = `.${baseClass} {\n`;
     
-    // 获取按钮基础配置
-    const btnConfig = theme.base.button || {};
-    
-    // 基础按钮样式
-    css += `  --bs-btn-padding-x: ${btnConfig['padding-x'] || '0.75rem'};\n`;
-    css += `  --bs-btn-padding-y: ${btnConfig['padding-y'] || '0.375rem'};\n`;
+    // 使用基础元素属性
+    css += `  --bs-btn-padding-x: ${theme.base.spacing['btn-padding-x'] || '0.75rem'};\n`;
+    css += `  --bs-btn-padding-y: ${theme.base.spacing['btn-padding-y'] || '0.375rem'};\n`;
     css += `  --bs-btn-font-family: ${theme.base.typography.fontFamily.sans};\n`;
-    css += `  --bs-btn-font-size: ${btnConfig['font-size'] || theme.base.fontSize.base};\n`;
+    css += `  --bs-btn-font-size: ${theme.base.fontSize['btn-font-size'] || theme.base.fontSize.base};\n`;
     css += `  --bs-btn-font-weight: ${theme.base.fontWeight.normal};\n`;
-    css += `  --bs-btn-line-height: 1.5;\n`;
+    css += `  --bs-btn-line-height: ${theme.base.typography.lineHeight.normal};\n`;
     css += `  --bs-btn-color: ${theme.base.colors.text};\n`;
     css += `  --bs-btn-bg: transparent;\n`;
     css += `  --bs-btn-border-width: 1px;\n`;
     css += `  --bs-btn-border-color: transparent;\n`;
-    css += `  --bs-btn-border-radius: ${btnConfig['border-radius'] || theme.base.borderRadius.default};\n`;
+    css += `  --bs-btn-border-radius: ${theme.base.borderRadius['btn-border-radius'] || theme.base.borderRadius.default};\n`;
     css += `  --bs-btn-hover-border-color: transparent;\n`;
-    css += `  --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);\n`;
-    css += `  --bs-btn-disabled-opacity: ${btnConfig['disabled-opacity'] || '0.65'};\n`;
-    css += `  --bs-btn-focus-box-shadow: ${btnConfig['focus-box-shadow'] || '0 0 0 0.25rem'} rgba(var(--bs-btn-focus-shadow-rgb), .5);\n`;
+    css += `  --bs-btn-box-shadow: ${theme.base.shadows['btn-box-shadow'] || 'inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075)'};\n`;
+    css += `  --bs-btn-disabled-opacity: ${theme.base.opacity?.disabled || '0.65'};\n`;
+    css += `  --bs-btn-focus-box-shadow: ${theme.base.shadows['btn-focus-box-shadow'] || '0 0 0 0.25rem'} rgba(var(--bs-btn-focus-shadow-rgb), .5);\n`;
     
     css += `  display: inline-block;\n`;
     css += `  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);\n`;
@@ -59,7 +56,7 @@ export class ButtonComponent extends BaseComponent {
     css += `  border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);\n`;
     css += `  border-radius: var(--bs-btn-border-radius);\n`;
     css += `  background-color: var(--bs-btn-bg);\n`;
-    css += `  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;\n`;
+    css += `  transition: ${theme.base.transitions['btn-transition'] || 'color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out'};\n`;
     
     css += `}\n\n`;
     
@@ -107,9 +104,6 @@ export class ButtonComponent extends BaseComponent {
   protected generateVariantCSS(theme: Theme, prefix?: string): string {
     let css = '';
     
-    // 获取按钮配置
-    const btnConfig = theme.base.button || {};
-    
     // 处理变体
     Object.entries(this.variant.variants).forEach(([variantName, variants]) => {
       Object.entries(variants).forEach(([variantValue, className]) => {
@@ -119,10 +113,27 @@ export class ButtonComponent extends BaseComponent {
           
           // 处理按钮变体
           if (variantName === 'variant') {
-            if (btnConfig[variantValue]) {
+            // 使用基础元素属性
+            const colorPrefix = `${variantValue}`;
+            
+            if (theme.base.colors[`${colorPrefix}-text`]) {
               // 使用主题中定义的变量
-              const variantConfig = btnConfig[variantValue];
-              css += this.generateButtonVariantFromConfig(variantClass, variantConfig);
+              css += `.${variantClass} {\n`;
+              css += `  --bs-btn-color: ${theme.base.colors[`${colorPrefix}-text`] || '#fff'};\n`;
+              css += `  --bs-btn-bg: ${theme.base.colors[`${colorPrefix}-bg`] || 'transparent'};\n`;
+              css += `  --bs-btn-border-color: ${theme.base.colors[`${colorPrefix}-border`] || 'transparent'};\n`;
+              css += `  --bs-btn-hover-color: ${theme.base.colors[`${colorPrefix}-hover-text`] || theme.base.colors[`${colorPrefix}-text`] || '#fff'};\n`;
+              css += `  --bs-btn-hover-bg: ${theme.base.colors[`${colorPrefix}-hover-bg`] || theme.base.colors[`${colorPrefix}-bg`] || 'transparent'};\n`;
+              css += `  --bs-btn-hover-border-color: ${theme.base.colors[`${colorPrefix}-hover-border`] || theme.base.colors[`${colorPrefix}-border`] || 'transparent'};\n`;
+              css += `  --bs-btn-focus-shadow-rgb: ${theme.base.colors[`${colorPrefix}-shadow-rgb`] || '0, 0, 0'};\n`;
+              css += `  --bs-btn-active-color: ${theme.base.colors[`${colorPrefix}-active-text`] || theme.base.colors[`${colorPrefix}-hover-text`] || theme.base.colors[`${colorPrefix}-text`] || '#fff'};\n`;
+              css += `  --bs-btn-active-bg: ${theme.base.colors[`${colorPrefix}-active-bg`] || theme.base.colors[`${colorPrefix}-hover-bg`] || theme.base.colors[`${colorPrefix}-bg`] || 'transparent'};\n`;
+              css += `  --bs-btn-active-border-color: ${theme.base.colors[`${colorPrefix}-active-border`] || theme.base.colors[`${colorPrefix}-hover-border`] || theme.base.colors[`${colorPrefix}-border`] || 'transparent'};\n`;
+              css += `  --bs-btn-active-shadow: ${theme.base.shadows['btn-active-shadow'] || 'inset 0 3px 5px rgba(0, 0, 0, 0.125)'};\n`;
+              css += `  --bs-btn-disabled-color: ${theme.base.colors[`${colorPrefix}-disabled-text`] || theme.base.colors[`${colorPrefix}-text`] || '#fff'};\n`;
+              css += `  --bs-btn-disabled-bg: ${theme.base.colors[`${colorPrefix}-disabled-bg`] || theme.base.colors[`${colorPrefix}-bg`] || 'transparent'};\n`;
+              css += `  --bs-btn-disabled-border-color: ${theme.base.colors[`${colorPrefix}-disabled-border`] || theme.base.colors[`${colorPrefix}-border`] || 'transparent'};\n`;
+              css += `}\n\n`;
             } else {
               // 回退到默认实现
               if (variantValue === 'primary') {
@@ -194,61 +205,26 @@ export class ButtonComponent extends BaseComponent {
               }
             }
           } else if (variantName === 'size') {
-            if (btnConfig.size && btnConfig.size[variantValue]) {
-              // 使用主题中定义的尺寸变量
-              const sizeConfig = btnConfig.size[variantValue];
+            // 使用基础元素属性
+            if (variantValue === 'sm') {
               css += `.${variantClass} {\n`;
-              css += `  --bs-btn-padding-y: ${sizeConfig['padding-y'] || '0.375rem'};\n`;
-              css += `  --bs-btn-padding-x: ${sizeConfig['padding-x'] || '0.75rem'};\n`;
-              css += `  --bs-btn-font-size: ${sizeConfig['font-size'] || '1rem'};\n`;
-              css += `  --bs-btn-border-radius: ${sizeConfig['border-radius'] || '0.375rem'};\n`;
+              css += `  --bs-btn-padding-y: ${theme.base.spacing['btn-padding-y-sm'] || '0.25rem'};\n`;
+              css += `  --bs-btn-padding-x: ${theme.base.spacing['btn-padding-x-sm'] || '0.5rem'};\n`;
+              css += `  --bs-btn-font-size: ${theme.base.fontSize['btn-font-size-sm'] || '0.875rem'};\n`;
+              css += `  --bs-btn-border-radius: ${theme.base.borderRadius['btn-border-radius-sm'] || '0.25rem'};\n`;
               css += `}\n\n`;
-            } else {
-              // 回退到默认实现
-              if (variantValue === 'sm') {
-                css += `.${variantClass} {\n`;
-                css += `  --bs-btn-padding-y: 0.25rem;\n`;
-                css += `  --bs-btn-padding-x: 0.5rem;\n`;
-                css += `  --bs-btn-font-size: 0.875rem;\n`;
-                css += `  --bs-btn-border-radius: 0.25rem;\n`;
-                css += `}\n\n`;
-              } else if (variantValue === 'lg') {
-                css += `.${variantClass} {\n`;
-                css += `  --bs-btn-padding-y: 0.5rem;\n`;
-                css += `  --bs-btn-padding-x: 1rem;\n`;
-                css += `  --bs-btn-font-size: 1.25rem;\n`;
-                css += `  --bs-btn-border-radius: 0.5rem;\n`;
-                css += `}\n\n`;
-              }
+            } else if (variantValue === 'lg') {
+              css += `.${variantClass} {\n`;
+              css += `  --bs-btn-padding-y: ${theme.base.spacing['btn-padding-y-lg'] || '0.5rem'};\n`;
+              css += `  --bs-btn-padding-x: ${theme.base.spacing['btn-padding-x-lg'] || '1rem'};\n`;
+              css += `  --bs-btn-font-size: ${theme.base.fontSize['btn-font-size-lg'] || '1.25rem'};\n`;
+              css += `  --bs-btn-border-radius: ${theme.base.borderRadius['btn-border-radius-lg'] || '0.5rem'};\n`;
+              css += `}\n\n`;
             }
           }
         }
       });
     });
-    
-    return css;
-  }
-  
-  /**
-   * 从配置生成按钮变体样式
-   */
-  private generateButtonVariantFromConfig(className: string, config: any): string {
-    let css = `.${className} {\n`;
-    css += `  --bs-btn-color: ${config.color || '#fff'};\n`;
-    css += `  --bs-btn-bg: ${config.bg || 'transparent'};\n`;
-    css += `  --bs-btn-border-color: ${config['border-color'] || 'transparent'};\n`;
-    css += `  --bs-btn-hover-color: ${config['hover-color'] || config.color || '#fff'};\n`;
-    css += `  --bs-btn-hover-bg: ${config['hover-bg'] || config.bg || 'transparent'};\n`;
-    css += `  --bs-btn-hover-border-color: ${config['hover-border-color'] || config['border-color'] || 'transparent'};\n`;
-    css += `  --bs-btn-focus-shadow-rgb: ${config['shadow-rgb'] || '0, 0, 0'};\n`;
-    css += `  --bs-btn-active-color: ${config['active-color'] || config['hover-color'] || config.color || '#fff'};\n`;
-    css += `  --bs-btn-active-bg: ${config['active-bg'] || config['hover-bg'] || config.bg || 'transparent'};\n`;
-    css += `  --bs-btn-active-border-color: ${config['active-border-color'] || config['hover-border-color'] || config['border-color'] || 'transparent'};\n`;
-    css += `  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n`;
-    css += `  --bs-btn-disabled-color: ${config['disabled-color'] || config.color || '#fff'};\n`;
-    css += `  --bs-btn-disabled-bg: ${config['disabled-bg'] || config.bg || 'transparent'};\n`;
-    css += `  --bs-btn-disabled-border-color: ${config['disabled-border-color'] || config['border-color'] || 'transparent'};\n`;
-    css += `}\n\n`;
     
     return css;
   }
