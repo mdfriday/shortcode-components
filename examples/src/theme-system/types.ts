@@ -55,7 +55,7 @@ export interface ThemeBase {
   /**
    * Opacity settings
    */
-  opacity?: Record<string, string>;
+  opacity: Record<string, string>;
 }
 
 /**
