@@ -9,7 +9,7 @@ const themeManager = new ThemeManagerImpl('theme');
 themeManager.preloadThemes(exampleThemes);
 
 // 设置默认主题
-themeManager.setCurrentTheme('bootstrap', 'light');
+themeManager.setCurrentTheme('tailwind', 'light');
 
 // 获取组件管理器
 const componentsManager = themeManager.getComponentsManager();
@@ -17,7 +17,7 @@ const componentsManager = themeManager.getComponentsManager();
 // 注册自定义组件
 // 创建一个自定义按钮组件
 const customButtonVariant: ComponentVariant = {
-  base: 'custom-btn',
+  base: 'button',
   variants: {
     variant: {
       special: 'custom-btn-special'
@@ -29,8 +29,8 @@ const customButtonVariant: ComponentVariant = {
 };
 
 // 创建并注册自定义按钮组件
-const customButton = new ButtonComponent(customButtonVariant, 'custom-button');
-componentsManager.registerComponent(customButton);
+// const customButton = new ButtonComponent(customButtonVariant, 'custom-button');
+// componentsManager.registerComponent(customButton);
 
 // DOM 元素
 const themeSelector = document.getElementById('theme-selector') as HTMLSelectElement;

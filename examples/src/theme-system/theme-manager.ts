@@ -141,26 +141,10 @@ export class ThemeManagerImpl implements ThemeManager {
     
     // 如果指定了前缀，添加前缀
     if (this.prefix) {
-      // 处理 Tailwind 类名中的特殊字符
+      // 处理类名
       classes = classes.split(' ')
         .map(cls => {
           if (!cls || !cls.trim()) return '';
-          
-          // 如果类名包含 : 或 / 等特殊字符，需要特殊处理
-          if (cls.includes(':') || cls.includes('/')) {
-            // 对于 Tailwind 类名，我们需要使用更简单的类名
-            // 例如，将 hover:bg-primary-dark 简化为 btn-hover
-            const simplifiedClass = cls
-              .replace(/hover:/g, 'hover-')
-              .replace(/focus:/g, 'focus-')
-              .replace(/active:/g, 'active-')
-              .replace(/disabled:/g, 'disabled-')
-              .replace(/:/g, '-')
-              .replace(/\//g, '-');
-            
-            return `${this.prefix}-${simplifiedClass}`;
-          }
-          
           return `${this.prefix}-${cls}`;
         })
         .filter(cls => cls)

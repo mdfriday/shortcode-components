@@ -55,40 +55,8 @@ export class BaseComponent extends BaseThemeComponent {
         if (className && className.trim() !== '') {
           const variantClass = prefix ? `${prefix}-${className}` : className;
           css += `.${variantClass} {\n`;
-          
-          // 根据组件类型和变体添加样式
-          if (this.name === 'button') {
-            if (variantName === 'variant') {
-              if (variantValue === 'primary') {
-                css += `  background-color: ${theme.base.colors.primary};\n`;
-                css += `  color: white;\n`;
-              } else if (variantValue === 'secondary') {
-                css += `  background-color: ${theme.base.colors.secondary};\n`;
-                css += `  color: white;\n`;
-              } else if (variantValue === 'outline') {
-                css += `  border: 1px solid ${theme.base.colors.border};\n`;
-                css += `  color: ${theme.base.colors.text};\n`;
-                css += `  background-color: transparent;\n`;
-              }
-            } else if (variantName === 'size') {
-              if (variantValue === 'sm') {
-                css += `  padding: 0.375rem 0.75rem;\n`;
-                css += `  font-size: ${theme.base.fontSize.sm};\n`;
-                css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-              } else if (variantValue === 'md') {
-                css += `  padding: 0.5rem 1rem;\n`;
-                css += `  font-size: ${theme.base.fontSize.base};\n`;
-                css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-              } else if (variantValue === 'lg') {
-                css += `  padding: 0.625rem 1.25rem;\n`;
-                css += `  font-size: ${theme.base.fontSize.lg};\n`;
-                css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-              }
-            }
-          } else {
-            css += `  /* Variant styles for ${this.name} ${variantName}=${variantValue} */\n`;
-          }
-          
+          css += `  /* Variant styles for ${this.name} ${variantName}=${variantValue} */\n`;
+          css += `  /* Please override this style with generateVariantCSS method */\n`;
           css += `}\n\n`;
         }
       });
