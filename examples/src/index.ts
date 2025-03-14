@@ -1,12 +1,25 @@
 import { ThemeManagerImpl, ThemeMode, ButtonComponent, CardComponent, InputComponent, ComponentVariant } from './theme-system';
-import exampleThemes from './theme-system/example-theme.json';
+import bootstrapDarkTheme from './theme-system/themes/bootstrap-dark.json';
+import bootstrapLightTheme from './theme-system/themes/bootstrap-light.json';
+import tailwindDarkTheme from './theme-system/themes/tailwind-dark.json';
+import tailwindLightTheme from './theme-system/themes/tailwind-light.json';
+import baseDarkTheme from './theme-system/themes/base-dark.json';
+import baseLightTheme from './theme-system/themes/base-light.json';
 import './styles/main.css';
 
 // 创建主题管理器实例
 const themeManager = new ThemeManagerImpl('theme');
 
 // 预加载主题
-themeManager.preloadThemes(exampleThemes);
+const themes = [
+  bootstrapDarkTheme,
+  bootstrapLightTheme,
+  tailwindDarkTheme,
+  tailwindLightTheme,
+  baseDarkTheme,
+  baseLightTheme
+];
+themeManager.preloadThemes(themes);
 
 // 设置默认主题
 themeManager.setCurrentTheme('bootstrap', 'light');

@@ -1,31 +1,28 @@
 {
-  "name": "@mdfriday/shortcode-components",
+  "name": "theme-system-demo",
   "version": "1.0.0",
-  "description": "Shortcode Components for MDFriday",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "directories": {
-    "example": "examples"
-  },
+  "description": "A demo of the component-based theme system",
+  "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "start": "webpack serve",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "shortcode",
-    "components",
-    "mdfriday"
+    "theme",
+    "css",
+    "components"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.13.10",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5.8.2"
-  },
-  "dependencies": {
-    "@mdfriday/shortcode-compiler": "^0.2.0"
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.2",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.2",
+    "webpack-dev-server": "^4.13.3"
   }
-}
+} 

@@ -1,0 +1,35 @@
+{
+  "name": "tailwind",
+  "mode": "light",
+  "parent": "base",
+  "base": {
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#6b7280",
+      "success": "#10b981",
+      "danger": "#ef4444",
+      "warning": "#f59e0b",
+      "info": "#3b82f6",
+      "background": "#ffffff",
+      "text": "#1f2937",
+      "border": "#e5e7eb"
+    }
+  },
+  "components": {
+    "button": {
+      "base": "btn",
+      "variants": {
+        "variant": {
+          "primary": "btn-primary",
+          "secondary": "btn-secondary",
+          "outline": "btn-outline-primary"
+        },
+        "size": {
+          "sm": "btn-sm",
+          "md": "btn-md",
+          "lg": "btn-lg"
+        }
+      }
+    }
+  }
+} 
