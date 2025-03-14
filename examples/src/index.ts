@@ -9,7 +9,7 @@ const themeManager = new ThemeManagerImpl('theme');
 themeManager.preloadThemes(exampleThemes);
 
 // 设置默认主题
-themeManager.setCurrentTheme('tailwind', 'light');
+themeManager.setCurrentTheme('bootstrap', 'light');
 
 // 获取组件管理器
 const componentsManager = themeManager.getComponentsManager();

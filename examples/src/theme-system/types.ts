@@ -51,6 +51,12 @@ export interface ThemeBase {
    * Transition definitions
    */
   transitions: Record<string, string>;
+  
+  /**
+   * Button component specific settings
+   * Contains all button related configuration like padding, colors, etc.
+   */
+  button?: Record<string, any>;
 }
 
 /**

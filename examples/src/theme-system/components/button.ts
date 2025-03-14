@@ -24,16 +24,75 @@ export class ButtonComponent extends BaseComponent {
     const baseClass = prefix ? `${prefix}-${this.variant.base}` : this.variant.base;
     let css = `.${baseClass} {\n`;
     
-    // Common button styles
-    css += `  display: inline-flex;\n`;
-    css += `  align-items: center;\n`;
-    css += `  justify-content: center;\n`;
-    css += `  font-weight: ${theme.base.fontWeight.medium || 500};\n`;
-    css += `  transition: ${theme.base.transitions.default || 'all 0.2s ease-in-out'};\n`;
-    css += `  outline: none;\n`;
-    css += `  cursor: pointer;\n`;
-    css += `  border: 1px solid transparent;\n`;
+    // 获取按钮基础配置
+    const btnConfig = theme.base.button || {};
     
+    // 基础按钮样式
+    css += `  --bs-btn-padding-x: ${btnConfig['padding-x'] || '0.75rem'};\n`;
+    css += `  --bs-btn-padding-y: ${btnConfig['padding-y'] || '0.375rem'};\n`;
+    css += `  --bs-btn-font-family: ${theme.base.typography.fontFamily.sans};\n`;
+    css += `  --bs-btn-font-size: ${btnConfig['font-size'] || theme.base.fontSize.base};\n`;
+    css += `  --bs-btn-font-weight: ${theme.base.fontWeight.normal};\n`;
+    css += `  --bs-btn-line-height: 1.5;\n`;
+    css += `  --bs-btn-color: ${theme.base.colors.text};\n`;
+    css += `  --bs-btn-bg: transparent;\n`;
+    css += `  --bs-btn-border-width: 1px;\n`;
+    css += `  --bs-btn-border-color: transparent;\n`;
+    css += `  --bs-btn-border-radius: ${btnConfig['border-radius'] || theme.base.borderRadius.default};\n`;
+    css += `  --bs-btn-hover-border-color: transparent;\n`;
+    css += `  --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);\n`;
+    css += `  --bs-btn-disabled-opacity: ${btnConfig['disabled-opacity'] || '0.65'};\n`;
+    css += `  --bs-btn-focus-box-shadow: ${btnConfig['focus-box-shadow'] || '0 0 0 0.25rem'} rgba(var(--bs-btn-focus-shadow-rgb), .5);\n`;
+    
+    css += `  display: inline-block;\n`;
+    css += `  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);\n`;
+    css += `  font-family: var(--bs-btn-font-family);\n`;
+    css += `  font-size: var(--bs-btn-font-size);\n`;
+    css += `  font-weight: var(--bs-btn-font-weight);\n`;
+    css += `  line-height: var(--bs-btn-line-height);\n`;
+    css += `  color: var(--bs-btn-color);\n`;
+    css += `  text-align: center;\n`;
+    css += `  text-decoration: none;\n`;
+    css += `  vertical-align: middle;\n`;
+    css += `  cursor: pointer;\n`;
+    css += `  user-select: none;\n`;
+    css += `  border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);\n`;
+    css += `  border-radius: var(--bs-btn-border-radius);\n`;
+    css += `  background-color: var(--bs-btn-bg);\n`;
+    css += `  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;\n`;
+    
+    css += `}\n\n`;
+    
+    // 按钮悬停状态
+    css += `.${baseClass}:hover {\n`;
+    css += `  color: var(--bs-btn-hover-color, var(--bs-btn-color));\n`;
+    css += `  background-color: var(--bs-btn-hover-bg, var(--bs-btn-bg));\n`;
+    css += `  border-color: var(--bs-btn-hover-border-color, var(--bs-btn-border-color));\n`;
+    css += `}\n\n`;
+    
+    // 按钮焦点状态
+    css += `.${baseClass}:focus-visible {\n`;
+    css += `  color: var(--bs-btn-hover-color, var(--bs-btn-color));\n`;
+    css += `  background-color: var(--bs-btn-hover-bg, var(--bs-btn-bg));\n`;
+    css += `  border-color: var(--bs-btn-hover-border-color, var(--bs-btn-border-color));\n`;
+    css += `  outline: 0;\n`;
+    css += `  box-shadow: var(--bs-btn-focus-box-shadow);\n`;
+    css += `}\n\n`;
+    
+    // 按钮激活状态
+    css += `.${baseClass}:active {\n`;
+    css += `  color: var(--bs-btn-active-color, var(--bs-btn-color));\n`;
+    css += `  background-color: var(--bs-btn-active-bg, var(--bs-btn-bg));\n`;
+    css += `  border-color: var(--bs-btn-active-border-color, var(--bs-btn-border-color));\n`;
+    css += `}\n\n`;
+    
+    // 按钮禁用状态
+    css += `.${baseClass}:disabled {\n`;
+    css += `  color: var(--bs-btn-disabled-color, var(--bs-btn-color));\n`;
+    css += `  pointer-events: none;\n`;
+    css += `  background-color: var(--bs-btn-disabled-bg, var(--bs-btn-bg));\n`;
+    css += `  border-color: var(--bs-btn-disabled-border-color, var(--bs-btn-border-color));\n`;
+    css += `  opacity: var(--bs-btn-disabled-opacity);\n`;
     css += `}\n\n`;
     
     return css;
@@ -48,148 +107,197 @@ export class ButtonComponent extends BaseComponent {
   protected generateVariantCSS(theme: Theme, prefix?: string): string {
     let css = '';
     
-    // Process variants
+    // 获取按钮配置
+    const btnConfig = theme.base.button || {};
+    
+    // 处理变体
     Object.entries(this.variant.variants).forEach(([variantName, variants]) => {
       Object.entries(variants).forEach(([variantValue, className]) => {
         // 确保类名不为空
         if (className && className.trim() !== '') {
           const variantClass = prefix ? `${prefix}-${className}` : className;
-          css += `.${variantClass} {\n`;
           
-          // Variant-specific styles
+          // 处理按钮变体
           if (variantName === 'variant') {
-            if (variantValue === 'primary') {
-              css += `  background-color: ${theme.base.colors.primary};\n`;
-              css += `  color: white;\n`;
-            } else if (variantValue === 'secondary') {
-              css += `  background-color: ${theme.base.colors.secondary};\n`;
-              css += `  color: white;\n`;
-            } else if (variantValue === 'outline') {
-              css += `  border: 1px solid ${theme.base.colors.border};\n`;
-              css += `  color: ${theme.base.colors.text};\n`;
-              css += `  background-color: transparent;\n`;
-            } else if (variantValue === 'ghost') {
-              css += `  background-color: transparent;\n`;
-              css += `  color: ${theme.base.colors.text};\n`;
-              css += `  border: none;\n`;
-            } else if (variantValue === 'success') {
-              css += `  background-color: ${theme.base.colors.success};\n`;
-              css += `  color: white;\n`;
-            } else if (variantValue === 'danger') {
-              css += `  background-color: ${theme.base.colors.danger};\n`;
-              css += `  color: white;\n`;
-            } else if (variantValue === 'warning') {
-              css += `  background-color: ${theme.base.colors.warning};\n`;
-              css += `  color: #1f2937;\n`;
-            } else if (variantValue === 'info') {
-              css += `  background-color: ${theme.base.colors.info};\n`;
-              css += `  color: white;\n`;
+            if (btnConfig[variantValue]) {
+              // 使用主题中定义的变量
+              const variantConfig = btnConfig[variantValue];
+              css += this.generateButtonVariantFromConfig(variantClass, variantConfig);
+            } else {
+              // 回退到默认实现
+              if (variantValue === 'primary') {
+                css += this.generateButtonVariant(
+                  variantClass,
+                  theme.base.colors.primary,
+                  '#fff',
+                  theme.base.colors.primary,
+                  '#0a58ca',
+                  '#fff',
+                  '#0a53be',
+                  '0 0 0 0.25rem rgba(49, 132, 253, 0.5)'
+                );
+              } else if (variantValue === 'secondary') {
+                css += this.generateButtonVariant(
+                  variantClass,
+                  theme.base.colors.secondary,
+                  '#fff',
+                  theme.base.colors.secondary,
+                  '#5c636a',
+                  '#fff',
+                  '#565e64',
+                  '0 0 0 0.25rem rgba(130, 138, 145, 0.5)'
+                );
+              } else if (variantValue === 'success') {
+                css += this.generateButtonVariant(
+                  variantClass,
+                  theme.base.colors.success,
+                  '#fff',
+                  theme.base.colors.success,
+                  '#157347',
+                  '#fff',
+                  '#146c43',
+                  '0 0 0 0.25rem rgba(60, 153, 110, 0.5)'
+                );
+              } else if (variantValue === 'danger') {
+                css += this.generateButtonVariant(
+                  variantClass,
+                  theme.base.colors.danger,
+                  '#fff',
+                  theme.base.colors.danger,
+                  '#bb2d3b',
+                  '#fff',
+                  '#b02a37',
+                  '0 0 0 0.25rem rgba(225, 83, 97, 0.5)'
+                );
+              } else if (variantValue === 'warning') {
+                css += this.generateButtonVariant(
+                  variantClass,
+                  theme.base.colors.warning,
+                  '#000',
+                  theme.base.colors.warning,
+                  '#d39e00',
+                  '#000',
+                  '#c69500',
+                  '0 0 0 0.25rem rgba(217, 164, 6, 0.5)'
+                );
+              } else if (variantValue === 'info') {
+                css += this.generateButtonVariant(
+                  variantClass,
+                  theme.base.colors.info,
+                  '#000',
+                  theme.base.colors.info,
+                  '#0dcaf0',
+                  '#000',
+                  '#31d2f2',
+                  '0 0 0 0.25rem rgba(11, 172, 204, 0.5)'
+                );
+              }
             }
           } else if (variantName === 'size') {
-            if (variantValue === 'xs') {
-              css += `  padding: 0.25rem 0.5rem;\n`;
-              css += `  font-size: ${theme.base.fontSize.xs};\n`;
-              css += `  border-radius: ${theme.base.borderRadius.sm};\n`;
-            } else if (variantValue === 'sm') {
-              css += `  padding: 0.375rem 0.75rem;\n`;
-              css += `  font-size: ${theme.base.fontSize.sm};\n`;
-              css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-            } else if (variantValue === 'md') {
-              css += `  padding: 0.5rem 1rem;\n`;
-              css += `  font-size: ${theme.base.fontSize.base};\n`;
-              css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-            } else if (variantValue === 'lg') {
-              css += `  padding: 0.625rem 1.25rem;\n`;
-              css += `  font-size: ${theme.base.fontSize.lg};\n`;
-              css += `  border-radius: ${theme.base.borderRadius.md};\n`;
-            } else if (variantValue === 'xl') {
-              css += `  padding: 0.75rem 1.5rem;\n`;
-              css += `  font-size: ${theme.base.fontSize.xl};\n`;
-              css += `  border-radius: ${theme.base.borderRadius.lg};\n`;
-            }
-          } else if (variantName === 'rounded') {
-            if (variantValue === 'true') {
-              css += `  border-radius: ${theme.base.borderRadius.full};\n`;
-            }
-          } else if (variantName === 'disabled') {
-            if (variantValue === 'true') {
-              css += `  opacity: 0.5;\n`;
-              css += `  cursor: not-allowed;\n`;
-              css += `  pointer-events: none;\n`;
+            if (btnConfig.size && btnConfig.size[variantValue]) {
+              // 使用主题中定义的尺寸变量
+              const sizeConfig = btnConfig.size[variantValue];
+              css += `.${variantClass} {\n`;
+              css += `  --bs-btn-padding-y: ${sizeConfig['padding-y'] || '0.375rem'};\n`;
+              css += `  --bs-btn-padding-x: ${sizeConfig['padding-x'] || '0.75rem'};\n`;
+              css += `  --bs-btn-font-size: ${sizeConfig['font-size'] || '1rem'};\n`;
+              css += `  --bs-btn-border-radius: ${sizeConfig['border-radius'] || '0.375rem'};\n`;
+              css += `}\n\n`;
+            } else {
+              // 回退到默认实现
+              if (variantValue === 'sm') {
+                css += `.${variantClass} {\n`;
+                css += `  --bs-btn-padding-y: 0.25rem;\n`;
+                css += `  --bs-btn-padding-x: 0.5rem;\n`;
+                css += `  --bs-btn-font-size: 0.875rem;\n`;
+                css += `  --bs-btn-border-radius: 0.25rem;\n`;
+                css += `}\n\n`;
+              } else if (variantValue === 'lg') {
+                css += `.${variantClass} {\n`;
+                css += `  --bs-btn-padding-y: 0.5rem;\n`;
+                css += `  --bs-btn-padding-x: 1rem;\n`;
+                css += `  --bs-btn-font-size: 1.25rem;\n`;
+                css += `  --bs-btn-border-radius: 0.5rem;\n`;
+                css += `}\n\n`;
+              }
             }
           }
-          
-          css += `}\n\n`;
         }
       });
     });
-    
-    // Add hover and focus states
-    css = this.addHoverAndFocusStates(css, theme, prefix);
     
     return css;
   }
   
   /**
-   * Add hover and focus states
-   * @param css The CSS string
-   * @param theme The theme
-   * @param prefix Optional prefix for CSS classes
+   * 从配置生成按钮变体样式
    */
-  private addHoverAndFocusStates(css: string, theme: Theme, prefix?: string): string {
-    let result = css;
+  private generateButtonVariantFromConfig(className: string, config: any): string {
+    let css = `.${className} {\n`;
+    css += `  --bs-btn-color: ${config.color || '#fff'};\n`;
+    css += `  --bs-btn-bg: ${config.bg || 'transparent'};\n`;
+    css += `  --bs-btn-border-color: ${config['border-color'] || 'transparent'};\n`;
+    css += `  --bs-btn-hover-color: ${config['hover-color'] || config.color || '#fff'};\n`;
+    css += `  --bs-btn-hover-bg: ${config['hover-bg'] || config.bg || 'transparent'};\n`;
+    css += `  --bs-btn-hover-border-color: ${config['hover-border-color'] || config['border-color'] || 'transparent'};\n`;
+    css += `  --bs-btn-focus-shadow-rgb: ${config['shadow-rgb'] || '0, 0, 0'};\n`;
+    css += `  --bs-btn-active-color: ${config['active-color'] || config['hover-color'] || config.color || '#fff'};\n`;
+    css += `  --bs-btn-active-bg: ${config['active-bg'] || config['hover-bg'] || config.bg || 'transparent'};\n`;
+    css += `  --bs-btn-active-border-color: ${config['active-border-color'] || config['hover-border-color'] || config['border-color'] || 'transparent'};\n`;
+    css += `  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n`;
+    css += `  --bs-btn-disabled-color: ${config['disabled-color'] || config.color || '#fff'};\n`;
+    css += `  --bs-btn-disabled-bg: ${config['disabled-bg'] || config.bg || 'transparent'};\n`;
+    css += `  --bs-btn-disabled-border-color: ${config['disabled-border-color'] || config['border-color'] || 'transparent'};\n`;
+    css += `}\n\n`;
     
-    // Primary button hover
-    const primaryClass = prefix ? `${prefix}-btn-primary` : 'btn-primary';
-    result += `.${primaryClass}:hover {\n`;
-    result += `  background-color: ${this.darkenColor(theme.base.colors.primary)};\n`;
-    result += `}\n\n`;
-    
-    // Secondary button hover
-    const secondaryClass = prefix ? `${prefix}-btn-secondary` : 'btn-secondary';
-    result += `.${secondaryClass}:hover {\n`;
-    result += `  background-color: ${this.darkenColor(theme.base.colors.secondary)};\n`;
-    result += `}\n\n`;
-    
-    // Outline button hover
-    const outlineClass = prefix ? `${prefix}-btn-outline` : 'btn-outline';
-    result += `.${outlineClass}:hover {\n`;
-    result += `  background-color: rgba(0, 0, 0, 0.05);\n`;
-    result += `}\n\n`;
-    
-    // Primary button focus
-    result += `.${primaryClass}:focus {\n`;
-    result += `  box-shadow: 0 0 0 2px ${this.transparentize(theme.base.colors.primary, 0.5)};\n`;
-    result += `}\n\n`;
-    
-    // Secondary button focus
-    result += `.${secondaryClass}:focus {\n`;
-    result += `  box-shadow: 0 0 0 2px ${this.transparentize(theme.base.colors.secondary, 0.5)};\n`;
-    result += `}\n\n`;
-    
-    return result;
+    return css;
   }
   
   /**
-   * Darken a color (simple implementation)
-   * @param color The color to darken
-   * @returns The darkened color
+   * 生成 Bootstrap 按钮变体样式
    */
-  private darkenColor(color: string): string {
-    // This is a simple implementation
-    // In a real-world scenario, you would use a color library
-    return color;
+  private generateButtonVariant(
+    className: string,
+    background: string,
+    color: string,
+    borderColor: string,
+    hoverBackground: string,
+    hoverColor: string,
+    activeBackground: string,
+    focusBoxShadow: string
+  ): string {
+    let css = `.${className} {\n`;
+    css += `  --bs-btn-color: ${color};\n`;
+    css += `  --bs-btn-bg: ${background};\n`;
+    css += `  --bs-btn-border-color: ${borderColor};\n`;
+    css += `  --bs-btn-hover-color: ${hoverColor};\n`;
+    css += `  --bs-btn-hover-bg: ${hoverBackground};\n`;
+    css += `  --bs-btn-hover-border-color: ${hoverBackground};\n`;
+    css += `  --bs-btn-focus-shadow-rgb: ${this.hexToRgb(background)};\n`;
+    css += `  --bs-btn-active-color: ${hoverColor};\n`;
+    css += `  --bs-btn-active-bg: ${activeBackground};\n`;
+    css += `  --bs-btn-active-border-color: ${activeBackground};\n`;
+    css += `  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n`;
+    css += `  --bs-btn-disabled-color: ${color};\n`;
+    css += `  --bs-btn-disabled-bg: ${background};\n`;
+    css += `  --bs-btn-disabled-border-color: ${background};\n`;
+    css += `}\n\n`;
+    
+    return css;
   }
   
   /**
-   * Make a color transparent
-   * @param color The color
-   * @param opacity The opacity
-   * @returns The transparent color
+   * 将十六进制颜色转换为 RGB 格式
    */
-  private transparentize(color: string, opacity: number): string {
-    // This is a simple implementation
-    // In a real-world scenario, you would use a color library
-    return `rgba(0, 0, 0, ${opacity})`;
+  private hexToRgb(hex: string): string {
+    // 移除 # 号
+    hex = hex.replace('#', '');
+    
+    // 解析 RGB 值
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return `${r}, ${g}, ${b}`;
   }
 } 

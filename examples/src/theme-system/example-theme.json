@@ -439,9 +439,200 @@
         "danger": "#dc3545",
         "warning": "#ffc107",
         "info": "#0dcaf0",
+        "light": "#f8f9fa",
+        "dark": "#212529",
         "background": "#ffffff",
         "text": "#212529",
-        "border": "#dee2e6"
+        "border": "#dee2e6",
+        "button": {
+          "padding-x": "0.75rem",
+          "padding-y": "0.375rem",
+          "font-size": "1rem",
+          "border-radius": "0.375rem",
+          "disabled-opacity": "0.65",
+          "focus-box-shadow": "0 0 0 0.25rem",
+          "primary": {
+            "color": "#fff",
+            "bg": "#0d6efd",
+            "border-color": "#0d6efd",
+            "hover-color": "#fff",
+            "hover-bg": "#0a58ca",
+            "hover-border-color": "#0a58ca",
+            "active-color": "#fff",
+            "active-bg": "#0a53be",
+            "active-border-color": "#0a53be",
+            "disabled-color": "#fff",
+            "disabled-bg": "#0d6efd",
+            "disabled-border-color": "#0d6efd",
+            "shadow-rgb": "49, 132, 253"
+          },
+          "secondary": {
+            "color": "#fff",
+            "bg": "#6c757d",
+            "border-color": "#6c757d",
+            "hover-color": "#fff",
+            "hover-bg": "#5c636a",
+            "hover-border-color": "#5c636a",
+            "active-color": "#fff",
+            "active-bg": "#565e64",
+            "active-border-color": "#565e64",
+            "disabled-color": "#fff",
+            "disabled-bg": "#6c757d",
+            "disabled-border-color": "#6c757d",
+            "shadow-rgb": "130, 138, 145"
+          },
+          "success": {
+            "color": "#fff",
+            "bg": "#198754",
+            "border-color": "#198754",
+            "hover-color": "#fff",
+            "hover-bg": "#157347",
+            "hover-border-color": "#157347",
+            "active-color": "#fff",
+            "active-bg": "#146c43",
+            "active-border-color": "#146c43",
+            "disabled-color": "#fff",
+            "disabled-bg": "#198754",
+            "disabled-border-color": "#198754",
+            "shadow-rgb": "60, 153, 110"
+          },
+          "danger": {
+            "color": "#fff",
+            "bg": "#dc3545",
+            "border-color": "#dc3545",
+            "hover-color": "#fff",
+            "hover-bg": "#bb2d3b",
+            "hover-border-color": "#bb2d3b",
+            "active-color": "#fff",
+            "active-bg": "#b02a37",
+            "active-border-color": "#b02a37",
+            "disabled-color": "#fff",
+            "disabled-bg": "#dc3545",
+            "disabled-border-color": "#dc3545",
+            "shadow-rgb": "225, 83, 97"
+          },
+          "warning": {
+            "color": "#000",
+            "bg": "#ffc107",
+            "border-color": "#ffc107",
+            "hover-color": "#000",
+            "hover-bg": "#d39e00",
+            "hover-border-color": "#d39e00",
+            "active-color": "#000",
+            "active-bg": "#c69500",
+            "active-border-color": "#c69500",
+            "disabled-color": "#000",
+            "disabled-bg": "#ffc107",
+            "disabled-border-color": "#ffc107",
+            "shadow-rgb": "217, 164, 6"
+          },
+          "info": {
+            "color": "#000",
+            "bg": "#0dcaf0",
+            "border-color": "#0dcaf0",
+            "hover-color": "#000",
+            "hover-bg": "#31d2f2",
+            "hover-border-color": "#31d2f2",
+            "active-color": "#000",
+            "active-bg": "#3dd5f3",
+            "active-border-color": "#3dd5f3",
+            "disabled-color": "#000",
+            "disabled-bg": "#0dcaf0",
+            "disabled-border-color": "#0dcaf0",
+            "shadow-rgb": "11, 172, 204"
+          },
+          "light": {
+            "color": "#000",
+            "bg": "#f8f9fa",
+            "border-color": "#f8f9fa",
+            "hover-color": "#000",
+            "hover-bg": "#d3d4d5",
+            "hover-border-color": "#d3d4d5",
+            "active-color": "#000",
+            "active-bg": "#c6c7c8",
+            "active-border-color": "#c6c7c8",
+            "disabled-color": "#000",
+            "disabled-bg": "#f8f9fa",
+            "disabled-border-color": "#f8f9fa",
+            "shadow-rgb": "211, 212, 213"
+          },
+          "dark": {
+            "color": "#fff",
+            "bg": "#212529",
+            "border-color": "#212529",
+            "hover-color": "#fff",
+            "hover-bg": "#1c1f23",
+            "hover-border-color": "#1c1f23",
+            "active-color": "#fff",
+            "active-bg": "#1a1e21",
+            "active-border-color": "#1a1e21",
+            "disabled-color": "#fff",
+            "disabled-bg": "#212529",
+            "disabled-border-color": "#212529",
+            "shadow-rgb": "66, 70, 73"
+          },
+          "outline": {
+            "color": "#0d6efd",
+            "border-color": "#0d6efd",
+            "hover-color": "#fff",
+            "hover-bg": "#0d6efd",
+            "hover-border-color": "#0d6efd",
+            "active-color": "#fff",
+            "active-bg": "#0d6efd",
+            "active-border-color": "#0d6efd",
+            "disabled-color": "#0d6efd",
+            "disabled-bg": "transparent",
+            "disabled-border-color": "#0d6efd",
+            "shadow-rgb": "13, 110, 253"
+          },
+          "link": {
+            "color": "#0d6efd",
+            "border-color": "transparent",
+            "hover-color": "#0a58ca",
+            "hover-border-color": "transparent",
+            "active-color": "#0a53be",
+            "active-border-color": "transparent",
+            "disabled-color": "#6c757d",
+            "disabled-border-color": "transparent",
+            "shadow-rgb": "13, 110, 253"
+          },
+          "size": {
+            "sm": {
+              "padding-y": "0.25rem",
+              "padding-x": "0.5rem",
+              "font-size": "0.875rem",
+              "border-radius": "0.25rem"
+            },
+            "lg": {
+              "padding-y": "0.5rem",
+              "padding-x": "1rem",
+              "font-size": "1.25rem",
+              "border-radius": "0.5rem"
+            }
+          }
+        }
+      },
+      "button": {
+        "base": "btn",
+        "variants": {
+          "variant": {
+            "primary": "btn-primary",
+            "secondary": "btn-secondary",
+            "success": "btn-success",
+            "danger": "btn-danger",
+            "warning": "btn-warning",
+            "info": "btn-info",
+            "light": "btn-light",
+            "dark": "btn-dark",
+            "link": "btn-link",
+            "outline": "btn-outline-primary"
+          },
+          "size": {
+            "sm": "btn-sm",
+            "md": "",
+            "lg": "btn-lg"
+          }
+        }
       }
     },
     "components": {
@@ -451,11 +642,18 @@
           "variant": {
             "primary": "btn-primary",
             "secondary": "btn-secondary",
+            "success": "btn-success",
+            "danger": "btn-danger",
+            "warning": "btn-warning",
+            "info": "btn-info",
+            "light": "btn-light",
+            "dark": "btn-dark",
+            "link": "btn-link",
             "outline": "btn-outline-primary"
           },
           "size": {
             "sm": "btn-sm",
-            "md": "btn-md",
+            "md": "",
             "lg": "btn-lg"
           }
         }
@@ -474,9 +672,200 @@
         "danger": "#dc3545",
         "warning": "#ffc107",
         "info": "#0dcaf0",
+        "light": "#f8f9fa",
+        "dark": "#212529",
         "background": "#212529",
         "text": "#f8f9fa",
-        "border": "#495057"
+        "border": "#495057",
+        "button": {
+          "padding-x": "0.75rem",
+          "padding-y": "0.375rem",
+          "font-size": "1rem",
+          "border-radius": "0.375rem",
+          "disabled-opacity": "0.65",
+          "focus-box-shadow": "0 0 0 0.25rem",
+          "primary": {
+            "color": "#fff",
+            "bg": "#0d6efd",
+            "border-color": "#0d6efd",
+            "hover-color": "#fff",
+            "hover-bg": "#0a58ca",
+            "hover-border-color": "#0a58ca",
+            "active-color": "#fff",
+            "active-bg": "#0a53be",
+            "active-border-color": "#0a53be",
+            "disabled-color": "#fff",
+            "disabled-bg": "#0d6efd",
+            "disabled-border-color": "#0d6efd",
+            "shadow-rgb": "49, 132, 253"
+          },
+          "secondary": {
+            "color": "#fff",
+            "bg": "#6c757d",
+            "border-color": "#6c757d",
+            "hover-color": "#fff",
+            "hover-bg": "#5c636a",
+            "hover-border-color": "#5c636a",
+            "active-color": "#fff",
+            "active-bg": "#565e64",
+            "active-border-color": "#565e64",
+            "disabled-color": "#fff",
+            "disabled-bg": "#6c757d",
+            "disabled-border-color": "#6c757d",
+            "shadow-rgb": "130, 138, 145"
+          },
+          "success": {
+            "color": "#fff",
+            "bg": "#198754",
+            "border-color": "#198754",
+            "hover-color": "#fff",
+            "hover-bg": "#157347",
+            "hover-border-color": "#157347",
+            "active-color": "#fff",
+            "active-bg": "#146c43",
+            "active-border-color": "#146c43",
+            "disabled-color": "#fff",
+            "disabled-bg": "#198754",
+            "disabled-border-color": "#198754",
+            "shadow-rgb": "60, 153, 110"
+          },
+          "danger": {
+            "color": "#fff",
+            "bg": "#dc3545",
+            "border-color": "#dc3545",
+            "hover-color": "#fff",
+            "hover-bg": "#bb2d3b",
+            "hover-border-color": "#bb2d3b",
+            "active-color": "#fff",
+            "active-bg": "#b02a37",
+            "active-border-color": "#b02a37",
+            "disabled-color": "#fff",
+            "disabled-bg": "#dc3545",
+            "disabled-border-color": "#dc3545",
+            "shadow-rgb": "225, 83, 97"
+          },
+          "warning": {
+            "color": "#000",
+            "bg": "#ffc107",
+            "border-color": "#ffc107",
+            "hover-color": "#000",
+            "hover-bg": "#d39e00",
+            "hover-border-color": "#d39e00",
+            "active-color": "#000",
+            "active-bg": "#c69500",
+            "active-border-color": "#c69500",
+            "disabled-color": "#000",
+            "disabled-bg": "#ffc107",
+            "disabled-border-color": "#ffc107",
+            "shadow-rgb": "217, 164, 6"
+          },
+          "info": {
+            "color": "#000",
+            "bg": "#0dcaf0",
+            "border-color": "#0dcaf0",
+            "hover-color": "#000",
+            "hover-bg": "#31d2f2",
+            "hover-border-color": "#31d2f2",
+            "active-color": "#000",
+            "active-bg": "#3dd5f3",
+            "active-border-color": "#3dd5f3",
+            "disabled-color": "#000",
+            "disabled-bg": "#0dcaf0",
+            "disabled-border-color": "#0dcaf0",
+            "shadow-rgb": "11, 172, 204"
+          },
+          "light": {
+            "color": "#000",
+            "bg": "#f8f9fa",
+            "border-color": "#f8f9fa",
+            "hover-color": "#000",
+            "hover-bg": "#d3d4d5",
+            "hover-border-color": "#d3d4d5",
+            "active-color": "#000",
+            "active-bg": "#c6c7c8",
+            "active-border-color": "#c6c7c8",
+            "disabled-color": "#000",
+            "disabled-bg": "#f8f9fa",
+            "disabled-border-color": "#f8f9fa",
+            "shadow-rgb": "211, 212, 213"
+          },
+          "dark": {
+            "color": "#fff",
+            "bg": "#212529",
+            "border-color": "#212529",
+            "hover-color": "#fff",
+            "hover-bg": "#1c1f23",
+            "hover-border-color": "#1c1f23",
+            "active-color": "#fff",
+            "active-bg": "#1a1e21",
+            "active-border-color": "#1a1e21",
+            "disabled-color": "#fff",
+            "disabled-bg": "#212529",
+            "disabled-border-color": "#212529",
+            "shadow-rgb": "66, 70, 73"
+          },
+          "outline": {
+            "color": "#0d6efd",
+            "border-color": "#0d6efd",
+            "hover-color": "#fff",
+            "hover-bg": "#0d6efd",
+            "hover-border-color": "#0d6efd",
+            "active-color": "#fff",
+            "active-bg": "#0d6efd",
+            "active-border-color": "#0d6efd",
+            "disabled-color": "#0d6efd",
+            "disabled-bg": "transparent",
+            "disabled-border-color": "#0d6efd",
+            "shadow-rgb": "13, 110, 253"
+          },
+          "link": {
+            "color": "#0d6efd",
+            "border-color": "transparent",
+            "hover-color": "#0a58ca",
+            "hover-border-color": "transparent",
+            "active-color": "#0a53be",
+            "active-border-color": "transparent",
+            "disabled-color": "#6c757d",
+            "disabled-border-color": "transparent",
+            "shadow-rgb": "13, 110, 253"
+          },
+          "size": {
+            "sm": {
+              "padding-y": "0.25rem",
+              "padding-x": "0.5rem",
+              "font-size": "0.875rem",
+              "border-radius": "0.25rem"
+            },
+            "lg": {
+              "padding-y": "0.5rem",
+              "padding-x": "1rem",
+              "font-size": "1.25rem",
+              "border-radius": "0.5rem"
+            }
+          }
+        }
+      },
+      "button": {
+        "base": "btn",
+        "variants": {
+          "variant": {
+            "primary": "btn-primary",
+            "secondary": "btn-secondary",
+            "success": "btn-success",
+            "danger": "btn-danger",
+            "warning": "btn-warning",
+            "info": "btn-info",
+            "light": "btn-light",
+            "dark": "btn-dark",
+            "link": "btn-link",
+            "outline": "btn-outline-primary"
+          },
+          "size": {
+            "sm": "btn-sm",
+            "md": "",
+            "lg": "btn-lg"
+          }
+        }
       }
     },
     "components": {
@@ -486,11 +875,18 @@
           "variant": {
             "primary": "btn-primary",
             "secondary": "btn-secondary",
+            "success": "btn-success",
+            "danger": "btn-danger",
+            "warning": "btn-warning",
+            "info": "btn-info",
+            "light": "btn-light",
+            "dark": "btn-dark",
+            "link": "btn-link",
             "outline": "btn-outline-primary"
           },
           "size": {
             "sm": "btn-sm",
-            "md": "btn-md",
+            "md": "",
             "lg": "btn-lg"
           }
         }
