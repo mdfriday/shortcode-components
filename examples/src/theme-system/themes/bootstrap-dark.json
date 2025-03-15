@@ -3,6 +3,7 @@
   "mode": "dark",
   "parent": "base",
   "base": {
+    "staticSource": "styles/bootstrap.css",
     "colors": {
       "primary": "#0d6efd",
       "secondary": "#6c757d",

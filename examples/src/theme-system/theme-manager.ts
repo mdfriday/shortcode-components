@@ -156,26 +156,29 @@ export class ThemeManagerImpl implements ThemeManager {
   
   /**
    * Get all CSS for the current theme
-   * @param prefix Optional prefix for CSS classes, defaults to the prefix set in the constructor
+   * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
-  getAllCSS(prefix: string = this.prefix): string {
-    const theme = this.getCurrentTheme();
+  async getAllCSS(prefix?: string): Promise<string> {
+    const currentTheme = this.getCurrentTheme();
     
-    // Generate CSS
-    let css = '';
+    // If static source is configured, load and return its content
+    if (currentTheme.base.staticSource) {
+      try {
+        const response = await fetch(currentTheme.base.staticSource);
+        if (!response.ok) {
+          throw new Error(`Failed to load CSS file: ${currentTheme.base.staticSource} (${response.status} ${response.statusText})`);
+        }
+        return await response.text();
+      } catch (error) {
+        console.error(`Error loading static CSS file: ${currentTheme.base.staticSource}`, error);
+        // 如果加载失败，回退到使用组件生成的 CSS
+        return this.getComponentsManager().generateAllComponentsCSS(currentTheme, prefix);
+      }
+    }
     
-    // Generate base CSS
-    css += this.generateBaseCSS(theme, prefix);
-    
-    // Generate component CSS using the component registry
-    css += this.componentsRegistry.generateAllComponentsCSS(theme, prefix);
-    
-    // 移除空的类选择器
-    css = css.replace(/\.[\w-]+\s*\{\s*\/\*.*\*\/\s*\}\s*\n*/g, '');
-    css = css.replace(/\.theme-\s*\{\s*\}\s*\n*/g, '');
-    
-    return css;
+    // Otherwise, generate CSS from component definitions (existing behavior)
+    return this.getComponentsManager().generateAllComponentsCSS(currentTheme, prefix);
   }
   
   /**
@@ -281,5 +284,23 @@ export class ThemeManagerImpl implements ThemeManager {
     css += `}\n\n`;
     
     return css;
+  }
+
+  /**
+   * Load static CSS content from a file
+   * @param filePath Path to the CSS file
+   * @returns The CSS content as a string
+   */
+  async loadStaticCSS(filePath: string): Promise<string> {
+    try {
+      const response = await fetch(filePath);
+      if (!response.ok) {
+        throw new Error(`Failed to load CSS file: ${filePath} (${response.status} ${response.statusText})`);
+      }
+      return await response.text();
+    } catch (error) {
+      console.error(`Error loading static CSS file: ${filePath}`, error);
+      return '';
+    }
   }
 } 

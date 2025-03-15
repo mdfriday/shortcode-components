@@ -9,6 +9,13 @@ export type ThemeMode = 'light' | 'dark';
  */
 export interface ThemeBase {
   /**
+   * Optional static CSS source path
+   * If provided, the theme system will use this CSS file directly
+   * instead of generating CSS from component definitions
+   */
+  staticSource?: string;
+  
+  /**
    * Color palette
    */
   colors: Record<string, string>;
@@ -272,10 +279,19 @@ export interface ThemeManager {
   
   /**
    * Get all CSS for the current theme
+   * If the current theme has a staticSource configured, it will return the content of that file
+   * Otherwise, it will generate CSS from component definitions
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
-  getAllCSS(prefix?: string): string;
+  getAllCSS(prefix?: string): string | Promise<string>;
+  
+  /**
+   * Load static CSS content from a file
+   * @param filePath Path to the CSS file
+   * @returns The CSS content as a string
+   */
+  loadStaticCSS(filePath: string): Promise<string>;
   
   /**
    * Preload themes from JSON

@@ -8,7 +8,7 @@ import baseLightTheme from './theme-system/themes/base-light.json';
 import './styles/main.css';
 
 // 创建主题管理器实例
-const themeManager = new ThemeManagerImpl('theme');
+const themeManager = new ThemeManagerImpl('');
 
 // 预加载主题
 const themes = [
@@ -138,8 +138,13 @@ function renderComponents() {
   componentsContainer.innerHTML = '';
   
   // 首先生成并应用主题系统的 CSS
-  const css = themeManager.getAllCSS();
-  updateCSSOutput(css);
+  const updateThemeCSS = async () => {
+    const css = await themeManager.getAllCSS();
+    updateCSSOutput(css);
+  };
+  
+  // 初始调用
+  updateThemeCSS().then(r => {});
   
   components.forEach(component => {
     // 创建组件部分
