@@ -7,14 +7,17 @@
 // Export types
 export * from './types';
 
-// Export utils
-export * from './utils';
+// Export theme manager
+export { ThemeManagerImpl } from './theme-manager';
 
 // Export components
 export * from './components';
 
-// Export theme manager
-export { ThemeManagerImpl } from './theme-manager';
+// Export utils
+export * from './utils';
+
+// Export style builder
+export * from './style-builder';
 
 // Import for default export
 import { ThemeManagerImpl } from './theme-manager';
