@@ -147,7 +147,7 @@ export class ThemeManagerImpl implements ThemeManager {
       // 默认使用 bootstrap 构建器
       builderName = 'bootstrap';
     }
-    
+
     // 如果有样式构建器，使用样式构建器构建类名
     if (StyleBuilderRegistry.hasFactory(builderName)) {
       const factory = StyleBuilderRegistry.getFactory(builderName, theme);
@@ -170,9 +170,15 @@ export class ThemeManagerImpl implements ThemeManager {
       if (props.width) styleProps.width = props.width;
       if (props.height) styleProps.height = props.height;
       if (props.border !== undefined) styleProps.border = props.border;
-      if (props.rounded !== undefined) styleProps.rounded = props.rounded;
+      // if (props.rounded !== undefined) styleProps.rounded = props.rounded;
       if (props.outline !== undefined) styleProps.outline = props.outline;
       if (props.shadow) styleProps.shadow = props.shadow;
+
+      if (props.rounded !== undefined) {
+        styleProps.rounded = typeof props.rounded === 'string'
+            ? ['true', 'yes', '1'].includes(props.rounded.toLowerCase())
+            : !!props.rounded;
+      }
       
       // 处理布局属性
       if (props.display) layoutProps.display = props.display;
@@ -284,6 +290,7 @@ export class ThemeManagerImpl implements ThemeManager {
     // If static source is configured, load and return its content
     if (currentTheme.base.staticSource) {
       try {
+        // TODO: 优化静态资源加载
         const response = await fetch(currentTheme.base.staticSource);
         if (!response.ok) {
           throw new Error(`Failed to load CSS file: ${currentTheme.base.staticSource} (${response.status} ${response.statusText})`);
@@ -291,6 +298,7 @@ export class ThemeManagerImpl implements ThemeManager {
       } catch (error) {
         console.error(`Error loading static CSS file: ${currentTheme.base.staticSource}`, error);
         // 如果加载失败，回退到使用组件生成的 CSS
+        return "";
       }
       
       // 回退到使用组件生成的CSS
@@ -319,7 +327,6 @@ export class ThemeManagerImpl implements ThemeManager {
           const componentsRegistry = this.getComponentsManager() as ThemeComponentsRegistry;
           
           Object.entries(themeData.components).forEach(([componentName, componentVariant]) => {
-            console.log(`Registering component: ${componentName}`, componentVariant);
             const component = componentsRegistry.createComponentFromVariant(
               componentName, 
               componentVariant as ComponentVariant

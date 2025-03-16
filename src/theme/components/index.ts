@@ -173,7 +173,6 @@ export class ThemeComponentsRegistry implements ThemeComponents {
    * @returns The component
    */
   createComponentFromVariant(name: string, variant: ComponentVariant): ThemeComponent {
-    console.log(`Creating component from variant: ${name}`, variant);
     switch (name) {
       case 'button':
         return new ButtonComponent(variant);

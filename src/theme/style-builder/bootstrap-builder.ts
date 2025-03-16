@@ -62,7 +62,7 @@ export class BootstrapClassBuilder extends BaseClassBuilder {
 
     // Handle rounded
     if (props.rounded === true) {
-      this.addClass('rounded');
+      this.addClass('rounded-pill');
     } else if (props.rounded === false) {
       this.addClass('rounded-0');
     }

@@ -20,7 +20,7 @@ export function registerButtonShortcode(renderer: ShortcodeRenderer, theme: Them
           ?.replace(/^["']|["']$/g, '');
       
       const variant = getParam('variant') || 'primary';
-      const size = getParam('size') || 'md';
+      const rounded = getParam('rounded') || 'true';
       const href = getParam('href') || '#';
       const disabled = getParam('disabled') === 'true';
       const customClass = getParam('class') || '';
@@ -29,7 +29,7 @@ export function registerButtonShortcode(renderer: ShortcodeRenderer, theme: Them
       // 合并基础样式、变体样式和尺寸样式
       const styles = theme.getComponentClasses("button", {
         variant,
-        size
+        rounded
       })
       
       return {
