@@ -115,6 +115,12 @@ export class BootstrapClassBuilder extends BaseClassBuilder {
     if (props.padding !== undefined) {
       this.addClass(`p-${props.padding}`);
     }
+    if (props.paddingX !== undefined) {
+      this.addClass(`px-${props.paddingX}`);
+    }
+    if (props.paddingY !== undefined) {
+      this.addClass(`py-${props.paddingY}`);
+    }
 
     // Handle margin
     if (props.margin !== undefined) {
@@ -152,7 +158,11 @@ export class BootstrapClassBuilder extends BaseClassBuilder {
 
     // Handle text align
     if (props.textAlign) {
-      this.addClass(`text-${props.textAlign}`);
+      if(this.componentName === 'block' && props.textAlign === 'justify') {
+        this.addClass('justify-content-center');
+      } else {
+        this.addClass(`text-${props.textAlign}`);
+      }
     }
 
     // Handle line height

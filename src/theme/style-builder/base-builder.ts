@@ -15,9 +15,15 @@ import { Theme } from '../types';
 export abstract class BaseClassBuilder implements ClassBuilder {
   protected classes: Set<string> = new Set();
   protected theme: Theme;
+  protected componentName: string = '';
 
   constructor(theme: Theme) {
     this.theme = theme;
+  }
+
+  withComponent(componentName: string): this {
+    this.componentName = componentName;
+    return this;
   }
 
   /**

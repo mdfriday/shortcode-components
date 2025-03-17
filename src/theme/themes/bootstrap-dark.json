@@ -265,6 +265,18 @@
           "lg": "btn-lg"
         }
       }
+    },
+    "grid": {
+      "base": "grid"
+    },
+    "row": {
+      "base": "row"
+    },
+    "col": {
+      "base": "col"
+    },
+    "block": {
+      "base": "block"
     }
   }
 } 

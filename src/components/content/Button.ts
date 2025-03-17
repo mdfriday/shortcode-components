@@ -18,7 +18,11 @@ export function registerButtonShortcode(renderer: ShortcodeRenderer, theme: Them
         params.find(p => p.startsWith(`${name}=`))
           ?.split('=')[1]
           ?.replace(/^["']|["']$/g, '');
-      
+
+      const padding = getParam('padding');
+      const paddingX = getParam('px');
+      const paddingY = getParam('py');
+
       const variant = getParam('variant') || 'primary';
       const rounded = getParam('rounded') || 'true';
       const href = getParam('href') || '#';
@@ -28,6 +32,9 @@ export function registerButtonShortcode(renderer: ShortcodeRenderer, theme: Them
 
       // 合并基础样式、变体样式和尺寸样式
       const styles = theme.getComponentClasses("button", {
+        padding,
+        paddingX,
+        paddingY,
         variant,
         rounded
       })

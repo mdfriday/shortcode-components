@@ -35,6 +35,8 @@ export interface Layout {
   // 间距
   gap?: number;
   padding?: number;
+  paddingX?: number;
+  paddingY?: number;
   margin?: number;
 
   // 尺寸
@@ -127,6 +129,7 @@ export interface Responsive {
  * ClassBuilder interface for building component classes
  */
 export interface ClassBuilder {
+  withComponent(component: string): this;
   style(props: Style): this;
   layout(props: Layout): this;
   typography(props: Typography): this;

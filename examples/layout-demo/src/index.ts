@@ -10,7 +10,10 @@ import tailwindLightTheme from '../../../src/theme/themes/tailwind-light.json';
 import baseDarkTheme from '../../../src/theme/themes/base-dark.json';
 import baseLightTheme from '../../../src/theme/themes/base-light.json';
 import {registerButtonShortcode} from "../../../src/components/content/Button";
-
+import {registerGridShortcode} from "../../../src/components/layout/Grid";
+import {registerRowShortcode} from "../../../src/components/layout/Row";
+import {registerColumnShortcode} from "../../../src/components/layout/Column";
+import {registerBlockShortcode} from "../../../src/components/layout/Block";
 // 创建主题管理器实例
 const themeManager = new ThemeManagerImpl('');
 
@@ -39,6 +42,10 @@ const renderer = new ShortcodeRenderer();
 
 // 注册所有组件
 registerButtonShortcode(renderer, themeManager);
+registerGridShortcode(renderer, themeManager);
+registerRowShortcode(renderer, themeManager);
+registerColumnShortcode(renderer, themeManager);
+registerBlockShortcode(renderer, themeManager);
 
 // 创建页面渲染器
 const pageRenderer = new PageRenderer(renderer);
