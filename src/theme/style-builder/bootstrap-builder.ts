@@ -287,16 +287,9 @@ export class BootstrapClassBuilder extends BaseClassBuilder {
     const breakpoints = ['sm', 'md', 'lg', 'xl'] as const;
     
     for (const breakpoint of breakpoints) {
-      const breakpointProps = props[breakpoint];
-      if (breakpointProps) {
-        // Process style properties for this breakpoint
-        if (breakpointProps.textColor) {
-          this.addClass(`${breakpoint}-text-${breakpointProps.textColor}`);
-        }
-        if (breakpointProps.backgroundColor) {
-          this.addClass(`${breakpoint}-bg-${breakpointProps.backgroundColor}`);
-        }
-        // Add more responsive properties as needed
+      const bpSize = props[breakpoint];
+      if(bpSize) {
+        this.addClass(`col-${breakpoint}-${bpSize}`);
       }
     }
 

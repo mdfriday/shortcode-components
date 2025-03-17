@@ -16,9 +16,7 @@ export function registerGridShortcode(renderer: ShortcodeRenderer, theme: ThemeM
     `,
     dataProvider: createDataProvider(theme, {
       componentName: "grid",
-      defaultValues: {
-        display: 'grid'
-      }
+      defaultValues: {}
     })
   });
 } 

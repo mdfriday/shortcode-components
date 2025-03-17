@@ -64,13 +64,16 @@ const baseTemplate = `
         /* Tailwind CSS */
         {{ tailwindCSS }}
     </style>
+    <style>
+    .col {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    background-color: rgba(112.520718, 44.062154, 249.437846, .15);
+    border: 1px solid rgba(112.520718, 44.062154, 249.437846, .3);
+    }
+    </style>
 </head>
 <body class="{{ theme }}">
-    <nav class="nav">
-        <div class="container nav-container">
-            <a href="/" class="nav-brand">Layout Demo</a>
-        </div>
-    </nav>
     <div class="container">
         {{ content }}
     </div>

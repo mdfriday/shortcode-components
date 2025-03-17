@@ -16,11 +16,8 @@ export function registerColumnShortcode(renderer: ShortcodeRenderer, theme: Them
     `,
     dataProvider: createDataProvider(theme, {
       componentName: "col",
-      defaultValues: {
-        display: 'block',
-        span: '1'
-      },
-      additionalProps: ['span', 'offset', 'order', 'alignSelf']
+      defaultValues: {},
+      additionalProps: []
     })
   });
 } 

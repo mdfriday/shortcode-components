@@ -16,14 +16,8 @@ export function registerRowShortcode(renderer: ShortcodeRenderer, theme: ThemeMa
     `,
     dataProvider: createDataProvider(theme, {
       componentName: "row",
-      defaultValues: {
-        display: 'flex',
-        justifyContent: 'start',
-        alignItems: 'stretch',
-        wrap: 'nowrap',
-        width: '100%'
-      },
-      additionalProps: ['justifyContent', 'alignItems', 'wrap']
+      defaultValues: {},
+      additionalProps: []
     })
   });
 } 

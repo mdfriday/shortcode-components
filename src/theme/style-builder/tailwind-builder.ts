@@ -358,16 +358,8 @@ export class TailwindClassBuilder extends BaseClassBuilder {
     for (const breakpoint of breakpoints) {
       const breakpointProps = props[breakpoint];
       if (breakpointProps) {
-        // Process style properties for this breakpoint
-        if (breakpointProps.textColor) {
-          this.addClass(`${breakpoint}:text-${breakpointProps.textColor}`);
-        }
-        if (breakpointProps.backgroundColor) {
-          this.addClass(`${breakpoint}:bg-${breakpointProps.backgroundColor}`);
-        }
-        if (breakpointProps.borderColor) {
-          this.addClass(`${breakpoint}:border-${breakpointProps.borderColor}`);
-        }
+
+        this.addClass(`${breakpoint}:border`);
         // Add more responsive properties as needed
       }
     }

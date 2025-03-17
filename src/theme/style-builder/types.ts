@@ -115,10 +115,10 @@ export interface Interactive {
  */
 export interface Responsive {
   // 断点
-  sm?: Partial<Style>;
-  md?: Partial<Style>;
-  lg?: Partial<Style>;
-  xl?: Partial<Style>;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
 
   // 可见性
   hidden?: 'sm' | 'md' | 'lg' | 'xl';

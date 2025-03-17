@@ -17,23 +17,26 @@ description: A demo of layout components with theme switching
 
 {{< /block >}}
 
-{{< grid >}}
+{{< grid textAlign="center" >}}
 {{< row >}}
+{{< col sm="4" >}} col 1 {{< /col >}}
+{{< col sm="4" >}} col 2 {{< /col >}}
+{{< col sm="4" >}} col 3 {{< /col >}}
+{{< /row >}}
 
-{{< col >}}
-{{< button variant="primary" rounded="true" href="#" >}}
-Primary Button
-{{< /button >}} 
-{{< /col >}}
+{{< row >}}
+{{< col sm="3" >}} col 1 {{< /col >}}
+{{< col sm="6" >}} col 2 {{< /col >}}
+{{< col sm="3" >}} col 3 {{< /col >}}
+{{< /row >}}
 
-{{< col >}}
-{{< button variant="warning" rounded="true" href="#" >}}
-Primary Button
-{{< /button >}}
-{{< /col >}}
-
-{{< col >}} col {{< /col >}}
-{{< col >}} col {{< /col >}}
-
+{{< row >}}
+{{< col sm="8" >}}
+col 1
+{{< row >}}
+{{< col sm="6" >}} col 1 {{< /col >}}
+{{< col sm="6" >}} col 2 {{< /col >}}
+{{< /row >}}{{< /col >}}
+{{< col sm="4" >}} col 2 {{< /col >}}
 {{< /row >}}
 {{< /grid >}}
