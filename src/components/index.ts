@@ -1,5 +1,6 @@
 // Export content components
 export * from './content/Button';
+export * from './content/Navbar';
 
 // Export layout components
 export * from './layout/Grid';

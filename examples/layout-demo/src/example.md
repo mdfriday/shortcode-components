@@ -3,6 +3,8 @@ title: Layout Demo
 description: A demo of layout components with theme switching
 ---
 
+{{< container >}}
+
 {{< block display="flex" gap="2" textAlign="justify" py="5">}}
 
 {{< button variant="primary" rounded="true" href="#" px="3" >}}Primary{{< /button >}} 
@@ -40,3 +42,6 @@ col 1
 {{< col sm="4" >}} col 2 {{< /col >}}
 {{< /row >}}
 {{< /grid >}}
+
+
+{{< /container >}}

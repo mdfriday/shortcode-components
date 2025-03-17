@@ -14,6 +14,7 @@ import {registerGridShortcode} from "../../../src/components/layout/Grid";
 import {registerRowShortcode} from "../../../src/components/layout/Row";
 import {registerColumnShortcode} from "../../../src/components/layout/Column";
 import {registerBlockShortcode} from "../../../src/components/layout/Block";
+import {registerContainerShortcode} from "../../../src/components/layout/Container";
 // 创建主题管理器实例
 const themeManager = new ThemeManagerImpl('');
 
@@ -46,6 +47,7 @@ registerGridShortcode(renderer, themeManager);
 registerRowShortcode(renderer, themeManager);
 registerColumnShortcode(renderer, themeManager);
 registerBlockShortcode(renderer, themeManager);
+registerContainerShortcode(renderer, themeManager);
 
 // 创建页面渲染器
 const pageRenderer = new PageRenderer(renderer);
@@ -74,7 +76,7 @@ const baseTemplate = `
     </style>
 </head>
 <body class="{{ theme }}">
-    <div class="container">
+    <div>
         {{ content }}
     </div>
 </body>

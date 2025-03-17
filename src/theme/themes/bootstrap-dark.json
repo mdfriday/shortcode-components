@@ -277,6 +277,9 @@
     },
     "block": {
       "base": "block"
+    },
+    "container": {
+      "base": "container"
     }
   }
 } 
