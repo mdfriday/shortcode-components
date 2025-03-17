@@ -1,5 +1,6 @@
 import { ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
 import { ThemeManager } from '../../theme';
+import { createDataProvider } from '../dataProvider';
 
 /**
  * 注册列组件的 shortcode
@@ -13,82 +14,13 @@ export function registerColumnShortcode(renderer: ShortcodeRenderer, theme: Them
         {{ .content }}
       </div>
     `,
-    dataProvider: (params: string[], content?: string) => {
-      const getParam = (name: string) => 
-        params.find(p => p.startsWith(`${name}=`))
-          ?.split('=')[1]
-          ?.replace(/^["']|["']$/g, '');
-      
-      // 布局属性
-      const display = getParam('display') || 'block';
-      const position = getParam('position');
-      const padding = getParam('padding');
-      const margin = getParam('margin');
-      const span = getParam('span') || '1'; // 列宽度，默认为1
-      const offset = getParam('offset'); // 列偏移
-      const order = getParam('order'); // 列顺序
-      const alignSelf = getParam('align'); // 自身对齐方式
-      
-      // 样式属性
-      const variant = getParam('variant');
-      const textColor = getParam('textColor');
-      const backgroundColor = getParam('backgroundColor');
-      const borderColor = getParam('borderColor');
-      const width = getParam('width');
-      const height = getParam('height');
-      const border = getParam('border');
-      const rounded = getParam('rounded');
-      const shadow = getParam('shadow');
-      
-      // 响应式属性
-      const sm = getParam('sm');
-      const md = getParam('md');
-      const lg = getParam('lg');
-      const xl = getParam('xl');
-      const hidden = getParam('hidden');
-      const visible = getParam('visible');
-      
-      // 其他属性
-      const id = getParam('id');
-      const customClass = getParam('class') || '';
-
-      // 获取组件样式类
-      const styles = theme.getComponentClasses("col", {
-        // 布局属性
-        display,
-        position,
-        padding,
-        margin,
-        span,
-        offset,
-        order,
-        alignSelf,
-        
-        // 样式属性
-        variant,
-        textColor,
-        backgroundColor,
-        borderColor,
-        width,
-        height,
-        border,
-        rounded,
-        shadow,
-        
-        // 响应式属性
-        sm,
-        md,
-        lg,
-        xl,
-        hidden,
-        visible
-      });
-      
-      return {
-        id,
-        classes: customClass ? `${styles} ${customClass}` : styles,
-        content
-      };
-    }
+    dataProvider: createDataProvider(theme, {
+      componentName: "col",
+      defaultValues: {
+        display: 'block',
+        span: '1'
+      },
+      additionalProps: ['span', 'offset', 'order', 'alignSelf']
+    })
   });
 } 
