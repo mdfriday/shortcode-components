@@ -3,6 +3,18 @@ title: Layout Demo
 description: A demo of layout components with theme switching
 ---
 
+{{< cardbanner />}}
+
+{{< cardbanner
+logo="MDFriday"
+avatar="🚀"
+mainTitle="Your Main Title"
+subtitle="Your Subtitle"
+description="Your Description"
+newTagText="New Tag"
+footerContent="Item 1 | Item 2 | Item 3"
+/>}}
+
 {{< container >}}
 
 {{< block display="flex" gap="2" textAlign="justify" py="5">}}

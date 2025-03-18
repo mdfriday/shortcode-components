@@ -280,6 +280,9 @@
     },
     "container": {
       "base": "container"
+    },
+    "cardbanner": {
+      "base": "cardbanner"
     }
   }
 }
