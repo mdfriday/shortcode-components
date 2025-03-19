@@ -7,7 +7,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
             padding: 40px;
             background-color: #f5f5f5;
             max-width: 800px;
@@ -18,7 +17,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 60px;
+            margin-bottom: 100px;
         }
 
         .logo {
@@ -27,54 +26,41 @@
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             font-size: 40px;
+            border-radius: 50%; /* 让图片变成圆形 */
+            object-fit: cover; /* 确保图片填充整个圆形 */
+            display: block;
         }
 
         .main-title {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: bold;
             margin-bottom: 20px;
             line-height: 1.2;
         }
 
-        .percentage {
-            font-size: 64px;
-            font-weight: bold;
-            margin: 40px 0;
-        }
-
         .subtitle {
-            font-size: 48px;
+            font-size: 65px;
             font-weight: bold;
             background: linear-gradient(transparent 60%, #FFB6C1 40%);
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            letter-spacing: 15px;
         }
 
         .description {
-            font-size: 18px;
+            font-size: 23px;
             color: #666;
-            margin-bottom: 40px;
-        }
-
-        .new-label {
-            position: relative;
-            display: inline-block;
-            margin-top: 60px;
-            transform: rotate(-10deg);
-        }
-
-        .new-label img {
-            width: 150px;
+            margin-bottom: 45px;
         }
 
         .footer {
-            margin-top: 100px;
+            margin-top: 174px;
             display: flex;
             justify-content: space-between;
-            font-size: 18px;
+            font-size: 20px;
             color: #333;
         }
 
@@ -86,23 +72,27 @@
             color: #999;
         }
 
-        /* Custom styles for the cartoon avatar */
-        .avatar-img {
-            width: 60px;
-            height: 60px;
+        .new-label {
+            position: relative;
+            display: inline-block;
+            margin-top: 60px;
+            transform: rotate(-10deg);
+            width: 100%;
         }
 
-        /* New label styling */
         .new-tag {
             background: #4169E1;
             color: white;
             padding: 10px 20px;
             border-radius: 15px;
-            position: relative;
-            transform: rotate(-10deg);
+            position: absolute;  /* 绝对定位 */
+            right: 0;  /* 让它紧贴 .new-label 右侧 */
+            top: 50%;  /* 垂直居中 */
+            transform: translateY(-50%) rotate(30deg);  /* 保持旋转但居中 */
             display: inline-block;
             font-weight: bold;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            font-size: 28px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .new-tag::after {
@@ -115,7 +105,9 @@
 <body>
     <div class="header">
         <div class="logo">不黑学长</div>
-        <div class="avatar">👨‍🎓</div>
+        <div class="avatar">
+            <img class="avatar" src="avatar.png" alt="头像">
+        </div>
     </div>
 
     <div class="main-title">
