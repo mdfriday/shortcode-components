@@ -1,6 +1,5 @@
 import {ShortcodeRenderer} from '@mdfriday/shortcode-compiler';
 import {ThemeManager} from '../../theme';
-import {createDataProvider} from '../dataProvider';
 
 // CSS styles for the CardBanner component
 const cardBannerStyles = `
