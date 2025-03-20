@@ -138,7 +138,7 @@ export function registerCardBannerShortcode(renderer: ShortcodeRenderer, theme: 
 
         <div class="footer">
         {{ $topics := split (.Get "footerContent") "," }}
-        {{ range $topic, $index := $topics }}
+        {{ range $index, $topic := $topics }}
             {{ if gt $index 0 }} <span class="divider">|</span> {{ end }}
             {{ $topic }}
         {{ end }}
@@ -148,27 +148,7 @@ export function registerCardBannerShortcode(renderer: ShortcodeRenderer, theme: 
     `,
         funcMap: commonFuncMap,
         dataProvider: (params: string[], content?: string) => {
-            const getParam = (name: string) =>
-                params.find(p => p.startsWith(`${name}=`))
-                    ?.split('=')[1]
-                    ?.replace(/^["']|["']$/g, '');
-
-            const logo = getParam('logo') || '不黑学长';
-            const avatar = getParam('avatar') || '‍🎓';
-            const mainTitle = getParam('mainTitle') || '让完播率>50% (3/3)';
-            const subtitle = getParam('subtitle') || '6种文案公式';
-            const description = getParam('description') || '爆款拆解/爆款要素/文案结构';
-            const newTagText = getParam('newTagText') || '全新整理!!';
-            const footerContent = getParam('footerContent') || '运营技巧 | 爆款选题 | 方案写作 ｜ 数据复盘';
-
             return {
-                logo,
-                avatar,
-                mainTitle,
-                subtitle,
-                description,
-                newTagText,
-                footerContent,
                 content
             };
         }
@@ -176,11 +156,5 @@ export function registerCardBannerShortcode(renderer: ShortcodeRenderer, theme: 
 }
 
 const commonFuncMap = new Map<string, (...args: any[]) => any>([
-    ['split', (str: string, sep: string) => str.split(sep)],
-    ['join', (arr: string[], sep: string) => arr.join(sep)],
-    ['upper', (str: string) => str.toUpperCase()],
-    ['lower', (str: string) => str.toLowerCase()],
-    ['trim', (str: string) => str.trim()],
-    ['eq', (a: any, b: any) => a === b],
-    ['gt', (a: any, b: any) => a > b],
+    ['split', (str: string, sep: string) => str.split(sep)]
 ]);

@@ -9,7 +9,7 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@mdfriday/shortcode-compiler": "^0.2.0",
+    "@mdfriday/shortcode-compiler": "^0.2.2",
     "@types/express": "^5.0.0",
     "@types/node": "^18.19.80",
     "express": "^4.21.2",

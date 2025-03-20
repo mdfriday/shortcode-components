@@ -16,6 +16,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@mdfriday/shortcode-compiler": "^0.2.0"
+    "@mdfriday/shortcode-compiler": "^0.2.2"
   }
 } 
