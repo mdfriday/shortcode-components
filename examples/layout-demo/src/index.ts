@@ -11,6 +11,7 @@ import baseDarkTheme from '../../../src/theme/themes/base-dark.json';
 import baseLightTheme from '../../../src/theme/themes/base-light.json';
 import {registerButtonShortcode} from "../../../src/components/content/Button";
 import {registerCardBannerShortcode} from "../../../src/components/content/CardBanner";
+import {registerFormulaCardShortcode} from "../../../src/components/content/FormulaCard";
 import {registerGridShortcode} from "../../../src/components/layout/Grid";
 import {registerRowShortcode} from "../../../src/components/layout/Row";
 import {registerColumnShortcode} from "../../../src/components/layout/Column";
@@ -45,6 +46,7 @@ const renderer = new ShortcodeRenderer();
 // 注册所有组件
 registerButtonShortcode(renderer, themeManager);
 registerCardBannerShortcode(renderer, themeManager);
+registerFormulaCardShortcode(renderer, themeManager);
 registerGridShortcode(renderer, themeManager);
 registerRowShortcode(renderer, themeManager);
 registerColumnShortcode(renderer, themeManager);
