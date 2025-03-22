@@ -3,7 +3,7 @@ import {ThemeManager} from '../../theme';
 
 // CSS styles with the component class prefix for isolation
 const scriptStructureStyles = `
-.mdfScriptStructure-container {
+.mdfFormulaFlow-container {
     font-family: Arial, sans-serif;
     padding: 30px 20px 0;
     background-color: #ffffff;
@@ -11,7 +11,7 @@ const scriptStructureStyles = `
     margin: 0 auto;
 }
 
-.mdfScriptStructure-header {
+.mdfFormulaFlow-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,27 +19,27 @@ const scriptStructureStyles = `
     border-bottom: 1px solid #eee;
 }
 
-.mdfScriptStructure-header-title {
+.mdfFormulaFlow-header-title {
     font-size: 17px;
     color: #333;
 }
 
-.mdfScriptStructure-header-logo {
+.mdfFormulaFlow-header-logo {
     font-size: 17px;
     font-weight: bold;
 }
 
-.mdfScriptStructure-section {
+.mdfFormulaFlow-section {
     margin-bottom: 0;
 }
 
-.mdfScriptStructure-section-title {
+.mdfFormulaFlow-section-title {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.mdfScriptStructure-section-number {
+.mdfFormulaFlow-section-number {
     background-color: #FFB6C1;
     color: black;
     padding: 5px 15px;
@@ -47,24 +47,24 @@ const scriptStructureStyles = `
     margin-right: 15px;
 }
 
-.mdfScriptStructure-section-name {
+.mdfFormulaFlow-section-name {
     font-size: 28px;
     font-weight: bold;
 }
 
-.mdfScriptStructure-subtitle {
+.mdfFormulaFlow-subtitle {
     font-size: 18px;
     color: #666;
     margin-left: 10px;
 }
 
-.mdfScriptStructure-structure-box {
+.mdfFormulaFlow-structure-box {
     border: 1px solid #FFD700;
     border-radius: 8px;
     margin: 10px 0;
 }
 
-.mdfScriptStructure-flow-item {
+.mdfFormulaFlow-flow-item {
     background-color: #FFE4B5;
     margin: 5px auto;
     text-align: center;
@@ -73,7 +73,7 @@ const scriptStructureStyles = `
     border-radius: 4px;
 }
 
-.mdfScriptStructure-number-circle {
+.mdfFormulaFlow-number-circle {
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -84,7 +84,7 @@ const scriptStructureStyles = `
     margin-right: 10px;
 }
 
-.mdfScriptStructure-structure-title {
+.mdfFormulaFlow-structure-title {
     font-size: 20px;
     font-weight: bold;
     border-bottom: 2px solid #000;
@@ -93,7 +93,7 @@ const scriptStructureStyles = `
     margin-bottom: 10px;
 }
 
-.mdfScriptStructure-plus-sign {
+.mdfFormulaFlow-plus-sign {
     display: block;
     text-align: center;
     font-size: 10px;
@@ -101,7 +101,7 @@ const scriptStructureStyles = `
     margin: 5px 0;
 }
 
-.mdfScriptStructure-page-number {
+.mdfFormulaFlow-page-number {
     text-align: center;
     color: #666;
     margin-top: 20px;
@@ -112,25 +112,25 @@ const scriptStructureStyles = `
  * Register ScriptStructure component shortcodes
  * @param renderer shortcode renderer
  */
-export function registerScriptStructureShortcode(renderer: ShortcodeRenderer, theme: ThemeManager) {
-    // Register the main mdfScriptStructure shortcode
-    renderer.registerTemplateShortcode('mdfScriptStructure', {
+export function registerFormulaFlowShortcode(renderer: ShortcodeRenderer, theme: ThemeManager) {
+    // Register the main mdfFormulaFlow shortcode
+    renderer.registerTemplateShortcode('mdfFormulaFlow', {
         template: `
 <style>
 ${scriptStructureStyles}
 </style>
-<div class="mdfScriptStructure-container">
-    <div class="mdfScriptStructure-header">
-        <div class="mdfScriptStructure-header-title">{{ .Get "title" }}</div>
-        <div class="mdfScriptStructure-header-logo">{{ .Get "brand" }}</div>
+<div class="mdfFormulaFlow-container">
+    <div class="mdfFormulaFlow-header">
+        <div class="mdfFormulaFlow-header-title">{{ .Get "title" }}</div>
+        <div class="mdfFormulaFlow-header-logo">{{ .Get "brand" }}</div>
     </div>
 
-    <div class="mdfScriptStructure-section">
-        <div class="mdfScriptStructure-section-title">
-            <div class="mdfScriptStructure-section-number">{{ .Get "number" }}</div>
-            <div class="mdfScriptStructure-section-name">{{ .Get "name" }}</div>
+    <div class="mdfFormulaFlow-section">
+        <div class="mdfFormulaFlow-section-title">
+            <div class="mdfFormulaFlow-section-number">{{ .Get "number" }}</div>
+            <div class="mdfFormulaFlow-section-name">{{ .Get "name" }}</div>
             {{ if .Get "subtitle" }}
-            <div class="mdfScriptStructure-subtitle">{{ .Get "subtitle" }}</div>
+            <div class="mdfFormulaFlow-subtitle">{{ .Get "subtitle" }}</div>
             {{ end }}
         </div>
 
@@ -138,7 +138,7 @@ ${scriptStructureStyles}
     </div>
 
     {{ if .Get "pageNumber" }}
-    <div class="mdfScriptStructure-page-number">- {{ .Get "pageNumber" }} -</div>
+    <div class="mdfFormulaFlow-page-number">- {{ .Get "pageNumber" }} -</div>
     {{ end }}
 </div>
 `,
@@ -150,24 +150,24 @@ ${scriptStructureStyles}
         }
     });
 
-    // Register the structure block shortcode (to be used inside mdfScriptStructure)
-    renderer.registerTemplateShortcode('mdfScriptStructureBlock', {
+    // Register the structure block shortcode (to be used inside mdfFormulaFlow)
+    renderer.registerTemplateShortcode('mdfFormulaFlowBlock', {
         template: `
 <div>
-    <div class="mdfScriptStructure-structure-title">
-        <span class="mdfScriptStructure-number-circle">{{ .Get "number" }}</span>
+    <div class="mdfFormulaFlow-structure-title">
+        <span class="mdfFormulaFlow-number-circle">{{ .Get "number" }}</span>
         {{ .Get "title" }}
     </div>
-    <div class="mdfScriptStructure-structure-box">
+    <div class="mdfFormulaFlow-structure-box">
         {{ $usePlus := (.Get "usePlusSigns") }}
         {{ range $index, $item := split (.Get "flowItems") "|" }}
         {{ if eq $usePlus "true" }}
         {{ if gt $index 0 }}
-        <div class="mdfScriptStructure-plus-sign">+</div>
+        <div class="mdfFormulaFlow-plus-sign">+</div>
         {{ end }}
         {{ end }}
         
-        <div class="mdfScriptStructure-flow-item">{{ $item }}</div>
+        <div class="mdfFormulaFlow-flow-item">{{ $item }}</div>
         {{ end }}
     </div>
 </div>
