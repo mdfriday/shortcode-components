@@ -105,8 +105,8 @@ const cardBannerStyles = `
  * @param renderer shortcode 渲染器
  * @param theme 默认主题配置
  */
-export function registerCardBannerShortcode(renderer: ShortcodeRenderer, theme: ThemeManager) {
-    renderer.registerTemplateShortcode('cardbanner', {
+export function registerCardBanner(renderer: ShortcodeRenderer, theme: ThemeManager) {
+    renderer.registerTemplateShortcode('cardBanner', {
         template: `
       <style>
         ${cardBannerStyles}

@@ -2,8 +2,8 @@ import { ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
 import {ThemeManager} from '../../theme';
 
 // CSS styles with the component class prefix for isolation
-const copywritingFormulaStyles = `
-.mdfCopywritingFormula-container {
+const mdfFormulaSingleStyles = `
+.mdfFormulaSingle-container {
     max-width: 1280px;
     margin: 0 auto;
     overflow-x: hidden;
@@ -12,11 +12,11 @@ const copywritingFormulaStyles = `
     font-size: 16px;
 }
 
-.mdfCopywritingFormula-container * {
+.mdfFormulaSingle-container * {
     box-sizing: border-box;
 }
 
-.mdfCopywritingFormula-header {
+.mdfFormulaSingle-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,38 +25,38 @@ const copywritingFormulaStyles = `
     border-bottom: 1px solid #e0e0e0;
 }
 
-.mdfCopywritingFormula-header h1 {
+.mdfFormulaSingle-header h1 {
     font-size: 20px;
     font-weight: 400;
     margin: 0;
 }
 
-.mdfCopywritingFormula-header .brand {
+.mdfFormulaSingle-header .brand {
     font-size: 20px;
     font-weight: bold;
 }
 
-.mdfCopywritingFormula-main-title {
+.mdfFormulaSingle-main-title {
     background-color: #f9f0f3;
     padding: 10px 15px;
     display: flex;
     align-items: center;
 }
 
-.mdfCopywritingFormula-main-title .mdfCopywritingFormula-number {
+.mdfFormulaSingle-main-title .mdfFormulaSingle-number {
     font-size: 36px;
     font-weight: bold;
     color: #e79cb0;
     margin-right: 10px;
 }
 
-.mdfCopywritingFormula-main-title h2 {
+.mdfFormulaSingle-main-title h2 {
     font-size: 28px;
     font-weight: bold;
     margin: 0;
 }
 
-.mdfCopywritingFormula-formula {
+.mdfFormulaSingle-formula {
     background-color: #f9f9f9;
     padding: 10px;
     display: flex;
@@ -65,7 +65,7 @@ const copywritingFormulaStyles = `
     flex-wrap: wrap;
 }
 
-.mdfCopywritingFormula-formula-item {
+.mdfFormulaSingle-formula-item {
     font-size: 18px;
     font-weight: bold;
     text-align: center;
@@ -73,7 +73,7 @@ const copywritingFormulaStyles = `
     margin: 5px;
 }
 
-.mdfCopywritingFormula-formula-item:after {
+.mdfFormulaSingle-formula-item:after {
     content: "+";
     position: absolute;
     right: -12px;
@@ -81,32 +81,32 @@ const copywritingFormulaStyles = `
     transform: translateY(-50%);
 }
 
-.mdfCopywritingFormula-formula-item:last-child:after {
+.mdfFormulaSingle-formula-item:last-child:after {
     display: none;
 }
 
-.mdfCopywritingFormula-formula-item span {
+.mdfFormulaSingle-formula-item span {
     display: block;
     border-bottom: 2px solid #000;
     padding-bottom: 3px;
     white-space: nowrap;
 }
 
-.mdfCopywritingFormula-case-analysis {
+.mdfFormulaSingle-case-analysis {
     padding: 10px 15px;
 }
 
-.mdfCopywritingFormula-case-analysis h3 {
+.mdfFormulaSingle-case-analysis h3 {
     font-size: 24px;
     font-weight: bold;
     margin: 10px 0;
 }
 
-.mdfCopywritingFormula-point {
+.mdfFormulaSingle-point {
     display: flex;
 }
 
-.mdfCopywritingFormula-point-number {
+.mdfFormulaSingle-point-number {
     font-size: 18px;
     font-weight: bold;
     margin-right: 10px;
@@ -120,11 +120,11 @@ const copywritingFormulaStyles = `
     flex-shrink: 0;
 }
 
-.mdfCopywritingFormula-point-content {
+.mdfFormulaSingle-point-content {
     flex: 1;
 }
 
-.mdfCopywritingFormula-point-title {
+.mdfFormulaSingle-point-title {
     font-size: 18px;
     font-weight: bold;
     background-color: #b8e2f2;
@@ -133,35 +133,35 @@ const copywritingFormulaStyles = `
     display: inline-block;
 }
 
-.mdfCopywritingFormula-point-text {
+.mdfFormulaSingle-point-text {
     display: flex;
     flex-direction: column;
 }
 
-.mdfCopywritingFormula-point-description {
+.mdfFormulaSingle-point-description {
     margin-bottom: 5px;
     font-size: 14px;
 }
 
-.mdfCopywritingFormula-point-example {
+.mdfFormulaSingle-point-example {
     font-size: 14px;
     background-color: rgba(231, 156, 176, 0.1);
     padding: 5px;
     border-left: 3px solid #e79cb0;
 }
 
-.mdfCopywritingFormula-footer {
+.mdfFormulaSingle-footer {
     font-size: 14px;
     padding: 10px 15px;
     margin-top: 10px;
     background-color: #f9f9f9;
 }
 
-.mdfCopywritingFormula-footer p {
+.mdfFormulaSingle-footer p {
     margin: 5px 0;
 }
 
-.mdfCopywritingFormula-page-number {
+.mdfFormulaSingle-page-number {
     text-align: center;
     font-size: 14px;
     margin-top: 10px;
@@ -170,82 +170,82 @@ const copywritingFormulaStyles = `
 
 /* Desktop Styles */
 @media (min-width: 480px) {
-    .mdfCopywritingFormula-container {
+    .mdfFormulaSingle-container {
         font-size: 18px;
     }
     
-    .mdfCopywritingFormula-header {
+    .mdfFormulaSingle-header {
         padding: 30px 30px 0;
     }
     
-    .mdfCopywritingFormula-header h1 {
+    .mdfFormulaSingle-header h1 {
         font-size: 17px;
     }
     
-    .mdfCopywritingFormula-header .brand {
+    .mdfFormulaSingle-header .brand {
         font-size: 17px;
     }
     
-    .mdfCopywritingFormula-main-title {
+    .mdfFormulaSingle-main-title {
         padding: 10px 30px;
     }
     
-    .mdfCopywritingFormula-main-title .mdfCopywritingFormula-number {
+    .mdfFormulaSingle-main-title .mdfFormulaSingle-number {
         font-size: 28px;
         margin-right: 15px;
     }
     
-    .mdfCopywritingFormula-main-title h2 {
+    .mdfFormulaSingle-main-title h2 {
         font-size: 28px;
     }
     
-    .mdfCopywritingFormula-formula {
+    .mdfFormulaSingle-formula {
         padding: 10px 30px;
     }
     
-    .mdfCopywritingFormula-formula-item {
+    .mdfFormulaSingle-formula-item {
         font-size: 20px;
         margin: 0 10px;
     }
     
-    .mdfCopywritingFormula-formula-item:after {
+    .mdfFormulaSingle-formula-item:after {
         right: -15px;
     }
     
-    .mdfCopywritingFormula-case-analysis {
+    .mdfFormulaSingle-case-analysis {
         padding: 0 30px;
     }
     
-    .mdfCopywritingFormula-case-analysis h3 {
+    .mdfFormulaSingle-case-analysis h3 {
         font-size: 22px;
         margin-bottom: 10px;
         margin-top: 0;
     }
     
-    .mdfCopywritingFormula-point-number {
+    .mdfFormulaSingle-point-number {
         font-size: 13px;
         margin-right: 15px;
         width: 30px;
         height: 30px;
     }
     
-    .mdfCopywritingFormula-point-title {
+    .mdfFormulaSingle-point-title {
         font-size: 16px;
         padding: 5px 15px;
         margin-bottom: 10px;
     }
     
-    .mdfCopywritingFormula-point-text {
+    .mdfFormulaSingle-point-text {
         flex-direction: row;
     }
     
-    .mdfCopywritingFormula-point-description {
+    .mdfFormulaSingle-point-description {
         flex: 1;
         margin-right: 20px;
         font-size: 14px;
     }
     
-    .mdfCopywritingFormula-point-example {
+    .mdfFormulaSingle-point-example {
         flex: 1;
         font-size: 14px;
         background-color: transparent;
@@ -253,13 +253,13 @@ const copywritingFormulaStyles = `
         border-left: none;
     }
     
-    .mdfCopywritingFormula-footer {
+    .mdfFormulaSingle-footer {
         font-size: 13px;
         padding: 1px 30px;
         margin-top: 0;
     }
     
-    .mdfCopywritingFormula-page-number {
+    .mdfFormulaSingle-page-number {
         font-size: 16px;
     }
 }
@@ -269,23 +269,23 @@ const copywritingFormulaStyles = `
  * Register CopywritingFormula component shortcodes
  * @param renderer shortcode renderer
  */
-export function registerCopywritingFormulaShortcode(renderer: ShortcodeRenderer, theme: ThemeManager) {
-    // Register the main mdfCopywritingFormula shortcode
-    renderer.registerTemplateShortcode('mdfCopywritingFormula', {
+export function registerFormulaSingle(renderer: ShortcodeRenderer, theme: ThemeManager) {
+    // Register the main mdfFormulaSingle shortcode
+    renderer.registerTemplateShortcode('mdfFormulaSingle', {
         template: `
 <style>
-${copywritingFormulaStyles}
+${mdfFormulaSingleStyles}
 </style>
-<div class="mdfCopywritingFormula-container">
-    <div class="mdfCopywritingFormula-header">
+<div class="mdfFormulaSingle-container">
+    <div class="mdfFormulaSingle-header">
         <h1>{{ .Get "title" }}</h1>
-        <div class="mdfCopywritingFormula-brand">{{ .Get "brand" }}</div>
+        <div class="mdfFormulaSingle-brand">{{ .Get "brand" }}</div>
     </div>
     
     {{ .Inner }}
     
     {{ if .Get "pageNumber" }}
-    <div class="mdfCopywritingFormula-page-number">— {{ .Get "pageNumber" }} —</div>
+    <div class="mdfFormulaSingle-page-number">— {{ .Get "pageNumber" }} —</div>
     {{ end }}
 </div>
 `,
@@ -297,27 +297,27 @@ ${copywritingFormulaStyles}
         }
     });
 
-    // Register the formula section shortcode (to be used inside mdfCopywritingFormula)
-    renderer.registerTemplateShortcode('mdfCopywritingFormulaSection', {
+    // Register the formula section shortcode (to be used inside mdfFormulaSingle)
+    renderer.registerTemplateShortcode('mdfFormulaSingleSection', {
         template: `
-<div class="mdfCopywritingFormula-main-title">
-    <div class="mdfCopywritingFormula-number">{{ .Get "number" }}</div>
+<div class="mdfFormulaSingle-main-title">
+    <div class="mdfFormulaSingle-number">{{ .Get "number" }}</div>
     <h2>{{ .Get "title" }}</h2>
 </div>
 
-<div class="mdfCopywritingFormula-formula">
+<div class="mdfFormulaSingle-formula">
     {{ range $index, $item := split (.Get "formulaItems") "," }}
-    <div class="mdfCopywritingFormula-formula-item"><span>{{ $item }}</span></div>
+    <div class="mdfFormulaSingle-formula-item"><span>{{ $item }}</span></div>
     {{ end }}
 </div>
 
-<div class="mdfCopywritingFormula-case-analysis">
+<div class="mdfFormulaSingle-case-analysis">
     <h3>{{ .Get "caseTitle" }}</h3>
     {{ .Inner }}
 </div>
 
 {{ if .Get "footerText" }}
-<div class="mdfCopywritingFormula-footer">
+<div class="mdfFormulaSingle-footer">
     {{ range $index, $text := split (.Get "footerText") "|" }}
     <p>{{ $text }}</p>
     {{ end }}
@@ -333,17 +333,17 @@ ${copywritingFormulaStyles}
     });
 
     // Register the point shortcode (to be used inside mdfCopywritingFormulaSection)
-    renderer.registerTemplateShortcode('mdfCopywritingFormulaPoint', {
+    renderer.registerTemplateShortcode('mdfFormulaSinglePoint', {
         template: `
-<div class="mdfCopywritingFormula-point">
-    <div class="mdfCopywritingFormula-point-number">{{ .Get "number" }}</div>
-    <div class="mdfCopywritingFormula-point-content">
-        <div class="mdfCopywritingFormula-point-title">{{ .Get "title" }}</div>
-        <div class="mdfCopywritingFormula-point-text">
-            <div class="mdfCopywritingFormula-point-description">
+<div class="mdfFormulaSingle-point">
+    <div class="mdfFormulaSingle-point-number">{{ .Get "number" }}</div>
+    <div class="mdfFormulaSingle-point-content">
+        <div class="mdfFormulaSingle-point-title">{{ .Get "title" }}</div>
+        <div class="mdfFormulaSingle-point-text">
+            <div class="mdfFormulaSingle-point-description">
                 {{ .Get "description" }}
             </div>
-            <div class="mdfCopywritingFormula-point-example">
+            <div class="mdfFormulaSingle-point-example">
                 {{ range $index, $example := split (.Get "examples") "|" }}
                 {{ $example }}
                 {{ end }}

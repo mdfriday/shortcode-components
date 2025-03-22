@@ -2,7 +2,7 @@ import { ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
 import {ThemeManager} from '../../theme';
 
 // CSS styles with the component class prefix for isolation
-const scriptStructureStyles = `
+const mdfFormulaFlowStyles = `
 .mdfFormulaFlow-container {
     font-family: Arial, sans-serif;
     padding: 30px 20px 0;
@@ -112,12 +112,12 @@ const scriptStructureStyles = `
  * Register ScriptStructure component shortcodes
  * @param renderer shortcode renderer
  */
-export function registerFormulaFlowShortcode(renderer: ShortcodeRenderer, theme: ThemeManager) {
+export function registerFormulaFlow(renderer: ShortcodeRenderer, theme: ThemeManager) {
     // Register the main mdfFormulaFlow shortcode
     renderer.registerTemplateShortcode('mdfFormulaFlow', {
         template: `
 <style>
-${scriptStructureStyles}
+${mdfFormulaFlowStyles}
 </style>
 <div class="mdfFormulaFlow-container">
     <div class="mdfFormulaFlow-header">

@@ -2,20 +2,20 @@ import {ShortcodeRenderer} from '@mdfriday/shortcode-compiler';
 import {ThemeManager} from '../../theme';
 
 // CSS styles for the FormulaCard component
-const formulaCardStyles = `
-.formulacard-canvas {
+const formulaPairStyles = `
+.mdfFormulaPair-canvas {
     min-width: 540px;
     max-width: 1080px;
 }
 
-.formulacard-canvas .card {
+.mdfFormulaPair-canvas .card {
     font-family: Arial, sans-serif;
     padding: 27px 40px;
     background-color: #ffffff;
     margin: 0 auto;
 }
 
-.formulacard-canvas .header {
+.mdfFormulaPair-canvas .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,27 +23,27 @@ const formulaCardStyles = `
     border-bottom: 1px solid #eee;
 }
 
-.formulacard-canvas .header-title {
+.mdfFormulaPair-canvas .header-title {
     font-size: 17px;
     color: #333;
 }
 
-.formulacard-canvas .header-logo {
+.mdfFormulaPair-canvas .header-logo {
     font-size: 17px;
     font-weight: bold;
 }
 
-.formulacard-canvas .section {
+.mdfFormulaPair-canvas .section {
     margin-bottom: 25px;
 }
 
-.formulacard-canvas .section-title {
+.mdfFormulaPair-canvas .section-title {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.formulacard-canvas .section-number {
+.mdfFormulaPair-canvas .section-number {
     background-color: #FFB6C1;
     color: black;
     padding: 5px 15px;
@@ -51,12 +51,12 @@ const formulaCardStyles = `
     margin-right: 15px;
 }
 
-.formulacard-canvas .section-name {
+.mdfFormulaPair-canvas .section-name {
     font-size: 28px;
     font-weight: bold;
 }
 
-.formulacard-canvas .formula {
+.mdfFormulaPair-canvas .formula {
     font-size: 16px;
     display: flex;
     align-items: center;
@@ -64,33 +64,33 @@ const formulaCardStyles = `
     flex-wrap: wrap;
 }
 
-.formulacard-canvas .formula-item {
+.mdfFormulaPair-canvas .formula-item {
     display: flex;
     align-items: center;
 }
 
-.formulacard-canvas .formula-text {
+.mdfFormulaPair-canvas .formula-text {
     border-bottom: 1px solid #000;
     padding-bottom: 2px;
 }
 
-.formulacard-canvas .plus {
+.mdfFormulaPair-canvas .plus {
     margin: 0 10px;
     font-size: 24px;
 }
 
-.formulacard-canvas .example-title {
+.mdfFormulaPair-canvas .example-title {
     font-size: 22px;
     margin: 10px 0 10px;
 }
 
-.formulacard-canvas .example-content {
+.mdfFormulaPair-canvas .example-content {
     margin: 20px 0;
     line-height: 1.8;
     font-size: 13px;
 }
 
-.formulacard-canvas .label {
+.mdfFormulaPair-canvas .label {
     display: inline-block;
     background-color: #87CEEB;
     padding: 2px 8px;
@@ -98,13 +98,13 @@ const formulaCardStyles = `
     border-radius: 4px;
 }
 
-.formulacard-canvas .example-item {
+.mdfFormulaPair-canvas .example-item {
     margin: 15px 0;
     display: flex;
     align-items: flex-start;
 }
 
-.formulacard-canvas .number-circle {
+.mdfFormulaPair-canvas .number-circle {
     min-width: 24px;
     height: 24px;
     border: 1px solid #000;
@@ -116,13 +116,13 @@ const formulaCardStyles = `
     margin-top: 3px;
 }
 
-.formulacard-canvas .dotted-line {
+.mdfFormulaPair-canvas .dotted-line {
     border-bottom: 1px dotted #999;
     padding-bottom: 5px;
     margin-bottom: 5px;
 }
 
-.formulacard-canvas .page-number {
+.mdfFormulaPair-canvas .page-number {
     text-align: center;
     color: #666;
 }
@@ -133,14 +133,14 @@ const formulaCardStyles = `
  * @param renderer shortcode renderer
  * @param theme default theme configuration
  */
-export function registerFormulaCardShortcode(renderer: ShortcodeRenderer, theme: ThemeManager) {
-    // Register the main formulacard shortcode
-    renderer.registerTemplateShortcode('formulacard', {
+export function registerFormulaPair(renderer: ShortcodeRenderer, theme: ThemeManager) {
+    // Register the main mdfFormulaPair shortcode
+    renderer.registerTemplateShortcode('mdfFormulaPair', {
         template: `
       <style>
-        ${formulaCardStyles}
+        ${formulaPairStyles}
       </style>
-      <div class="formulacard-canvas">
+      <div class="mdfFormulaPair-canvas">
         <div class="card">
           <div class="header">
             <div class="header-title">{{ .Get "headerTitle" }}</div>
@@ -163,8 +163,8 @@ export function registerFormulaCardShortcode(renderer: ShortcodeRenderer, theme:
         }
     });
 
-    // Register the formula section shortcode (to be used inside formulacard)
-    renderer.registerTemplateShortcode('formula', {
+    // Register the formula section shortcode (to be used inside mdfFormulaPair)
+    renderer.registerTemplateShortcode('mdfFormulaPairCard', {
         template: `
         <div class="section">
           <div class="section-title">
@@ -203,7 +203,7 @@ export function registerFormulaCardShortcode(renderer: ShortcodeRenderer, theme:
     });
 
     // Register the example shortcode (to be used inside formula)
-    renderer.registerTemplateShortcode('example', {
+    renderer.registerTemplateShortcode('mdfFormulaPairExample', {
         template: `
         <div class="example-item">
           <div class="number-circle">{{ .Get "number" }}</div>
