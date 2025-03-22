@@ -72,6 +72,52 @@ The CopywritingFormula component allows you to create structured copywriting for
 - `description`: Description of the point
 - `examples`: Pipe-separated list of examples
 
+## ScriptStructure Component
+
+The ScriptStructure component allows you to create visual representations of script structures and content flows for educational content.
+
+### Basic Usage
+
+```markdown
+{{< mdfScriptStructure
+    title="[爆款文案结构公式]"
+    brand="BUHEIXUEZHANG"
+    number="06"
+    name="脚本模式化结构"
+    subtitle="(细化版)"
+    pageNumber="4"
+>}}
+    {{< mdfScriptStructureBlock
+        number="1"
+        title="故事类爆款脚本结构"
+        flowItems="猎奇抓眼球的开头|故事的起因|钩子|故事的经过|钩子|故事的高潮|钩子|结果|引出观点|总结观点"
+    >}}
+    
+    {{< mdfScriptStructureBlock
+        number="2"
+        title="爆款短视频结构"
+        flowItems="抛出利益点或者痛点|通过案例或者数据证明这个利益点或者痛点来增加信任|针对目标群体强调看这条视频的重要性|如果不看产生的损失跟后|具体的方法或者解决办法|总结/利他感性的结尾"
+        usePlusSigns="true"
+    >}}
+{{< /mdfScriptStructure >}}
+```
+
+### Component Parameters
+
+#### mdfScriptStructure
+- `title`: The title of the structure card
+- `brand`: The brand name or author
+- `number`: The section number (e.g., "06")
+- `name`: The name of the section
+- `subtitle`: Optional subtitle (often in parentheses)
+- `pageNumber`: Optional page number to display at the bottom
+
+#### mdfScriptStructureBlock
+- `number`: The block number (displayed in a circle)
+- `title`: The title of the specific structure block
+- `flowItems`: Pipe-separated list of flow steps/items
+- `usePlusSigns`: Set to "true" to show plus signs between flow items
+
 ## Customization
 
-The component uses predefined styles with proper namespacing to avoid conflicts with the rest of your site. The styles are responsive and will adjust for desktop and mobile viewing. 
+All components use predefined styles with proper namespacing to avoid conflicts with the rest of your site. The styles are responsive and will adjust for desktop and mobile viewing. 

@@ -10,7 +10,8 @@ export * from './layout/Column';
 export * from './layout/Block';
 
 // Export all components for registration
-import { registerCopywritingFormulaShortcode } from './content/CopywritingFormula';
+import { registerCopywritingFormulaShortcode } from './CopywritingFormula';
+import { registerScriptStructureShortcode } from './content/ScriptStructure';
 
 /**
  * Register all shortcode components
@@ -19,11 +20,13 @@ import { registerCopywritingFormulaShortcode } from './content/CopywritingFormul
 export function registerAllShortcodes(renderer: any) {
   // Register each component
   registerCopywritingFormulaShortcode(renderer);
+  registerScriptStructureShortcode(renderer);
   
   // Add more component registrations here as needed
 }
 
 // Export individual components for direct use
 export {
-  registerCopywritingFormulaShortcode
+  registerCopywritingFormulaShortcode,
+  registerScriptStructureShortcode
 }; 
