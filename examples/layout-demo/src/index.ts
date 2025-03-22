@@ -123,7 +123,7 @@ async function renderPage(filePath: string, theme: string = 'base'): Promise<str
 app.get('/', async (req, res) => {
     try {
         const theme = (req.query.theme as string) || 'base';
-        const html = await renderPage(path.join(__dirname, 'example.md'), theme);
+        const html = await renderPage(path.join(__dirname, 'formula-pair.md'), theme);
         res.send(html);
     } catch (error) {
         console.error('Rendering error:', error);
