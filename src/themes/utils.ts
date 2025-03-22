@@ -39,10 +39,10 @@ export function deepMerge<T extends Record<string, any>>(target: T, source: Part
 }
 
 /**
- * Merge two themes
- * @param parent The parent theme
- * @param child The child theme
- * @returns The merged theme
+ * Merge two jsons
+ * @param parent The parent jsons
+ * @param child The child jsons
+ * @returns The merged jsons
  */
 export function mergeThemes(parent: Theme, child: Theme): Theme {
   return {
@@ -54,10 +54,10 @@ export function mergeThemes(parent: Theme, child: Theme): Theme {
 }
 
 /**
- * Merge two theme bases
- * @param parentBase The parent theme base
- * @param childBase The child theme base
- * @returns The merged theme base
+ * Merge two jsons bases
+ * @param parentBase The parent jsons base
+ * @param childBase The child jsons base
+ * @returns The merged jsons base
  */
 export function mergeThemeBase(parentBase: ThemeBase, childBase: Partial<ThemeBase>): ThemeBase {
   return deepMerge(parentBase, childBase);
@@ -102,9 +102,9 @@ export function addPrefix(classes: string, prefix: string): string {
 }
 
 /**
- * Validate a theme object
- * @param theme The theme to validate
- * @returns Whether the theme is valid
+ * Validate a jsons object
+ * @param theme The jsons to validate
+ * @returns Whether the jsons is valid
  */
 export function validateTheme(theme: any): boolean {
   if (!theme) return false;

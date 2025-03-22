@@ -1,5 +1,5 @@
 import { ThemeManager } from '../theme';
-import { Style, Layout, Typography, Animation, Interactive, Responsive } from '../theme/style-builder/types';
+import { Style, Layout, Typography, Animation, Interactive, Responsive } from '../themes/style-builder/types';
 
 /**
  * Parameter extraction helper

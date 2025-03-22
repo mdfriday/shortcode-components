@@ -54,7 +54,7 @@ export class ThemeComponentsRegistry implements ThemeComponents {
   
   /**
    * Generate CSS for all components
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -167,7 +167,7 @@ export class ThemeComponentsRegistry implements ThemeComponents {
   }
   
   /**
-   * Create a component from a theme component variant
+   * Create a component from a jsons component variant
    * @param name The component name
    * @param variant The component variant
    * @returns The component

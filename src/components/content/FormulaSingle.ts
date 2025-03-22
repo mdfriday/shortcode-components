@@ -1,5 +1,5 @@
 import { ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
-import {ThemeManager} from '../../theme';
+import {ThemeManager} from '../../themes';
 
 // CSS styles with the component class prefix for isolation
 const mdfFormulaSingleStyles = `

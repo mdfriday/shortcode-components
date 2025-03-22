@@ -1,5 +1,5 @@
 import {ShortcodeRenderer} from '@mdfriday/shortcode-compiler';
-import {ThemeManager} from '../../theme';
+import {ThemeManager} from '../../themes';
 
 // CSS styles for the FormulaCard component
 const formulaPairStyles = `
@@ -131,7 +131,7 @@ const formulaPairStyles = `
 /**
  * Register FormulaCard component shortcode
  * @param renderer shortcode renderer
- * @param theme default theme configuration
+ * @param theme default jsons configuration
  */
 export function registerFormulaPair(renderer: ShortcodeRenderer, theme: ThemeManager) {
     // Register the main mdfFormulaPair shortcode

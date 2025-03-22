@@ -1,6 +1,6 @@
 ---
 title: Layout Demo
-description: A demo of layout components with theme switching
+description: A demo of layout components with jsons switching
 ---
 
 {{< mdfFormulaFlow

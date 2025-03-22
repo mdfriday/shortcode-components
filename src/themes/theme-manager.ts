@@ -12,12 +12,12 @@ import * as path from 'path';
  */
 export class ThemeManagerImpl implements ThemeManager {
     /**
-     * Map of themes, keyed by name-mode
+     * Map of jsons, keyed by name-mode
      */
     private themes: Map<string, Theme> = new Map();
 
     /**
-     * Current theme name and mode
+     * Current jsons name and mode
      */
     private currentTheme: { name: string; mode: ThemeMode } = {name: '', mode: 'light'};
 
@@ -41,8 +41,8 @@ export class ThemeManagerImpl implements ThemeManager {
     }
 
     /**
-     * Register a new theme
-     * @param theme The theme to register
+     * Register a new jsons
+     * @param theme The jsons to register
      */
     register(theme: Theme): void {
         if (!validateTheme(theme)) {
@@ -52,17 +52,17 @@ export class ThemeManagerImpl implements ThemeManager {
         const key = `${theme.name}-${theme.mode}`;
         this.themes.set(key, theme);
 
-        // Set as current theme if no theme is set
+        // Set as current jsons if no jsons is set
         if (!this.currentTheme.name) {
             this.setCurrentTheme(theme.name, theme.mode);
         }
     }
 
     /**
-     * Get a theme by name and mode
-     * @param name The theme name
-     * @param mode The theme mode
-     * @returns The theme
+     * Get a jsons by name and mode
+     * @param name The jsons name
+     * @param mode The jsons mode
+     * @returns The jsons
      */
     getTheme(name: string, mode: ThemeMode): Theme {
         const key = `${name}-${mode}`;
@@ -72,7 +72,7 @@ export class ThemeManagerImpl implements ThemeManager {
             throw new Error(`Theme ${name} with mode ${mode} not found`);
         }
 
-        // If the theme has a parent, merge with parent
+        // If the jsons has a parent, merge with parent
         if (theme.parent) {
             const parentTheme = this.getTheme(theme.parent, mode);
             return mergeThemes(parentTheme, theme);
@@ -82,21 +82,21 @@ export class ThemeManagerImpl implements ThemeManager {
     }
 
     /**
-     * Get the current theme
-     * @returns The current theme
+     * Get the current jsons
+     * @returns The current jsons
      */
     getCurrentTheme(): Theme {
         if (!this.currentTheme.name) {
-            throw new Error('No theme is currently set');
+            throw new Error('No jsons is currently set');
         }
 
         return this.getTheme(this.currentTheme.name, this.currentTheme.mode);
     }
 
     /**
-     * Set the current theme
-     * @param name The theme name
-     * @param mode The theme mode
+     * Set the current jsons
+     * @param name The jsons name
+     * @param mode The jsons mode
      */
     setCurrentTheme(name: string, mode: ThemeMode): void {
         const key = `${name}-${mode}`;
@@ -283,7 +283,7 @@ export class ThemeManagerImpl implements ThemeManager {
     }
 
     /**
-     * Get all CSS for the current theme
+     * Get all CSS for the current jsons
      * @param prefix Optional prefix for CSS classes
      * @returns The CSS string
      */
@@ -313,8 +313,8 @@ export class ThemeManagerImpl implements ThemeManager {
     }
 
     /**
-     * Preload themes from JSON
-     * @param themesJson The themes JSON
+     * Preload jsons from JSON
+     * @param themesJson The jsons JSON
      */
     preloadThemes(themesJson: any): void {
         if (!Array.isArray(themesJson)) {
@@ -344,8 +344,8 @@ export class ThemeManagerImpl implements ThemeManager {
     }
 
     /**
-     * Get the theme components manager
-     * @returns The theme components manager
+     * Get the jsons components manager
+     * @returns The jsons components manager
      */
     getComponentsManager(): ThemeComponents {
         return this.componentsRegistry;
@@ -353,7 +353,7 @@ export class ThemeManagerImpl implements ThemeManager {
 
     /**
      * Generate CSS for base styles
-     * @param theme The theme
+     * @param theme The jsons
      * @param prefix The prefix
      * @returns The CSS string
      */

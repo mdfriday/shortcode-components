@@ -16,7 +16,7 @@ export class CardComponent extends BaseComponent {
   
   /**
    * Generate base class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -38,7 +38,7 @@ export class CardComponent extends BaseComponent {
   
   /**
    * Generate variant class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */

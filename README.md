@@ -15,7 +15,7 @@ A flexible and extensible theme management system for Obsidian notes, allowing u
 ## Installation
 
 ```bash
-npm install theme-management-system
+npm install jsons-management-system
 ```
 
 ## Usage
@@ -23,12 +23,12 @@ npm install theme-management-system
 ### Basic Usage
 
 ```typescript
-import { ThemeManagerImpl } from 'theme-management-system';
+import { ThemeManagerImpl } from 'jsons-management-system';
 
-// Create a theme manager with a prefix for CSS classes
-const themeManager = new ThemeManagerImpl('obs-theme');
+// Create a jsons manager with a prefix for CSS classes
+const themeManager = new ThemeManagerImpl('obs-jsons');
 
-// Register a theme
+// Register a jsons
 themeManager.register({
   name: 'my-theme',
   mode: 'light',
@@ -56,8 +56,8 @@ themeManager.register({
   }
 });
 
-// Set the current theme
-themeManager.setCurrentTheme('my-theme', 'light');
+// Set the current jsons
+themeManager.setCurrentTheme('my-jsons', 'light');
 
 // Get component classes
 const buttonClasses = themeManager.getComponentClasses('button', {
@@ -65,24 +65,24 @@ const buttonClasses = themeManager.getComponentClasses('button', {
   size: 'md'
 });
 
-// Get all CSS for the current theme
+// Get all CSS for the current jsons
 const css = themeManager.getAllCSS();
 ```
 
 ### Loading Themes from JSON
 
 ```typescript
-import { ThemeManagerImpl } from 'theme-management-system';
-import themesJson from './themes.json';
+import { ThemeManagerImpl } from 'jsons-management-system';
+import themesJson from './jsons.json';
 
-const themeManager = new ThemeManagerImpl('obs-theme');
+const themeManager = new ThemeManagerImpl('obs-jsons');
 themeManager.preloadThemes(themesJson);
 ```
 
 ### Theme Extension
 
 ```typescript
-// Base theme
+// Base jsons
 themeManager.register({
   name: 'base',
   mode: 'light',
@@ -90,19 +90,19 @@ themeManager.register({
   components: { /* ... */ }
 });
 
-// Extended theme
+// Extended jsons
 themeManager.register({
   name: 'extended',
   mode: 'light',
-  parent: 'base', // Extend the base theme
+  parent: 'base', // Extend the base jsons
   base: {
-    // Override or add to base theme
+    // Override or add to base jsons
     colors: {
       primary: '#0d6efd'
     }
   },
   components: {
-    // Override or add to base theme components
+    // Override or add to base jsons components
     button: {
       base: 'custom-btn',
       variants: {
@@ -117,7 +117,7 @@ themeManager.register({
 
 ```typescript
 function parseShortcode(shortcode: string) {
-  // Example shortcode: {{< button variant="primary" theme="tailwind" >}}
+  // Example shortcode: {{< button variant="primary" jsons="tailwind" >}}
   const match = shortcode.match(/{{< (\w+) (.+) >}}/);
   
   if (!match) return null;
@@ -132,11 +132,11 @@ function parseShortcode(shortcode: string) {
     props[propName] = propValue;
   }
   
-  // Extract theme and mode
+  // Extract jsons and mode
   const theme = props.theme || 'default';
   const mode = props.mode || 'light';
   
-  // Set the theme
+  // Set the jsons
   themeManager.setCurrentTheme(theme, mode);
   
   // Get the classes

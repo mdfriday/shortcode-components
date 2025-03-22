@@ -4,13 +4,13 @@
 export type ThemeMode = 'light' | 'dark';
 
 /**
- * Base theme elements interface
+ * Base jsons elements interface
  * Contains all the basic style elements like colors, spacing, typography, etc.
  */
 export interface ThemeBase {
   /**
    * Optional static CSS source path
-   * If provided, the theme system will use this CSS file directly
+   * If provided, the jsons system will use this CSS file directly
    * instead of generating CSS from component definitions
    */
   staticSource?: string;
@@ -84,7 +84,7 @@ export interface ComponentVariant {
 
 /**
  * Component interface
- * Defines the behavior of a component in the theme system
+ * Defines the behavior of a component in the jsons system
  */
 export interface ThemeComponent {
   /**
@@ -104,7 +104,7 @@ export interface ThemeComponent {
   
   /**
    * Generate CSS for this component
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -128,7 +128,7 @@ export abstract class BaseThemeComponent implements ThemeComponent {
   
   /**
    * Generate CSS for this component
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -136,7 +136,7 @@ export abstract class BaseThemeComponent implements ThemeComponent {
   
   /**
    * Generate base class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -147,7 +147,7 @@ export abstract class BaseThemeComponent implements ThemeComponent {
   
   /**
    * Generate variant class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -175,7 +175,7 @@ export interface ComponentsRegistry {
 
 /**
  * Theme interface
- * Defines the structure of a theme
+ * Defines the structure of a jsons
  */
 export interface Theme {
   /**
@@ -199,14 +199,14 @@ export interface Theme {
   components: Record<string, ComponentVariant>;
   
   /**
-   * Parent theme name (for theme extension)
+   * Parent jsons name (for jsons extension)
    */
   parent?: string;
 }
 
 /**
  * Theme components interface
- * Defines methods for managing theme components
+ * Defines methods for managing jsons components
  */
 export interface ThemeComponents {
   /**
@@ -230,7 +230,7 @@ export interface ThemeComponents {
   
   /**
    * Generate CSS for all components
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -239,33 +239,33 @@ export interface ThemeComponents {
 
 /**
  * Theme manager interface
- * Defines the methods for managing themes
+ * Defines the methods for managing jsons
  */
 export interface ThemeManager {
   /**
-   * Register a new theme
-   * @param theme The theme to register
+   * Register a new jsons
+   * @param theme The jsons to register
    */
   register(theme: Theme): void;
   
   /**
-   * Get a theme by name and mode
-   * @param name The theme name
-   * @param mode The theme mode
-   * @returns The theme
+   * Get a jsons by name and mode
+   * @param name The jsons name
+   * @param mode The jsons mode
+   * @returns The jsons
    */
   getTheme(name: string, mode: ThemeMode): Theme;
   
   /**
-   * Get the current theme
-   * @returns The current theme
+   * Get the current jsons
+   * @returns The current jsons
    */
   getCurrentTheme(): Theme;
   
   /**
-   * Set the current theme
-   * @param name The theme name
-   * @param mode The theme mode
+   * Set the current jsons
+   * @param name The jsons name
+   * @param mode The jsons mode
    */
   setCurrentTheme(name: string, mode: ThemeMode): void;
   
@@ -278,8 +278,8 @@ export interface ThemeManager {
   getComponentClasses(componentName: string, props: Record<string, any>): string;
   
   /**
-   * Get all CSS for the current theme
-   * If the current theme has a staticSource configured, it will return the content of that file
+   * Get all CSS for the current jsons
+   * If the current jsons has a staticSource configured, it will return the content of that file
    * Otherwise, it will generate CSS from component definitions
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
@@ -294,14 +294,14 @@ export interface ThemeManager {
   loadStaticCSS(filePath: string): Promise<string>;
   
   /**
-   * Preload themes from JSON
-   * @param themesJson The themes JSON
+   * Preload jsons from JSON
+   * @param themesJson The jsons JSON
    */
   preloadThemes(themesJson: any): void;
   
   /**
-   * Get the theme components manager
-   * @returns The theme components manager
+   * Get the jsons components manager
+   * @returns The jsons components manager
    */
   getComponentsManager(): ThemeComponents;
 } 

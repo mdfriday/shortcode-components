@@ -16,7 +16,7 @@ export class InputComponent extends BaseComponent {
   
   /**
    * Generate base class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -39,7 +39,7 @@ export class InputComponent extends BaseComponent {
   
   /**
    * Generate variant class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -106,7 +106,7 @@ export class InputComponent extends BaseComponent {
   /**
    * Add focus states
    * @param css The CSS string
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    */
   private addFocusStates(css: string, theme: Theme, prefix?: string): string {

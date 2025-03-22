@@ -1,13 +1,13 @@
 /**
  * Theme Management System
  * 
- * A system for managing themes in Obsidian notes.
+ * A system for managing jsons in Obsidian notes.
  */
 
 // Export types
 export * from './types';
 
-// Export theme manager
+// Export jsons manager
 export { ThemeManagerImpl } from './theme-manager';
 
 // Export components

@@ -2,12 +2,12 @@ import { BaseThemeComponent, ComponentVariant, Theme } from '../types';
 
 /**
  * Base component implementation
- * All theme components should extend this class
+ * All jsons components should extend this class
  */
 export class BaseComponent extends BaseThemeComponent {
   /**
    * Generate CSS for this component
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -23,7 +23,7 @@ export class BaseComponent extends BaseThemeComponent {
   
   /**
    * Generate base class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
@@ -43,7 +43,7 @@ export class BaseComponent extends BaseThemeComponent {
   
   /**
    * Generate variant class CSS
-   * @param theme The theme
+   * @param theme The jsons
    * @param prefix Optional prefix for CSS classes
    * @returns The CSS string
    */
