@@ -1,21 +1,53 @@
 {
-  "name": "theme-system-demo",
-  "version": "1.0.0",
-  "description": "A demo of the component-based theme system",
-  "main": "index.js",
+  "name": "@mdfriday/shortcode",
+  "version": "0.0.1",
+  "description": "A flexible component-based shortcode system for Markdown content with theme support",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
   "scripts": {
     "start": "webpack serve",
     "build": "webpack",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
+    "markdown",
+    "shortcode",
+    "components",
     "theme",
     "css",
-    "components"
+    "styling",
+    "mdfriday",
+    "content",
+    "renderer"
   ],
-  "author": "",
+  "author": "MDFriday Team",
+  "homepage": "https://github.com/mdfriday/shortcode-components",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdfriday/shortcode-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mdfriday/shortcode-components/issues"
+  },
   "license": "MIT",
   "devDependencies": {
-    "@mdfriday/shortcode-compiler": "^0.2.2"
+    "@mdfriday/shortcode-compiler": "^0.2.2",
+    "typescript": "^5.0.0",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.2",
+    "webpack-dev-server": "^4.15.1",
+    "ts-loader": "^9.4.4",
+    "@types/node": "^18.15.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 } 

@@ -1,0 +1,40 @@
+# Development files
+.git/
+.idea/
+.cursor/
+.DS_Store
+node_modules/
+examples/
+template/
+src/
+webpack.config.js
+tsconfig.json
+yarn.lock
+.gitignore
+
+# Tests
+__tests__/
+test/
+tests/
+*.spec.js
+*.test.js
+
+# CI/CD
+.github/
+.travis.yml
+.gitlab-ci.yml
+.circleci/
+
+# Editor configs
+.editorconfig
+.vscode/
+.prettierrc
+.eslintrc
+.eslintignore
+
+# Docs and misc
+docs/
+.npmrc
+.nvmrc
+.yarnrc
+.package-lock.json 

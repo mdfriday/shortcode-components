@@ -1,5 +1,5 @@
 import { ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
-import { ThemeManager } from '../../theme';
+import { ThemeManager } from '../../themes';
 import { createDataProvider } from '../dataProvider';
 
 /**

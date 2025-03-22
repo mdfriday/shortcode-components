@@ -1,202 +1,125 @@
-# Theme Management System
+# @mdfriday/shortcode
 
-A flexible and extensible theme management system for Obsidian notes, allowing users to apply different themes to their components and preview the rendered effects in real-time.
+A flexible component-based shortcode system for Markdown content with theme support.
+
+[![npm version](https://img.shields.io/npm/v/@mdfriday/shortcode.svg)](https://www.npmjs.com/package/@mdfriday/shortcode)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Introduction
+
+`@mdfriday/shortcode` provides a powerful shortcode system that allows you to embed rich, themeable components in your Markdown content. It uses a simple and intuitive syntax while offering extensive customization through themes and component variants.
 
 ## Features
 
-- **Multiple Themes**: Register and manage multiple themes
-- **Theme Modes**: Support for light and dark modes
-- **Theme Extension**: Extend existing themes to create new ones
-- **Component Variants**: Define different variants of components based on props
-- **CSS Generation**: Generate complete CSS for themes
-- **Style Isolation**: Add prefixes to CSS classes for style isolation
-- **JSON Loading**: Load themes from JSON files
+- **Simple Shortcode Syntax**: Easily embed components using a familiar `{{< component attr="value" >}}` syntax
+- **Themeable Components**: Define and apply different themes to your components
+- **Component Variants**: Create multiple variants of components with different styles
+- **Light/Dark Mode Support**: Built-in support for light and dark mode themes
+- **Extensible Architecture**: Easily add new components and extend existing ones
 
 ## Installation
 
 ```bash
-npm install jsons-management-system
+npm install @mdfriday/shortcode
+# or
+yarn add @mdfriday/shortcode
 ```
 
-## Usage
+## Basic Usage
 
-### Basic Usage
+```javascript
+import { ShortcodeRenderer, ThemeManager } from '@mdfriday/shortcode';
 
-```typescript
-import { ThemeManagerImpl } from 'jsons-management-system';
+// Create a theme manager
+const themeManager = new ThemeManager();
 
-// Create a jsons manager with a prefix for CSS classes
-const themeManager = new ThemeManagerImpl('obs-jsons');
+// Create a shortcode renderer with the theme manager
+const renderer = new ShortcodeRenderer(themeManager);
 
-// Register a jsons
+// Register a theme
 themeManager.register({
-  name: 'my-theme',
+  name: 'default',
   mode: 'light',
-  base: {
-    colors: {
-      primary: '#3b82f6',
-      secondary: '#6b7280',
-      // ...
-    },
-    // ...
-  },
   components: {
     button: {
       base: 'btn',
       variants: {
         variant: {
           primary: 'btn-primary',
-          secondary: 'btn-secondary',
-          // ...
+          secondary: 'btn-secondary'
         },
-        // ...
+        size: {
+          sm: 'btn-sm',
+          md: 'btn-md',
+          lg: 'btn-lg'
+        }
+      }
+    }
+  }
+});
+
+// Render content with shortcodes
+const content = `
+# My Document
+
+{{< button variant="primary" size="lg" >}}Click Me{{< /button >}}
+`;
+
+const rendered = renderer.render(content);
+console.log(rendered);
+// Output: <h1>My Document</h1><button class="btn btn-primary btn-lg">Click Me</button>
+```
+
+## Available Components
+
+The package comes with several built-in components:
+
+- `button` - A customizable button component
+- `callout` - For highlighting important information
+- `card` - A versatile card container
+- `tabs` - Tabbed interface for organizing content
+- `code` - Code blocks with syntax highlighting
+
+You can also create your own custom components.
+
+## Theming
+
+Themes are defined as JavaScript objects with component variants:
+
+```javascript
+const myTheme = {
+  name: 'custom',
+  mode: 'light',
+  components: {
+    button: {
+      base: 'my-btn',
+      variants: {
+        variant: {
+          primary: 'my-btn-primary',
+          secondary: 'my-btn-secondary'
+        }
       }
     },
-    // ...
+    // Define other components...
   }
-});
+};
 
-// Set the current jsons
-themeManager.setCurrentTheme('my-jsons', 'light');
-
-// Get component classes
-const buttonClasses = themeManager.getComponentClasses('button', {
-  variant: 'primary',
-  size: 'md'
-});
-
-// Get all CSS for the current jsons
-const css = themeManager.getAllCSS();
+themeManager.register(myTheme);
 ```
 
-### Loading Themes from JSON
+## Advanced Usage
 
-```typescript
-import { ThemeManagerImpl } from 'jsons-management-system';
-import themesJson from './jsons.json';
+See our [documentation website](https://mdfriday.github.io/docs) for more advanced usage examples including:
 
-const themeManager = new ThemeManagerImpl('obs-jsons');
-themeManager.preloadThemes(themesJson);
-```
+- Creating custom components
+- Theme inheritance
+- Implementing responsive designs
+- Using with React, Vue, or other frameworks
 
-### Theme Extension
+## Contributing
 
-```typescript
-// Base jsons
-themeManager.register({
-  name: 'base',
-  mode: 'light',
-  base: { /* ... */ },
-  components: { /* ... */ }
-});
-
-// Extended jsons
-themeManager.register({
-  name: 'extended',
-  mode: 'light',
-  parent: 'base', // Extend the base jsons
-  base: {
-    // Override or add to base jsons
-    colors: {
-      primary: '#0d6efd'
-    }
-  },
-  components: {
-    // Override or add to base jsons components
-    button: {
-      base: 'custom-btn',
-      variants: {
-        // ...
-      }
-    }
-  }
-});
-```
-
-### Parsing Shortcodes
-
-```typescript
-function parseShortcode(shortcode: string) {
-  // Example shortcode: {{< button variant="primary" jsons="tailwind" >}}
-  const match = shortcode.match(/{{< (\w+) (.+) >}}/);
-  
-  if (!match) return null;
-  
-  const [, componentName, propsString] = match;
-  const props = {};
-  
-  // Parse props
-  const propMatches = propsString.matchAll(/(\w+)="([^"]+)"/g);
-  for (const propMatch of propMatches) {
-    const [, propName, propValue] = propMatch;
-    props[propName] = propValue;
-  }
-  
-  // Extract jsons and mode
-  const theme = props.theme || 'default';
-  const mode = props.mode || 'light';
-  
-  // Set the jsons
-  themeManager.setCurrentTheme(theme, mode);
-  
-  // Get the classes
-  const classes = themeManager.getComponentClasses(componentName, props);
-  
-  // Return the HTML
-  return `<${componentName} class="${classes}">${props.text || ''}</${componentName}>`;
-}
-```
-
-## API Reference
-
-### ThemeManager
-
-The main interface for managing themes.
-
-#### Methods
-
-- `register(theme: Theme): void` - Register a new theme
-- `getTheme(name: string, mode: ThemeMode): Theme` - Get a theme by name and mode
-- `getCurrentTheme(): Theme` - Get the current theme
-- `setCurrentTheme(name: string, mode: ThemeMode): void` - Set the current theme
-- `getComponentClasses(componentName: string, props: Record<string, any>): string` - Get component classes based on props
-- `getAllCSS(prefix?: string): string` - Get all CSS for the current theme
-- `preloadThemes(themesJson: any): void` - Preload themes from JSON
-
-### Theme Structure
-
-```typescript
-interface Theme {
-  name: string;
-  mode: 'light' | 'dark';
-  base: {
-    colors: Record<string, string>;
-    spacing: Record<string, string>;
-    typography: {
-      fontFamily: Record<string, string>;
-      lineHeight: Record<string, string | number>;
-      letterSpacing: Record<string, string>;
-    };
-    fontSize: Record<string, string>;
-    fontWeight: Record<string, number | string>;
-    borderRadius: Record<string, string>;
-    shadows: Record<string, string>;
-    transitions: Record<string, string>;
-  };
-  components: {
-    [componentName: string]: {
-      base: string;
-      variants: {
-        [propName: string]: {
-          [propValue: string]: string;
-        };
-      };
-    };
-  };
-  parent?: string;
-}
-```
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the LICENSE file for details.

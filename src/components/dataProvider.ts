@@ -1,4 +1,4 @@
-import { ThemeManager } from '../theme';
+import { ThemeManager } from '../themes';
 import { Style, Layout, Typography, Animation, Interactive, Responsive } from '../themes/style-builder/types';
 
 /**
