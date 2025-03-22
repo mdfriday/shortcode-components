@@ -5,7 +5,7 @@ description: A demo of layout components with jsons switching
 
 {{< cardBanner
     logo="不黑学长"
-    avatar="/styles/avatar.png"
+    avatar="/images/avatar.png"
     mainTitle="让完播率>50% (3/3)"
     subtitle="6种文案公式"
     description="爆款拆解/爆款要素/文案结构"
