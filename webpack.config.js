@@ -7,9 +7,8 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
     library: {
-      name: 'shortcode',
       type: 'umd',
-      export: 'default',
+      name: 'mdfridayShortcode',
     },
     globalObject: 'this',
     clean: true
