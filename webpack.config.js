@@ -27,6 +27,16 @@ module.exports = {
   },
   optimization: {
     minimize: true,
+    minimizer: [
+      new (require('terser-webpack-plugin'))({
+        terserOptions: {
+          mangle: true,
+          compress: {
+            typeofs: false,
+          }
+        },
+      }),
+    ],
   },
   devtool: 'source-map',
 }; 
