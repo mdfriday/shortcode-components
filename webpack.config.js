@@ -9,7 +9,6 @@ module.exports = {
     library: {
       type: 'umd',
       name: 'mdfridayShortcode',
-      export: 'default',
       umdNamedDefine: true,
     },
     globalObject: 'typeof self !== "undefined" ? self : this',
