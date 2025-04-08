@@ -25,100 +25,120 @@ npm install @mdfriday/shortcode
 yarn add @mdfriday/shortcode
 ```
 
-## Basic Usage
+## Usage
+
+This package provides a flexible shortcode system that allows you to register and render custom shortcodes in Markdown content.
+
+### CommonJS Usage (Node.js)
 
 ```javascript
-import { ShortcodeRenderer, ThemeManager } from '@mdfriday/shortcode';
+// CommonJS (require) - RECOMMENDED WAY
+const pkg = require('@mdfriday/shortcode');
+const { Shortcode } = pkg;
 
-// Create a theme manager
-const themeManager = new ThemeManager();
+// Create a new Shortcode instance
+const shortcode = new Shortcode();
 
-// Create a shortcode renderer with the theme manager
-const renderer = new ShortcodeRenderer(themeManager);
-
-// Register a theme
-themeManager.register({
-  name: 'default',
-  mode: 'light',
-  components: {
-    button: {
-      base: 'btn',
-      variants: {
-        variant: {
-          primary: 'btn-primary',
-          secondary: 'btn-secondary'
-        },
-        size: {
-          sm: 'btn-sm',
-          md: 'btn-md',
-          lg: 'btn-lg'
-        }
-      }
-    }
-  }
+// Register a shortcode
+shortcode.registerShortcode({
+  id: 1,
+  name: 'alert',
+  template: '<div class="alert alert-{{.type}}">{{.content}}</div>',
+  uuid: 'alert-shortcode'
 });
 
-// Render content with shortcodes
-const content = `
-# My Document
-
-{{< button variant="primary" size="lg" >}}Click Me{{< /button >}}
-`;
-
-const rendered = renderer.render(content);
-console.log(rendered);
-// Output: <h1>My Document</h1><button class="btn btn-primary btn-lg">Click Me</button>
+// Render markdown content with shortcodes
+const markdown = 'Normal text {{< alert type="danger" >}}This is an alert{{< /alert >}}';
+const html = shortcode.render(markdown);
 ```
 
-## Available Components
-
-The package comes with several built-in components:
-
-- `button` - A customizable button component
-- `callout` - For highlighting important information
-- `card` - A versatile card container
-- `tabs` - Tabbed interface for organizing content
-- `code` - Code blocks with syntax highlighting
-
-You can also create your own custom components.
-
-## Theming
-
-Themes are defined as JavaScript objects with component variants:
+### ES Modules Usage
 
 ```javascript
-const myTheme = {
-  name: 'custom',
-  mode: 'light',
-  components: {
-    button: {
-      base: 'my-btn',
-      variants: {
-        variant: {
-          primary: 'my-btn-primary',
-          secondary: 'my-btn-secondary'
-        }
-      }
-    },
-    // Define other components...
-  }
-};
+// ES Modules (import) - RECOMMENDED WAY
+import pkg from '@mdfriday/shortcode';
+const { Shortcode } = pkg;
 
-themeManager.register(myTheme);
+// Create a new Shortcode instance
+const shortcode = new Shortcode();
+
+// Register a shortcode
+shortcode.registerShortcode({
+  id: 2,
+  name: 'button',
+  template: '<button class="btn btn-{{.type}}">{{.content}}</button>',
+  uuid: 'button-shortcode'
+});
+
+// Render markdown content with shortcodes
+const markdown = 'Normal text {{< button type="primary" >}}Click me{{< /button >}}';
+const html = shortcode.render(markdown);
+```
+
+## Important Note About Imports
+
+Due to how the package is built, always use the imports as shown above. Direct named imports (e.g., `import { Shortcode } from '@mdfriday/shortcode'`) might not work in all environments.
+
+## Shortcode Metadata
+
+When registering a shortcode, you should provide metadata:
+
+```javascript
+shortcode.registerShortcode({
+  id: "unique-id", // Required: string or number
+  name: "shortcode-name", // Required: the name used in markdown {{< shortcode-name >}}
+  template: "Template with {{.content}} and {{.params}}", // Required: the template to render
+  uuid: "optional-uuid", // Optional: a UUID for the shortcode
+  tags: ["optional", "tags"], // Optional: tags for categorization
+  // Other optional fields: slug, example, asset, width, height, etc.
+});
 ```
 
 ## Advanced Usage
 
-See our [documentation website](https://mdfriday.github.io/docs) for more advanced usage examples including:
+### Custom Functions and Data Providers
 
-- Creating custom components
-- Theme inheritance
-- Implementing responsive designs
-- Using with React, Vue, or other frameworks
+```javascript
+// Register a shortcode with custom functions and data provider
+shortcode.registerShortcode(
+  {
+    id: 3,
+    name: 'list',
+    template: '{{range .items}}<li>{{.}}</li>{{end}}',
+    uuid: 'list-shortcode'
+  },
+  {
+    // Custom function map (optional)
+    funcMap: new Map([
+      ['uppercase', (str) => str.toUpperCase()],
+      // Add more custom functions...
+    ]),
+    
+    // Custom data provider (optional)
+    dataProvider: (params, content) => {
+      return {
+        content,
+        items: content ? content.split(',').map(item => item.trim()) : [],
+        // Add more data based on params...
+      };
+    }
+  }
+);
+```
 
-## Contributing
+## API Reference
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### Shortcode Class
+
+- `new Shortcode(cacheSizeLimit?: number)` - Create a new Shortcode instance with optional cache size limit
+- `registerShortcode(metadata, options?)` - Register a new shortcode
+- `render(markdownContent)` - Render markdown content with shortcodes
+- `existsById(id)` - Check if a shortcode exists by ID
+- `findByName(name)` - Find a shortcode by name
+- `findByUuid(uuid)` - Find a shortcode by UUID
+- `findById(id)` - Find a shortcode by ID
+- `getAllShortcodes()` - Get all registered shortcodes
+- `clearCache()` - Clear the rendering cache
 
 ## License
 

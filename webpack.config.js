@@ -9,8 +9,10 @@ module.exports = {
     library: {
       type: 'umd',
       name: 'mdfridayShortcode',
+      export: 'default',
+      umdNamedDefine: true,
     },
-    globalObject: 'this',
+    globalObject: 'typeof self !== "undefined" ? self : this',
     clean: true
   },
   resolve: {
@@ -30,9 +32,14 @@ module.exports = {
     minimizer: [
       new (require('terser-webpack-plugin'))({
         terserOptions: {
-          mangle: true,
+          mangle: {
+            keep_classnames: true,
+            keep_fnames: true
+          },
           compress: {
             typeofs: false,
+            keep_classnames: true,
+            keep_fnames: true
           }
         },
       }),
