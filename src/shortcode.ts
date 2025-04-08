@@ -1,4 +1,4 @@
-import {ShortcodeRenderer, PageRenderer} from '@mdfriday/shortcode-compiler';
+import {ShortcodeRenderer, PageRenderer, PageLexer, ShortcodeItem} from '@mdfriday/shortcode-compiler';
 import {Theme} from './theme';
 import {ThemeManager} from "./themes";
 import {ShortcodeManager, ShortcodeMetadata, ShortcodeTemplateOptions} from "./shortcode-manager";
@@ -90,6 +90,42 @@ export class Shortcode {
      */
     getDefaultDataProvider(): (params: string[], content?: string) => Record<string, any> {
         return this.manager.getDefaultDataProvider();
+    }
+
+    /**
+     * Extract all shortcode names from markdown content
+     * @param markdownContent The markdown content to extract shortcode names from
+     * @returns An array of shortcode names found in the content
+     */
+    extractShortcodeNames(markdownContent: string): string[] {
+        // Parse the content using PageLexer
+        const result = PageLexer.parse(markdownContent);
+        
+        // Set to collect unique shortcode names
+        const shortcodeNames: Set<string> = new Set();
+        
+        // Recursive function to process items and collect shortcode names
+        const processItems = (items: any[]) => {
+            if (!items || !Array.isArray(items)) return;
+            
+            for (const item of items) {
+                if (item.type === 'shortcode') {
+                    // Add the shortcode name
+                    shortcodeNames.add(item.name);
+                    
+                    // Process nested items if they exist
+                    if (item.items && Array.isArray(item.items)) {
+                        processItems(item.items);
+                    }
+                }
+            }
+        };
+        
+        // Process all items
+        processItems(result.items);
+        
+        // Return the unique shortcode names as an array
+        return Array.from(shortcodeNames);
     }
 
     /**
