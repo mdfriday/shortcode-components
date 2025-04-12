@@ -3,7 +3,11 @@ import { ThemeManager } from './themes';
 
 // Default function map used by most shortcodes
 const defaultFuncMap = new Map<string, (...args: any[]) => any>([
-  ['split', (str: string, sep: string) => str.split(sep)]
+  ['split', (str: string, sep: string) => str.split(sep)],
+  ['eq', (a: any, b: any) => a === b],
+  ['len', (arr: any[]) => arr.length],
+  ['lt', (a: number, b: number) => a < b],
+  ['sub', (a: number, b: number) => a - b]
 ]);
 
 // Type for shortcode metadata
@@ -142,7 +146,9 @@ export class ShortcodeManager {
    * @returns A function that can be used as a data provider for shortcodes
    */
   getDefaultDataProvider(): (params: string[], content?: string) => Record<string, any> {
-    return (params: string[], content?: string) => ({ content });
+    return (params: string[], content?: string) => ({
+      Inner: content
+    });
   }
   
   /**

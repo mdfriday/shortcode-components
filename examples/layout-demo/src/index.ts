@@ -3,12 +3,12 @@ import {ShortcodeRenderer, PageRenderer} from '@mdfriday/shortcode-compiler';
 import * as fs from 'fs';
 import * as path from 'path';
 import {ThemeManagerImpl} from '../../../src/themes';
-import bootstrapDarkTheme from '@/themes/jsons/bootstrap-dark.json';
-import bootstrapLightTheme from '@/themes/jsons/bootstrap-light.json';
-import tailwindDarkTheme from '@/themes/jsons/tailwind-dark.json';
-import tailwindLightTheme from '@/themes/jsons/tailwind-light.json';
-import baseDarkTheme from '@/themes/jsons/base-dark.json';
-import baseLightTheme from '@/themes/jsons/base-light.json';
+import bootstrapDarkTheme from '../../../src/themes/jsons/bootstrap-dark.json';
+import bootstrapLightTheme from '../../../src/themes/jsons/bootstrap-light.json';
+import tailwindDarkTheme from '../../../src/themes/jsons/tailwind-dark.json';
+import tailwindLightTheme from '../../../src/themes/jsons/tailwind-light.json';
+import baseDarkTheme from '../../../src/themes/jsons/base-dark.json';
+import baseLightTheme from '../../../src/themes/jsons/base-light.json';
 import {registerButtonShortcode} from "../../../src/components/content/Button";
 import {registerCardBanner} from "../../../src/components/content/CardBanner";
 import {registerFormulaPair} from "../../../src/components/content/FormulaPair";
@@ -123,7 +123,7 @@ async function renderPage(filePath: string, theme: string = 'base'): Promise<str
 app.get('/', async (req, res) => {
     try {
         const theme = (req.query.theme as string) || 'base';
-        const html = await renderPage(path.join(__dirname, 'formula-pair.md'), theme);
+        const html = await renderPage(path.join(__dirname, 'example.md'), theme);
         res.send(html);
     } catch (error) {
         console.error('Rendering error:', error);

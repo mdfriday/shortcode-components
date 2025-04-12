@@ -27,17 +27,17 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@mdfriday/shortcode-compiler@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@mdfriday/shortcode-compiler/-/shortcode-compiler-0.2.2.tgz#a569fa56bb8472cce7919df230e357aaddbcf364"
-  integrity sha512-zkdlxrp8xpRRkXvPS952Jm6aV1C0QpNMfvgg51wSybHskKyAPzXanhwB0KBBbGjCS2owUDcDiW7WPTSodIsZPA==
+"@mdfriday/shortcode-compiler@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@mdfriday/shortcode-compiler/-/shortcode-compiler-0.2.4.tgz#2657bed148074df2a5395249354538ab617ebad4"
+  integrity sha512-+Dv0MhKaQ9+fuZUaohf0KE7ByJq5/Ix94g7R2KMCdShaNnEKxdXPNieOCv7Q+uIFyT5YReBsaARdM/D6T7wWwA==
   dependencies:
-    "@mdfriday/text-template" "^0.1.2"
+    "@mdfriday/text-template" "^0.1.3"
 
-"@mdfriday/text-template@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@mdfriday/text-template/-/text-template-0.1.2.tgz#f861e2506b6bc6d5b39e8bd9dd7a0bc66185738b"
-  integrity sha512-O0aWJFQIOEDE8Mt7RFkS5W9V8LbTD+vVocArBnfV/Jv2RBiyyVjENXQqslFSHkQQ4qKdHnGygvAkfd6u4rZDfw==
+"@mdfriday/text-template@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@mdfriday/text-template/-/text-template-0.1.3.tgz#331a0d53278be999631a1c984da16caf32201250"
+  integrity sha512-AXiTNctqFM9I87inGY+awwqrEeJbUsxS+3GgvEY2k65maj+Dhnf/wj8M3Gt9uLQbaz5Mkq9zjx4q64FCIPD+2Q==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.11"

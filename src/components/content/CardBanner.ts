@@ -148,7 +148,7 @@ export function registerCardBanner(renderer: ShortcodeRenderer, theme: ThemeMana
         funcMap: commonFuncMap,
         dataProvider: (params: string[], content?: string) => {
             return {
-                content
+                Inner: content
             };
         }
     });
