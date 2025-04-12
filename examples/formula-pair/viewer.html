@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Pair Rendered Output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .rendered-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formula Pair Rendered Output</h1>
+        <div class="rendered-content">
+            <!-- The rendered content will be inserted here by the script -->
+        </div>
+    </div>
+    
+    <script>
+        // Load the rendered HTML from output.html
+        fetch('output.html')
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('.rendered-content').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading rendered content:', error);
+                document.querySelector('.rendered-content').innerHTML = 
+                    '<p style="color: red">Error loading rendered content. Please run the example first using "node index.js".</p>';
+            });
+    </script>
+</body>
+</html> 
