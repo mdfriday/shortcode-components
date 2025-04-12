@@ -76,8 +76,8 @@ export class ShortcodeManager {
     // Prepare template options
     const templateOptions: ShortcodeTemplateOptions = {
       template: metadata.template,
-      funcMap: options?.funcMap || defaultFuncMap,
-      dataProvider: options?.dataProvider || ((params: string[], content?: string) => ({ content }))
+      funcMap: options?.funcMap || this.getDefaultFuncMap(),
+      dataProvider: options?.dataProvider || this.getDefaultDataProvider()
     };
     
     // Register the shortcode

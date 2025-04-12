@@ -184,7 +184,7 @@ describe('ShortcodeManager', () => {
       const dataProvider = manager.getDefaultDataProvider();
       const result = dataProvider(['param=value'], 'content');
       
-      expect(result).toEqual({ content: 'content' });
+      expect(result).toEqual({ Inner: 'content' });
     });
 
     it('should provide a default function map', () => {
