@@ -10,7 +10,7 @@
     "dev": "ts-node-dev --respawn index.ts"
   },
   "dependencies": {
-    "@mdfriday/shortcode-compiler": "^0.2.4"
+    "@mdfriday/shortcode-compiler": "^0.2.5"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
