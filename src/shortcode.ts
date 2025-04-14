@@ -1,22 +1,19 @@
-import {ShortcodeRenderer, PageRenderer, PageLexer, ShortcodeItem} from '@mdfriday/shortcode-compiler';
+import {PageLexer, PageRenderer, ShortcodeRenderer} from '@mdfriday/shortcode-compiler';
 import {Theme} from './theme';
 import {ThemeManager} from "./themes";
 import {ShortcodeManager, ShortcodeMetadata, ShortcodeTemplateOptions} from "./shortcode-manager";
-import {ShortcodeCache, RenderResult} from "./shortcode-cache";
 
 export class Shortcode {
     private readonly themeManager: ThemeManager;
     private readonly renderer: ShortcodeRenderer;
     private readonly pageRenderer: PageRenderer;
     private readonly manager: ShortcodeManager;
-    private readonly cache: ShortcodeCache;
 
-    constructor(cacheSizeLimit: number = 100) {
+    constructor() {
         this.themeManager = new Theme('mdf').manager();
         this.renderer = new ShortcodeRenderer();
         this.manager = new ShortcodeManager(this.themeManager);
         this.pageRenderer = new PageRenderer(this.renderer);
-        this.cache = new ShortcodeCache(cacheSizeLimit);
     }
 
     /**
@@ -129,49 +126,13 @@ export class Shortcode {
     }
 
     /**
-     * Clear the rendering cache
-     */
-    clearCache(): void {
-        this.cache.clear();
-    }
-
-    /**
-     * Create a cache key for the given content
-     * @param content The content to create a key for
-     * @returns A string key
-     */
-    private createCacheKey(content: string): string {
-        let hash = 0;
-        for (let i = 0; i < content.length; i++) {
-            const char = content.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash.toString(36);
-    }
-
-    /**
      * Perform a complete rendering of markdown content with shortcodes
      * @param markdownContent The markdown content to render
      * @returns The fully rendered content
      */
     render(markdownContent: string): string {
-        // Check cache first
-        const cacheKey = this.createCacheKey(markdownContent);
-        const cachedResult = this.cache.get(cacheKey);
-        
-        if (cachedResult) {
-            return cachedResult.content;
-        }
-        
         // Render the content
         const renderedResult = this.pageRenderer.render(markdownContent);
-        
-        // Store in cache for future use
-        this.cache.set(cacheKey, {
-            content: renderedResult.content,
-            renderedShortcodes: [] // We don't have rendered shortcodes information in the current API
-        });
         
         return renderedResult.content;
     }
@@ -182,29 +143,8 @@ export class Shortcode {
      * @returns The content with shortcodes replaced by placeholders
      */
     stepRender(markdownContent: string): string {
-        // 创建原始内容的缓存键
-        const originalCacheKey = this.createCacheKey(markdownContent);
-        
-        // 创建步骤缓存键
-        const stepCacheKey = this.createCacheKey(`step:${markdownContent}`);
-        
-        // 检查缓存，同时传入原始内容的键以验证内容是否变化
-        const cachedResult = this.cache.getStep(stepCacheKey, originalCacheKey);
-        
-        if (cachedResult) {
-            // 即使是缓存的结果，也更新最后的步骤键
-            ShortcodeCache.lastStepKey = stepCacheKey;
-            return cachedResult;
-        }
-        
         // Process the first step
         const stepResult = this.pageRenderer.render(markdownContent, { stepRender: true });
-        
-        // Store in cache for future use,同时保存与原始内容的关系
-        this.cache.setStep(stepCacheKey, stepResult.content, originalCacheKey);
-        
-        // 更新最后的步骤键
-        ShortcodeCache.lastStepKey = stepCacheKey;
         
         return stepResult.content;
     }
@@ -215,38 +155,7 @@ export class Shortcode {
      * @returns The fully rendered HTML content
      */
     finalRender(htmlContent: string): string {
-        // 尝试找到生成这个 HTML 内容的原始步骤缓存键
-        // 这里我们使用带前缀的键，需要在步骤渲染时保存关联关系
-        const finalCacheKey = this.createCacheKey(`final:${htmlContent}`);
-        
-        // 检查缓存
-        const cachedResult = this.cache.getStep(finalCacheKey);
-        
-        if (cachedResult) {
-            return cachedResult;
-        }
-        
         // Process the final step
-        const finalResult = this.pageRenderer.finalRender(htmlContent);
-        
-        // 保存到缓存
-        this.cache.setStep(finalCacheKey, finalResult);
-        
-        // 获取最近一次的步骤缓存键（假设是上次调用 stepRender 保存的）
-        // 这通常就是生成当前 HTML 内容的步骤
-        // 注意：这种方法假设 stepRender 和 finalRender 是依次调用的
-        // 在真实场景中，可能需要在 stepRender 时保存上下文，并在 finalRender 中传递
-        
-        // 跟踪步骤缓存与最终缓存的关系
-        // 我们需要找出是哪个步骤生成了当前的 HTML 内容
-        // 这里使用简单的启发式方法：假设最近处理的 stepRender 生成了当前的 HTML
-        
-        // 在这个实现中，我们需要从外部传递上下文或添加额外信息
-        // 作为简单修复，我们可以使用静态方法保存最后的步骤键
-        if (ShortcodeCache.lastStepKey) {
-            this.cache.trackStepToFinal(ShortcodeCache.lastStepKey, finalCacheKey);
-        }
-        
-        return finalResult;
+        return this.pageRenderer.finalRender(htmlContent);
     }
 }

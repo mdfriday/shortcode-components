@@ -1,0 +1,52 @@
+
+ORIGINAL RENDER (Black):
+
+
+<div class="card" style="border: 1px solid #ddd; border-radius: 4px; padding: 16px; margin: 16px 0; max-width: 400px;">
+  <div class="card-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: black;">
+    Test Card
+  </div>
+  <div class="card-body" style="font-size: 14px; color: #333;">
+    
+This is a test card to demonstrate the caching issue.
+When the title color is changed, the cached version may not update.
+
+  </div>
+</div>
+
+  
+
+UPDATED RENDER WITHOUT CLEARING (Should be Red but may be Black):
+
+
+<div class="card" style="border: 1px solid #ddd; border-radius: 4px; padding: 16px; margin: 16px 0; max-width: 400px;">
+  <div class="card-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: red;">
+    Test Card
+  </div>
+  <div class="card-body" style="font-size: 14px; color: #333;">
+    
+This is a test card to demonstrate the caching issue.
+When the title color is changed, the cached version may not update.
+
+  </div>
+</div>
+
+  
+
+AFTER CACHE CLEAR (Should be Red):
+
+
+<div class="card" style="border: 1px solid #ddd; border-radius: 4px; padding: 16px; margin: 16px 0; max-width: 400px;">
+  <div class="card-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: red;">
+    Test Card
+  </div>
+  <div class="card-body" style="font-size: 14px; color: #333;">
+    
+This is a test card to demonstrate the caching issue.
+When the title color is changed, the cached version may not update.
+
+  </div>
+</div>
+
+  
+  

@@ -1,6 +1,5 @@
 import { Shortcode } from '../../src/shortcode';
 import { ShortcodeManager, ShortcodeMetadata } from '../../src/shortcode-manager';
-import { ShortcodeCache } from '../../src/shortcode-cache';
 import { ShortcodeRenderer, PageRenderer } from '@mdfriday/shortcode-compiler';
 import { Theme } from '../../src/theme';
 
@@ -56,28 +55,6 @@ jest.mock('../../src/shortcode-manager', () => {
   };
 });
 
-// Create a mock implementation with a real cache for testing
-const mockGet = jest.fn();
-const mockSet = jest.fn();
-const mockGetStep = jest.fn();
-const mockSetStep = jest.fn();
-const mockClear = jest.fn();
-const mockTrackStepToFinal = jest.fn();
-
-jest.mock('../../src/shortcode-cache', () => {
-  return {
-    ShortcodeCache: jest.fn().mockImplementation(() => ({
-      get: mockGet,
-      set: mockSet,
-      getStep: mockGetStep,
-      setStep: mockSetStep,
-      clear: mockClear,
-      trackStepToFinal: mockTrackStepToFinal
-    })),
-    lastStepKey: ''
-  };
-});
-
 describe('Shortcode', () => {
   let shortcode: Shortcode;
   let testMetadata: ShortcodeMetadata;
@@ -85,13 +62,6 @@ describe('Shortcode', () => {
   beforeEach(() => {
     // Reset mocks before each test
     jest.clearAllMocks();
-    
-    // Reset mock return values
-    mockGet.mockReset();
-    mockSet.mockReset();
-    mockGetStep.mockReset();
-    mockSetStep.mockReset();
-    mockClear.mockReset();
     
     // Also reset the mock render functions
     mockRender.mockClear();
@@ -115,14 +85,6 @@ describe('Shortcode', () => {
       expect(ShortcodeRenderer).toHaveBeenCalled();
       expect(ShortcodeManager).toHaveBeenCalled();
       expect(PageRenderer).toHaveBeenCalled();
-      expect(ShortcodeCache).toHaveBeenCalledWith(100); // Default cache size
-    });
-
-    it('should accept a custom cache size', () => {
-      const customCacheSize = 50;
-      shortcode = new Shortcode(customCacheSize);
-      
-      expect(ShortcodeCache).toHaveBeenCalledWith(customCacheSize);
     });
   });
 
@@ -199,33 +161,17 @@ describe('Shortcode', () => {
 
     it('should render markdown content', () => {
       // Set up cache miss first, then hit
-      mockGet.mockReturnValueOnce(undefined);
-      
+
       const result = shortcode.render(markdownContent);
       
       expect(result).toBe('rendered-content');
       expect(mockRender).toHaveBeenCalledWith(markdownContent);
-      expect(mockSet).toHaveBeenCalledWith(
-        expect.any(String),
-        expect.objectContaining({ 
-          content: 'rendered-content',
-          renderedShortcodes: []
-        })
-      );
-      
-      // Test caching
-      mockGet.mockReturnValueOnce({ content: 'cached-content', renderedShortcodes: [] });
-      const cachedResult = shortcode.render(markdownContent);
-      
-      expect(cachedResult).toBe('cached-content');
+
       // Should still be called only once
       expect(mockRender).toHaveBeenCalledTimes(1);
     });
 
     it('should perform step rendering', () => {
-      // Set up cache miss first, then hit
-      mockGetStep.mockReturnValueOnce(undefined);
-      
       const result = shortcode.stepRender(markdownContent);
       
       expect(result).toBe('step-rendered-content');
@@ -233,46 +179,20 @@ describe('Shortcode', () => {
         markdownContent, 
         { stepRender: true }
       );
-      expect(mockSetStep).toHaveBeenCalledWith(
-        expect.any(String),
-        'step-rendered-content',
-        expect.any(String)
-      );
-      
-      // Test caching
-      mockGetStep.mockReturnValueOnce('cached-step-content');
-      const cachedResult = shortcode.stepRender(markdownContent);
-      
-      expect(cachedResult).toBe('cached-step-content');
+
       // Should still be called only once
       expect(mockRender).toHaveBeenCalledTimes(1);
     });
 
     it('should perform final rendering', () => {
-      // Set up cache miss first, then hit
-      mockGetStep.mockReturnValueOnce(undefined);
-      
       const result = shortcode.finalRender(htmlContent);
       
       expect(result).toBe('final-rendered-content');
       expect(mockFinalRender).toHaveBeenCalledWith(htmlContent);
-      expect(mockSetStep).toHaveBeenCalledWith(
-        expect.any(String),
-        'final-rendered-content'
-      );
-      
-      // Test caching
-      mockGetStep.mockReturnValueOnce('cached-final-content');
-      const cachedResult = shortcode.finalRender(htmlContent);
-      
-      expect(cachedResult).toBe('cached-final-content');
+
       // Should still be called only once
       expect(mockFinalRender).toHaveBeenCalledTimes(1);
     });
 
-    it('should clear the cache', () => {
-      shortcode.clearCache();
-      expect(mockClear).toHaveBeenCalled();
-    });
   });
 }); 
