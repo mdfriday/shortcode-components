@@ -62,6 +62,7 @@ const mockSet = jest.fn();
 const mockGetStep = jest.fn();
 const mockSetStep = jest.fn();
 const mockClear = jest.fn();
+const mockTrackStepToFinal = jest.fn();
 
 jest.mock('../../src/shortcode-cache', () => {
   return {
@@ -70,8 +71,10 @@ jest.mock('../../src/shortcode-cache', () => {
       set: mockSet,
       getStep: mockGetStep,
       setStep: mockSetStep,
-      clear: mockClear
-    }))
+      clear: mockClear,
+      trackStepToFinal: mockTrackStepToFinal
+    })),
+    lastStepKey: ''
   };
 });
 
@@ -232,7 +235,8 @@ describe('Shortcode', () => {
       );
       expect(mockSetStep).toHaveBeenCalledWith(
         expect.any(String),
-        'step-rendered-content'
+        'step-rendered-content',
+        expect.any(String)
       );
       
       // Test caching

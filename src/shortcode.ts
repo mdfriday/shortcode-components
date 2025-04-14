@@ -182,19 +182,29 @@ export class Shortcode {
      * @returns The content with shortcodes replaced by placeholders
      */
     stepRender(markdownContent: string): string {
-        // Check cache first
-        const cacheKey = this.createCacheKey(`step:${markdownContent}`);
-        const cachedResult = this.cache.getStep(cacheKey);
+        // 创建原始内容的缓存键
+        const originalCacheKey = this.createCacheKey(markdownContent);
+        
+        // 创建步骤缓存键
+        const stepCacheKey = this.createCacheKey(`step:${markdownContent}`);
+        
+        // 检查缓存，同时传入原始内容的键以验证内容是否变化
+        const cachedResult = this.cache.getStep(stepCacheKey, originalCacheKey);
         
         if (cachedResult) {
+            // 即使是缓存的结果，也更新最后的步骤键
+            ShortcodeCache.lastStepKey = stepCacheKey;
             return cachedResult;
         }
         
         // Process the first step
         const stepResult = this.pageRenderer.render(markdownContent, { stepRender: true });
         
-        // Store in cache for future use
-        this.cache.setStep(cacheKey, stepResult.content);
+        // Store in cache for future use,同时保存与原始内容的关系
+        this.cache.setStep(stepCacheKey, stepResult.content, originalCacheKey);
+        
+        // 更新最后的步骤键
+        ShortcodeCache.lastStepKey = stepCacheKey;
         
         return stepResult.content;
     }
@@ -205,9 +215,12 @@ export class Shortcode {
      * @returns The fully rendered HTML content
      */
     finalRender(htmlContent: string): string {
-        // Check cache first
-        const cacheKey = this.createCacheKey(`final:${htmlContent}`);
-        const cachedResult = this.cache.getStep(cacheKey);
+        // 尝试找到生成这个 HTML 内容的原始步骤缓存键
+        // 这里我们使用带前缀的键，需要在步骤渲染时保存关联关系
+        const finalCacheKey = this.createCacheKey(`final:${htmlContent}`);
+        
+        // 检查缓存
+        const cachedResult = this.cache.getStep(finalCacheKey);
         
         if (cachedResult) {
             return cachedResult;
@@ -216,8 +229,23 @@ export class Shortcode {
         // Process the final step
         const finalResult = this.pageRenderer.finalRender(htmlContent);
         
-        // Store in cache for future use
-        this.cache.setStep(cacheKey, finalResult);
+        // 保存到缓存
+        this.cache.setStep(finalCacheKey, finalResult);
+        
+        // 获取最近一次的步骤缓存键（假设是上次调用 stepRender 保存的）
+        // 这通常就是生成当前 HTML 内容的步骤
+        // 注意：这种方法假设 stepRender 和 finalRender 是依次调用的
+        // 在真实场景中，可能需要在 stepRender 时保存上下文，并在 finalRender 中传递
+        
+        // 跟踪步骤缓存与最终缓存的关系
+        // 我们需要找出是哪个步骤生成了当前的 HTML 内容
+        // 这里使用简单的启发式方法：假设最近处理的 stepRender 生成了当前的 HTML
+        
+        // 在这个实现中，我们需要从外部传递上下文或添加额外信息
+        // 作为简单修复，我们可以使用静态方法保存最后的步骤键
+        if (ShortcodeCache.lastStepKey) {
+            this.cache.trackStepToFinal(ShortcodeCache.lastStepKey, finalCacheKey);
+        }
         
         return finalResult;
     }
