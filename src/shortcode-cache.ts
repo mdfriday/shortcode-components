@@ -14,6 +14,7 @@ export class ShortcodeCache {
   private stepCache: Map<string, string> = new Map();
   private contentToStepKeys: Map<string, string> = new Map();
   private stepToFinalKeys: Map<string, string[]> = new Map();
+  private stepToContentKey: Map<string, string> = new Map();
   private maxCacheSize: number;
   
   // 添加静态属性用于跟踪最后使用的步骤缓存键
@@ -64,8 +65,13 @@ export class ShortcodeCache {
    * @returns The cached step content or undefined if not found
    */
   getStep(key: string, originalKey?: string): string | undefined {
-    if (originalKey && this.contentToStepKeys.get(originalKey) !== key) {
-      return undefined;
+    if (originalKey) {
+      const storedContentKey = this.stepToContentKey.get(key);
+      
+      if ((storedContentKey && storedContentKey !== originalKey) || 
+          this.contentToStepKeys.get(originalKey) !== key) {
+        return undefined;
+      }
     }
 
     const result = this.stepCache.get(key);
@@ -90,6 +96,16 @@ export class ShortcodeCache {
       const firstKey = this.stepCache.keys().next().value;
       if (firstKey !== undefined) {
         this.stepCache.delete(firstKey);
+        
+        // Clean up related mappings
+        const contentKey = this.stepToContentKey.get(firstKey);
+        if (contentKey) {
+          this.contentToStepKeys.delete(contentKey);
+          this.stepToContentKey.delete(firstKey);
+        }
+        
+        // Clean up final keys
+        this.invalidateFinalCachesForStep(firstKey);
       }
     }
     
@@ -98,14 +114,34 @@ export class ShortcodeCache {
 
     // 如果提供了原始内容的key，保存关系映射
     if (originalKey) {
-      // 如果原始内容变化了，清除相关的最终渲染缓存
+      // Check if this original content was previously mapped to a different step
       const oldStepKey = this.contentToStepKeys.get(originalKey);
+      
       if (oldStepKey && oldStepKey !== key) {
+        // Content has changed, so invalidate all final caches for the old step
         this.invalidateFinalCachesForStep(oldStepKey);
+        
+        // Clear the reverse mapping for the old step if it points to this content
+        if (this.stepToContentKey.get(oldStepKey) === originalKey) {
+          this.stepToContentKey.delete(oldStepKey);
+        }
       }
       
-      // 更新关系映射
+      // Check if this step was previously mapped to a different content
+      const oldContentKey = this.stepToContentKey.get(key);
+      if (oldContentKey && oldContentKey !== originalKey) {
+        // Update the old content's mapping if it points to this step
+        if (this.contentToStepKeys.get(oldContentKey) === key) {
+          this.contentToStepKeys.delete(oldContentKey);
+        }
+        
+        // Also invalidate any final caches as the step now relates to different content
+        this.invalidateFinalCachesForStep(key);
+      }
+      
+      // Update mappings in both directions
       this.contentToStepKeys.set(originalKey, key);
+      this.stepToContentKey.set(key, originalKey);
     }
   }
 
@@ -148,6 +184,7 @@ export class ShortcodeCache {
     this.stepCache.clear();
     this.contentToStepKeys.clear();
     this.stepToFinalKeys.clear();
+    this.stepToContentKey.clear();
   }
 
   /**

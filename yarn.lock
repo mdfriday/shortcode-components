@@ -533,7 +533,7 @@
 
 "@mdfriday/shortcode-compiler@^0.2.5":
   version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@mdfriday/shortcode-compiler/-/shortcode-compiler-0.2.5.tgz#e799d262d6a87c95129e8b126ff225f4256cfaa9"
+  resolved "https://registry.npmjs.org/@mdfriday/shortcode-compiler/-/shortcode-compiler-0.2.5.tgz"
   integrity sha512-ubVnrn7VScnZiSgJD02GZWDPEfylzc1wRpv1G5Yc+AGXxg3dS/qvHGVAg4B46t3ez0Di3M1nIzzQ0TTwJmBMPg==
   dependencies:
     "@mdfriday/text-template" "^0.1.3"

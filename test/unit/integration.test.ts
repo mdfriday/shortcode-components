@@ -388,4 +388,191 @@ describe('Shortcode Integration', () => {
     // 模拟的解析器可能无法正确解析嵌套的 shortcode，所以我们只检查一个
     expect(nestedResult.length).toBeGreaterThan(0);
   });
+  
+  it('should update rendered output when template attributes change', () => {
+    // 注册一个动态卡片模板
+    const cardTemplate = `
+      <div class="card">
+        <div class="card-header">{{ .Get "title" }}</div>
+        <div class="card-body">
+          {{ if .Get "showDescription" }}
+          <p class="card-description">{{ .Get "description" }}</p>
+          {{ end }}
+          {{ if .Get "showFooter" }}
+          <div class="card-footer">{{ .Get "footer" }}</div>
+          {{ end }}
+          {{ if .Get "items" }}
+          <ul class="card-list">
+          {{ $items := split (.Get "items") "," }}
+          {{ range $items }}
+            <li>{{ . }}</li>
+          {{ end }}
+          </ul>
+          {{ end }}
+        </div>
+      </div>
+    `;
+    
+    shortcode.registerShortcode({
+      id: 11,
+      name: 'dynamic-card',
+      template: cardTemplate
+    });
+    
+    // 首先确保缓存是空的
+    shortcode.clearCache();
+    
+    // 测试基本卡片渲染 - 只有标题
+    const basicContent = '{{< dynamic-card title="Basic Card" />}}';
+    const basicRendered = shortcode.render(basicContent);
+    
+    expect(basicRendered).toContain('<div class="card-header">Basic Card</div>');
+    expect(basicRendered).not.toContain('<p class="card-description">');
+    expect(basicRendered).not.toContain('<div class="card-footer">');
+    expect(basicRendered).not.toContain('<ul class="card-list">');
+    
+    // 测试添加描述
+    const withDescContent = '{{< dynamic-card title="Card With Description" description="This is a description" showDescription="true" />}}';
+    const withDescRendered = shortcode.render(withDescContent);
+    
+    expect(withDescRendered).toContain('<div class="card-header">Card With Description</div>');
+    expect(withDescRendered).toContain('<p class="card-description">This is a description</p>');
+    expect(withDescRendered).not.toContain('<div class="card-footer">');
+    
+    // 测试添加页脚
+    const withFooterContent = '{{< dynamic-card title="Card With Footer" description="Description" showDescription="true" footer="Footer content" showFooter="true" />}}';
+    const withFooterRendered = shortcode.render(withFooterContent);
+    
+    expect(withFooterRendered).toContain('<div class="card-header">Card With Footer</div>');
+    expect(withFooterRendered).toContain('<p class="card-description">Description</p>');
+    expect(withFooterRendered).toContain('<div class="card-footer">Footer content</div>');
+    
+    // 测试添加列表项目
+    const withItemsContent = '{{< dynamic-card title="Card With Items" items="Item 1,Item 2,Item 3" />}}';
+    const withItemsRendered = shortcode.render(withItemsContent);
+    
+    expect(withItemsRendered).toContain('<div class="card-header">Card With Items</div>');
+    expect(withItemsRendered).toContain('<ul class="card-list">');
+    expect(withItemsRendered).toContain('<li>Item 1</li>');
+    expect(withItemsRendered).toContain('<li>Item 2</li>');
+    expect(withItemsRendered).toContain('<li>Item 3</li>');
+    
+    // 测试修改现有属性
+    const modifiedContent = '{{< dynamic-card title="Updated Title" description="Original description" showDescription="true" />}}';
+    const modifiedRendered = shortcode.render(modifiedContent);
+    
+    expect(modifiedRendered).toContain('<div class="card-header">Updated Title</div>');
+    expect(modifiedRendered).toContain('<p class="card-description">Original description</p>');
+    
+    // 测试修改属性后的渲染
+    const updatedContent = '{{< dynamic-card title="Updated Title" description="Updated description" showDescription="true" />}}';
+    const updatedRendered = shortcode.render(updatedContent);
+    
+    expect(updatedRendered).toContain('<div class="card-header">Updated Title</div>');
+    expect(updatedRendered).toContain('<p class="card-description">Updated description</p>');
+    expect(updatedRendered).not.toContain('Original description');
+    
+    // 测试内容更新会触发缓存更新
+    // 清除所有之前的缓存
+    shortcode.clearCache();
+    
+    // 准备两个不同的内容
+    const testContent1 = '{{< dynamic-card title="First Title" />}}';
+    const testContent2 = '{{< dynamic-card title="Second Title" />}}';
+    
+    // 测试简单渲染功能
+    const res1 = shortcode.render(testContent1);
+    expect(res1).toContain('First Title');
+    
+    const res2 = shortcode.render(testContent2);
+    expect(res2).toContain('Second Title');
+    
+    // 测试内容变化时 - 确认不同内容生成不同的渲染结果
+    // 这说明缓存机制能够正确识别内容变化
+    expect(res1).not.toBe(res2);
+    
+    // 测试相同内容重复渲染 - 确认使用了缓存
+    // 这一步可以通过模拟缓存的get方法来实现
+    const cacheSpy = jest.spyOn(shortcode['cache'], 'get');
+    
+    // 再次渲染相同内容，应该查询缓存
+    shortcode.render(testContent1);
+    expect(cacheSpy).toHaveBeenCalled();
+    
+    // 清理测试
+    cacheSpy.mockRestore();
+    
+    // 测试分步渲染过程中属性变化的效果
+    shortcode.clearCache();
+    
+    // 准备两个有不同属性的内容
+    const stepContent1 = '{{< dynamic-card title="Step Title 1" description="Step Description 1" showDescription="true" />}}';
+    const stepContent2 = '{{< dynamic-card title="Step Title 2" description="Step Description 2" showDescription="true" />}}';
+    
+    // 创建一个真实的渲染模拟，保留输入内容中的属性信息
+    const originalRender = shortcode['pageRenderer'].render;
+    const originalFinalRender = shortcode['pageRenderer'].finalRender;
+    
+    // 模拟步骤1：将输入的shortcode替换为包含属性信息的占位符
+    shortcode['pageRenderer'].render = jest.fn().mockImplementation((content, options) => {
+      // 提取title属性，这样占位符中会包含不同的标题信息
+      const titleMatch = content.match(/title="([^"]+)"/);
+      const title = titleMatch ? titleMatch[1] : 'Unknown';
+      
+      if (options && options.stepRender) {
+        return {
+          content: `<!-- SHORTCODE_PLACEHOLDER title="${title}" -->`,
+          summary: '',
+          hasSummaryDivider: false
+        };
+      }
+      
+      return originalRender(content, options);
+    });
+    
+    // 模拟步骤2：将占位符替换为包含提取的属性信息的HTML
+    shortcode['pageRenderer'].finalRender = jest.fn().mockImplementation((content) => {
+      // 从占位符中提取title属性
+      const titleMatch = content.match(/<!-- SHORTCODE_PLACEHOLDER title="([^"]+)" -->/);
+      const title = titleMatch ? titleMatch[1] : 'Unknown';
+      
+      // 返回包含标题信息的HTML
+      return `<div class="rendered-card"><h1>${title}</h1></div>`;
+    });
+    
+    try {
+      // 第一次分步渲染
+      const step1Result = shortcode.stepRender(stepContent1);
+      const finalResult1 = shortcode.finalRender(step1Result);
+      
+      // 第二次分步渲染（不同属性）
+      const step2Result = shortcode.stepRender(stepContent2);
+      const finalResult2 = shortcode.finalRender(step2Result);
+      
+      // 验证：
+      // 1. 步骤1的占位符应该包含正确的标题信息
+      expect(step1Result).toContain('title="Step Title 1"');
+      expect(step2Result).toContain('title="Step Title 2"');
+      
+      // 2. 最终渲染结果应该反映不同的标题
+      expect(finalResult1).toContain('Step Title 1');
+      expect(finalResult2).toContain('Step Title 2');
+      
+      // 3. 不同内容的渲染结果应该不同
+      expect(finalResult1).not.toBe(finalResult2);
+      
+      // 4. 测试缓存机制 - 对同一内容的重复分步渲染应该使用缓存
+      const stepCacheSpy = jest.spyOn(shortcode['cache'], 'getStep');
+      
+      // 再次进行第一个内容的分步渲染，应该使用缓存
+      shortcode.stepRender(stepContent1);
+      expect(stepCacheSpy).toHaveBeenCalled();
+      
+      stepCacheSpy.mockRestore();
+    } finally {
+      // 恢复原始渲染函数，确保不影响其他测试
+      shortcode['pageRenderer'].render = originalRender;
+      shortcode['pageRenderer'].finalRender = originalFinalRender;
+    }
+  });
 }); 
