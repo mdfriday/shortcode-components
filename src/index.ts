@@ -1,17 +1,15 @@
 import { Shortcode } from "./shortcode";
 import { ShortcodeManager, ShortcodeMetadata, ShortcodeTemplateOptions } from "./shortcode-manager";
-import { RenderResult } from "./shortcode-cache";
 
 // Named exports for ES modules
-export { Shortcode, ShortcodeManager, ShortcodeMetadata, ShortcodeTemplateOptions, ShortcodeCache, RenderResult };
+export { Shortcode, ShortcodeManager, ShortcodeMetadata, ShortcodeTemplateOptions };
 
 // Default export for better CommonJS compatibility
 // Create a complete export object with all exported items
 const defaultExport = {
   Shortcode,
   ShortcodeManager,
-  ShortcodeMetadata: {} as ShortcodeMetadata,
-  RenderResult: {} as RenderResult
+  ShortcodeMetadata: {} as ShortcodeMetadata
 };
 
 // Create a helper function to ensure backward compatibility
