@@ -3,7 +3,11 @@ import { ThemeManager } from './themes';
 
 // Default function map used by most shortcodes
 const defaultFuncMap = new Map<string, (...args: any[]) => any>([
-  ['split', (str: string, sep: string) => str.split(sep)],
+  ['split', (str: any, sep: any) => {
+    const safeStr = typeof str === 'string' ? str : '';
+    const safeSep = typeof sep === 'string' ? sep : ',';
+    return safeStr.split(safeSep);
+  }],
   ['eq', (a: any, b: any) => a === b],
   ['len', (arr: any[]) => arr.length],
   ['lt', (a: number, b: number) => a < b],
