@@ -50,13 +50,22 @@ const rankingFishingCardStyles = `
     margin-bottom: 120px;
 }
 
+.mdf-card .rank-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 150px 0 0 0;
+    width: 300px;
+}
+
 .mdf-card .rank-number {
     font-size: 252px;
     font-weight: bold;
     color: #FFD700;
     text-shadow: 7px 7px 14px rgba(0, 0, 0, 0.6);
-    margin: 119px 83px 0px 83px;
     line-height: 1;
+    text-align: center;
+    width: 100%;
 }
 
 .mdf-card .fishing-type {
@@ -64,10 +73,13 @@ const rankingFishingCardStyles = `
     font-weight: bold;
     color: #FFD700;
     text-shadow: 4px 4px 7px rgba(0, 0, 0, 0.6);
-    margin-left: 90px;
     background-color: rgba(0, 0, 0, 0.3);
-    padding: 11px 0;
+    padding: 11px 30px;
     border-radius: 36px;
+    text-align: center;
+    max-width: 100%;
+    white-space: nowrap;
+    margin: 0 auto;
 }
 
 .mdf-card .avatar-container {
@@ -152,8 +164,10 @@ export function registerRankingFishingCard001(renderer: ShortcodeRenderer, theme
           <div class="card-bg" style="background-image: url('{{ .Get "backgroundImage" }}');"></div>
           <div class="card-content">
             <div class="card-top">
-              <div class="rank-number">{{ .Get "rankNumber" }}</div>
-              <div class="fishing-type">{{ .Get "fishingType" }}</div>
+              <div class="rank-info">
+                <div class="rank-number">{{ .Get "rankNumber" }}</div>
+                <div class="fishing-type">{{ .Get "fishingType" }}</div>
+              </div>
               <div class="avatar-container">
                 <img src="{{ .Get "avatarImage" }}" alt="用户头像" class="avatar-img">
               </div>
