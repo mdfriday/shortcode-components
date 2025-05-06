@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音乐会海报</title>
+    <title>大师海报</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
 
-        body {
+        .mdf-card {
             font-family: 'Noto Sans SC', sans-serif;
             margin: 0;
             padding: 0;
@@ -19,7 +19,7 @@
             min-height: 100vh;
         }
 
-        .poster {
+        .mdf-card .poster {
             position: relative;
             width: 600px;
             height: 850px;
@@ -29,7 +29,7 @@
             box-sizing: border-box;
         }
 
-        .top-text {
+        .mdf-card .top-text {
             position: absolute;
             top: 30px;
             right: 30px;
@@ -38,7 +38,7 @@
             font-size: 22px;
         }
 
-        .concert-title {
+        .mdf-card .concert-title {
             position: absolute;
             top: 60px;
             right: 30px;
@@ -49,7 +49,7 @@
             width: 40%;
         }
 
-        .large-character {
+        .mdf-card .large-character {
             position: absolute;
             left: 40px;
             top: 600px;
@@ -61,7 +61,7 @@
             text-orientation: upright;
         }
 
-        .answer {
+        .mdf-card .answer {
             position: absolute;
             left: 180px;
             top: 680px;
@@ -70,7 +70,7 @@
             font-weight: bold;
         }
 
-        .detail {
+        .mdf-card .detail {
             position: absolute;
             left: 180px;
             top: 725px;
@@ -78,13 +78,13 @@
             font-size: 20px;
         }
 
-        .profile {
+        .mdf-card .profile {
             width: 600px;
             height: 600px;
             font-size: 100px;
         }
 
-        .horizontal-line {
+        .mdf-card .horizontal-line {
             position: absolute;
             left: 40px;
             top: 600px;
@@ -93,7 +93,7 @@
             background-color: #c9a86b;
         }
 
-        .small-text {
+        .mdf-card .small-text {
             position: absolute;
             left: 180px;
             top: 610px;
@@ -104,6 +104,7 @@
     </style>
 </head>
 <body>
+<div class="mdf-card">
 <div class="poster">
     <div class="top-text">怎么破 ？</div>
     <div class="concert-title">神仙难钓午时鱼</div>
@@ -119,6 +120,7 @@
 
     <div class="answer">锦囊： 钓流水，钓离底</div>
     <div class="detail">中午温度升高，缺氧，鱼起浮，流水含氧量高，且食物充足。</div>
+</div>
 </div>
 </body>
 </html> 
