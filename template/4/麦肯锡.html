@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>麦肯锡笔记法</title>
     <style>
-        body {
+        .mdf-card {
             margin: 0;
             font-family: 'SimSun', 'Arial', sans-serif;
             display: flex;
@@ -12,27 +12,27 @@
             align-items: center;
             background-color: #fff;
         }
-        
-        .container {
+
+        .mdf-card .container {
             width: 100%;
         }
-        
-        .chart {
+
+        .mdf-card .chart {
             border: 2px solid #000;
             overflow: hidden;
         }
-        
-        .top-row {
+
+        .mdf-card .top-row {
             background-color: #fff7b2;
             padding: 15px;
             border-bottom: 1px solid #000;
         }
-        
-        .step {
+
+        .mdf-card .step {
             margin: 15px 0;
         }
-        
-        .step-number {
+
+        .mdf-card .step-number {
             display: inline-block;
             width: 25px;
             height: 25px;
@@ -43,44 +43,45 @@
             margin-right: 10px;
             font-weight: bold;
         }
-        
-        .step-title {
+
+        .mdf-card .step-title {
             font-size: 20px;
             font-weight: bold;
         }
-        
-        .step-description {
+
+        .mdf-card .step-description {
             margin-left: 35px;
         }
-        
-        .bottom-row {
+
+        .mdf-card .bottom-row {
             display: flex;
             min-height: 400px;
         }
-        
-        .column {
+
+        .mdf-card .column {
             flex: 1;
             padding: 15px;
             display: flex;
             flex-direction: column;
         }
-        
-        .column-pink {
+
+        .mdf-card .column-pink {
             background-color: #ffdddd;
             border-right: 1px solid #000;
         }
-        
-        .column-blue {
+
+        .mdf-card .column-blue {
             background-color: #add8e6;
             border-right: 1px solid #000;
         }
-        
-        .column-purple {
+
+        .mdf-card .column-purple {
             background-color: #b0b0e0;
         }
     </style>
 </head>
 <body>
+<div class="mdf-card">
     <div class="container">
         <div class="chart">
             <div class="top-row">
@@ -130,5 +131,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

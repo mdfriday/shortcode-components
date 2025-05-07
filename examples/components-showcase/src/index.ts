@@ -17,6 +17,10 @@ import {registerFormulaPair} from "../../../src/components/content/FormulaPair";
 import {registerFormulaSingle} from "../../../src/components/content/FormulaSingle";
 import {registerFormulaFlow} from "../../../src/components/content/FormulaFlow";
 import {registerRankingFishingCard001} from "../../../src/components/content/RankingFishingCard001";
+import {registerMasterPoster001} from "../../../src/components/content/MasterPoster001";
+import {registerToyotaA3Template001} from "../../../src/components/content/ToyotaA3Template001";
+import {registerCornellNotes001} from "../../../src/components/content/CornellNotes001";
+import {registerMcKinseyMethod001} from "../../../src/components/content/McKinseyMethod001";
 import {registerGridShortcode} from "../../../src/components/layout/Grid";
 import {registerRowShortcode} from "../../../src/components/layout/Row";
 import {registerColumnShortcode} from "../../../src/components/layout/Column";
@@ -57,6 +61,10 @@ registerFormulaPair(renderer, themeManager);
 registerFormulaSingle(renderer, themeManager);
 registerFormulaFlow(renderer, themeManager);
 registerRankingFishingCard001(renderer, themeManager);
+registerMasterPoster001(renderer, themeManager);
+registerToyotaA3Template001(renderer, themeManager);
+registerCornellNotes001(renderer, themeManager);
+registerMcKinseyMethod001(renderer, themeManager);
 registerGridShortcode(renderer, themeManager);
 registerRowShortcode(renderer, themeManager);
 registerColumnShortcode(renderer, themeManager);
@@ -99,6 +107,10 @@ const baseTemplate = `
             <li><a href="/?component=formulapair" class="{{ formulapairActive }}">FormulaPair</a></li>
             <li><a href="/?component=formulasingle" class="{{ formulasingleActive }}">FormulaSingle</a></li>
             <li><a href="/?component=rankingfishingcard" class="{{ rankingfishingcardActive }}">RankingFishingCard</a></li>
+            <li><a href="/?component=masterposter" class="{{ masterposterActive }}">MasterPoster</a></li>
+            <li><a href="/?component=toyotaa3template" class="{{ toyotaa3templateActive }}">ToyotaA3Template</a></li>
+            <li><a href="/?component=cornellnotes" class="{{ cornellnotesActive }}">CornellNotes</a></li>
+            <li><a href="/?component=mckinseymethod" class="{{ mckinseyMethodActive }}">McKinseyMethod</a></li>
         </ul>
     </div>
     <div class="content">
@@ -187,7 +199,11 @@ async function renderPage(component: string, theme: string = 'base'): Promise<st
         formulaflowActive: '',
         formulapairActive: '',
         formulasingleActive: '',
-        rankingfishingcardActive: ''
+        rankingfishingcardActive: '',
+        masterposterActive: '',
+        toyotaa3templateActive: '',
+        cornellnotesActive: '',
+        mckinseyMethodActive: ''
     };
     
     // Set the active component
