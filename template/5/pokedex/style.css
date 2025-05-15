@@ -10,6 +10,13 @@
     position: relative;
     background-color: var(--pokmon-typeelectric);
     margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+.pokemon * {
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
 }
 
 .pokemon .title {
@@ -69,6 +76,7 @@
     align-self: stretch;
     width: 100%;
     z-index: 2;
+    overflow: hidden;
 }
 
 .pokemon .img {
@@ -79,8 +87,10 @@
 
 .pokemon .character {
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 60%;
+    max-width: 200px;
+    height: auto;
+    aspect-ratio: 1/1;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -257,6 +267,7 @@
     position: relative;
     flex: 1;
     align-self: stretch;
+    width: 100%;
     font-family: var(--body-body-3-font-family);
     font-weight: var(--body-body-3-font-weight);
     color: var(--grayscaledark);
@@ -265,6 +276,8 @@
     letter-spacing: var(--body-body-3-letter-spacing);
     line-height: var(--body-body-3-line-height);
     font-style: var(--body-body-3-font-style);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .pokemon .text-wrapper-5 {
@@ -289,6 +302,7 @@
     width: 100%;
     flex: 0 0 auto;
     background-color: var(--grayscalewhite);
+    overflow: hidden;
 }
 
 .pokemon .label {
@@ -382,7 +396,7 @@
 }
 
 .pokemon .value {
-    padding: 0px 198px 0px 0px;
+    padding: 0px 35% 0px 0px;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -414,7 +428,7 @@
 }
 
 .pokemon .retangle-wrapper {
-    padding: 0px 178px 0px 0px;
+    padding: 0px 30% 0px 0px;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -426,7 +440,7 @@
 }
 
 .pokemon .div-wrapper {
-    padding: 0px 193px 0px 0px;
+    padding: 0px 32% 0px 0px;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -438,7 +452,7 @@
 }
 
 .pokemon .value-2 {
-    padding: 0px 83px 0px 0px;
+    padding: 0px 15% 0px 0px;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -450,7 +464,7 @@
 }
 
 .pokemon .value-3 {
-    padding: 0px 143px 0px 0px;
+    padding: 0px 25% 0px 0px;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -463,12 +477,37 @@
 
 .pokemon .pokeball {
     position: absolute;
-    width: 208px;
-    height: 208px;
+    width: 40%;
+    height: auto;
+    max-width: 208px;
+    aspect-ratio: 1/1;
     top: 8px;
     right: 0;
     z-index: 0;
     opacity: 0.1;
     filter: brightness(0) invert(1);
-    max-width: 50%;
+}
+
+@media screen and (max-width: 480px) {
+    .pokemon .attribute {
+        flex-direction: column;
+    }
+    
+    .pokemon .divider {
+        width: 100%;
+        height: 1px;
+        margin: 8px 0;
+    }
+    
+    .pokemon .pok-mon-name {
+        max-width: 60%;
+    }
+    
+    .pokemon .value, 
+    .pokemon .retangle-wrapper, 
+    .pokemon .div-wrapper, 
+    .pokemon .value-2, 
+    .pokemon .value-3 {
+        padding-right: 50%;
+    }
 }
