@@ -125,7 +125,7 @@
     font-style: var(--header-headline-font-style);
 }
 
-.pokemon .element {
+.pokemon .date {
     width: fit-content;
     font-family: var(--header-subtitle-2-font-family);
     font-weight: var(--header-subtitle-2-font-weight);
@@ -423,20 +423,7 @@
     flex: 0 0 auto;
 }
 
-.pokemon .element-2 {
-    width: 19px;
-    margin-top: -1.00px;
-    font-family: var(--body-body-3-font-family);
-    font-weight: var(--body-body-3-font-weight);
-    color: var(--grayscaledark);
-    font-size: var(--body-body-3-font-size);
-    position: relative;
-    letter-spacing: var(--body-body-3-letter-spacing);
-    line-height: var(--body-body-3-line-height);
-    font-style: var(--body-body-3-font-style);
-}
-
-.pokemon .element-3 {
+.pokemon .element {
     width: 19px;
     font-family: var(--body-body-3-font-family);
     font-weight: var(--body-body-3-font-weight);
@@ -480,7 +467,7 @@
     overflow: hidden;
 }
 
-.pokemon .retangle {
+.pokemon .rectangle {
     position: relative;
     flex: 1;
     align-self: stretch;
@@ -500,7 +487,7 @@
     opacity: 0.2;
 }
 
-.pokemon .retangle-wrapper {
+.pokemon .rectangle-wrapper {
     padding: 0px 30% 0px 0px;
     display: flex;
     align-items: flex-start;
@@ -514,30 +501,6 @@
 
 .pokemon .div-wrapper {
     padding: 0px 32% 0px 0px;
-    display: flex;
-    align-items: flex-start;
-    position: relative;
-    align-self: stretch;
-    width: 100%;
-    flex: 0 0 auto;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.pokemon .value-2 {
-    padding: 0px 15% 0px 0px;
-    display: flex;
-    align-items: flex-start;
-    position: relative;
-    align-self: stretch;
-    width: 100%;
-    flex: 0 0 auto;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.pokemon .value-3 {
-    padding: 0px 25% 0px 0px;
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -577,7 +540,7 @@
     }
     
     .pokemon .value, 
-    .pokemon .retangle-wrapper, 
+    .pokemon .rectangle-wrapper,
     .pokemon .div-wrapper, 
     .pokemon .value-2, 
     .pokemon .value-3 {
