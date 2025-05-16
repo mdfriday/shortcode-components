@@ -21,6 +21,7 @@ import {registerMasterPoster001} from "../../../src/components/content/MasterPos
 import {registerToyotaA3Template001} from "../../../src/components/content/ToyotaA3Template001";
 import {registerCornellNotes001} from "../../../src/components/content/CornellNotes001";
 import {registerMcKinseyMethod001} from "../../../src/components/content/McKinseyMethod001";
+import {registerStorytellingInfoCard001} from "../../../src/components/content/Storytelling-InfoCard-001";
 import {registerGridShortcode} from "../../../src/components/layout/Grid";
 import {registerRowShortcode} from "../../../src/components/layout/Row";
 import {registerColumnShortcode} from "../../../src/components/layout/Column";
@@ -65,6 +66,7 @@ registerMasterPoster001(renderer, themeManager);
 registerToyotaA3Template001(renderer, themeManager);
 registerCornellNotes001(renderer, themeManager);
 registerMcKinseyMethod001(renderer, themeManager);
+registerStorytellingInfoCard001(renderer, themeManager);
 registerGridShortcode(renderer, themeManager);
 registerRowShortcode(renderer, themeManager);
 registerColumnShortcode(renderer, themeManager);
@@ -111,6 +113,7 @@ const baseTemplate = `
             <li><a href="/?component=toyotaa3template" class="{{ toyotaa3templateActive }}">ToyotaA3Template</a></li>
             <li><a href="/?component=cornellnotes" class="{{ cornellnotesActive }}">CornellNotes</a></li>
             <li><a href="/?component=mckinseymethod" class="{{ mckinseyMethodActive }}">McKinseyMethod</a></li>
+            <li><a href="/?component=storytellinginfocard" class="{{ storytellinginfocardActive }}">StorytellingInfoCard</a></li>
         </ul>
     </div>
     <div class="content">
@@ -203,7 +206,8 @@ async function renderPage(component: string, theme: string = 'base'): Promise<st
         masterposterActive: '',
         toyotaa3templateActive: '',
         cornellnotesActive: '',
-        mckinseyMethodActive: ''
+        mckinseyMethodActive: '',
+        storytellinginfocardActive: ''
     };
     
     // Set the active component
