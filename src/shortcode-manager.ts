@@ -11,7 +11,11 @@ const defaultFuncMap = new Map<string, (...args: any[]) => any>([
   ['eq', (a: any, b: any) => a === b],
   ['len', (arr: any[]) => arr.length],
   ['lt', (a: number, b: number) => a < b],
-  ['sub', (a: number, b: number) => a - b]
+  ['sub', (a: number, b: number) => a - b],
+  ['add', (a: number, b: number) => a + b],
+  ['div', (a: number, b: number) => a / b],
+  ['mul', (a: number, b: number) => a * b],
+  ['float', (str: string) => parseFloat(str)]
 ]);
 
 // Type for shortcode metadata
