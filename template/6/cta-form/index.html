@@ -301,8 +301,6 @@
                     // Prepare FormData for the real API request
                     const formData = new FormData();
                     formData.append('id', '-1');
-                    formData.append('signature', 'bGRN2Mg7WPWIr87gzOyNHnHT1lZbGvaFru7WGY-fh_8');
-                    formData.append('owner', 'me@sunwei.xyz');
                     formData.append('name', 'test-cta');
                     formData.append('email', email);
                     
@@ -310,7 +308,8 @@
                     const response = await fetch('http://127.0.0.1:1314/api/cta/submit?type=CTA', {
                         method: 'POST',
                         headers: {
-                            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImV4cCI6IjIwMjUtMDYtMjVUMTM6NTY6NDkuMDEwNDYyKzA4OjAwIiwiaWF0IjpudWxsLCJpc3MiOm51bGwsImp0aSI6bnVsbCwibmJmIjpudWxsLCJzdWIiOm51bGwsInVzZXIiOiJtZUBzdW53ZWkueHl6In0.Y-yMv7_sacxSAsYVBUriBOzMiBl72uSp-W3rA-50uy8'
+                            'X-Signature': 'bGRN2Mg7WPWIr87gzOyNHnHT1lZbGvaFru7WGY-fh_8',
+                            'X-Signer': 'me@sunwei.xyz'
                         },
                         body: formData
                     });
