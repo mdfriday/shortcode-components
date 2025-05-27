@@ -3,11 +3,11 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 960px;
-    min-width: 480px;
+    max-width: 600px;
+    min-width: 320px;
     height: auto;
     align-items: center;
-    padding: var(--spacing-3xl);
+    padding: var(--spacing-2xl);
     position: relative;
     background: linear-gradient(135deg, var(--theme-color) 0%, rgba(0, 0, 0, 0.8) 100%);
     margin: 0 auto;
@@ -87,7 +87,7 @@
     z-index: 1;
     text-align: center;
     width: 100%;
-    max-width: 480px;
+    max-width: 380px;
 }
 
 /* Title */
@@ -119,14 +119,17 @@
 /* Form container */
 .cta-form .form-container {
     display: flex;
-    gap: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-xs);
     width: 100%;
-    max-width: 480px;
+    max-width: 400px;
     background-color: var(--grayscalewhite);
     border-radius: var(--border-radius-medium);
     padding: var(--spacing-xs);
     box-shadow: var(--drop-shadow-medium);
     transition: all 0.3s ease;
+    container-type: inline-size;
 }
 
 .cta-form .form-container:focus-within {
@@ -136,7 +139,8 @@
 
 /* Email input */
 .cta-form .email-input {
-    flex: 1;
+    flex: 1 1 180px;
+    min-width: 180px;
     border: none;
     outline: none;
     padding: var(--spacing-md) var(--spacing-lg);
@@ -162,6 +166,8 @@
 
 /* Subscribe button */
 .cta-form .subscribe-button {
+    flex: 1 1 auto;
+    min-width: 100px;
     border: none;
     outline: none;
     padding: var(--spacing-md) var(--spacing-lg);
@@ -179,6 +185,27 @@
     text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
+}
+
+/* When container is too narrow, button takes full width */
+@container (max-width: 300px) {
+    .cta-form .subscribe-button {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+    
+    .cta-form .email-input {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+}
+
+/* Fallback for browsers without container queries */
+@media screen and (max-width: 340px) {
+    .cta-form .subscribe-button {
+        flex: 1 1 100%;
+        width: 100%;
+    }
 }
 
 .cta-form .subscribe-button::before {
@@ -267,18 +294,30 @@
     
     .cta-form .form-container {
         flex-direction: column;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-sm);
+        padding: 0;
+        gap: 0;
+        border-radius: var(--border-radius-medium);
+        overflow: hidden;
+        justify-content: stretch;
     }
     
     .cta-form .email-input {
-        padding: var(--spacing-md);
         text-align: center;
+        flex: 1 1 100%;
+        width: 100%;
+        margin: 0;
+        padding: var(--spacing-md);
+        border-radius: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
     
     .cta-form .subscribe-button {
-        padding: var(--spacing-md);
+        flex: 1 1 100%;
         width: 100%;
+        text-align: center;
+        margin: 0;
+        padding: var(--spacing-md);
+        border-radius: 0;
     }
 }
 
@@ -290,5 +329,35 @@
     .cta-form .title {
         font-size: 20px;
         line-height: 28px;
+    }
+}
+
+/* Handle button wrapping on very narrow containers */
+@media screen and (max-width: 400px) {
+    .cta-form .form-container {
+        max-width: 300px;
+        padding: 0;
+        gap: 0;
+        border-radius: var(--border-radius-medium);
+        overflow: hidden;
+        justify-content: stretch;
+    }
+    
+    .cta-form .email-input {
+        flex: 1 1 100%;
+        width: 100%;
+        margin: 0;
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .cta-form .subscribe-button {
+        flex: 1 1 100%;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: 0;
     }
 } 
