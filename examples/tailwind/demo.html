@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多主题 Pokemon 卡片系统 - 演示</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 主题 CSS 变量 */
+    .theme-base {
+      --background: 255 255 255;
+      --foreground: 15 23 42;
+      --primary: 59 130 246;
+      --primary-foreground: 255 255 255;
+      --secondary: 241 245 249;
+      --secondary-foreground: 15 23 42;
+      --accent: 241 245 249;
+      --accent-foreground: 15 23 42;
+      --surface: 255 255 255;
+      --surface-foreground: 15 23 42;
+      --muted: 241 245 249;
+      --muted-foreground: 100 116 139;
+      --border: 226 232 240;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .theme-base.dark {
+      --background: 15 23 42;
+      --foreground: 248 250 252;
+      --primary: 99 102 241;
+      --surface: 30 41 59;
+      --surface-foreground: 248 250 252;
+      --muted: 55 65 81;
+      --muted-foreground: 156 163 175;
+      --border: 55 65 81;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-fire {
+      --background: 255 240 240;
+      --foreground: 127 29 29;
+      --primary: 239 68 68;
+      --primary-foreground: 255 255 255;
+      --surface: 254 242 242;
+      --surface-foreground: 127 29 29;
+      --muted: 254 226 226;
+      --muted-foreground: 153 27 27;
+      --border: 252 165 165;
+      --shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+    }
+
+    .theme-fire.dark {
+      --background: 31 31 31;
+      --foreground: 254 242 242;
+      --primary: 255 107 107;
+      --primary-foreground: 0 0 0;
+      --surface: 55 25 25;
+      --surface-foreground: 254 242 242;
+      --muted: 87 33 33;
+      --muted-foreground: 185 28 28;
+      --border: 87 33 33;
+      --shadow: 0 4px 6px -1px rgba(255, 107, 107, 0.3);
+    }
+
+    .theme-ocean {
+      --background: 240 249 255;
+      --foreground: 30 58 138;
+      --primary: 59 130 246;
+      --primary-foreground: 255 255 255;
+      --surface: 239 246 255;
+      --surface-foreground: 30 58 138;
+      --muted: 219 234 254;
+      --muted-foreground: 30 64 175;
+      --border: 147 197 253;
+      --shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+    }
+
+    .theme-ocean.dark {
+      --background: 15 23 42;
+      --foreground: 219 234 254;
+      --primary: 96 165 250;
+      --primary-foreground: 15 23 42;
+      --surface: 30 58 138;
+      --surface-foreground: 219 234 254;
+      --muted: 51 65 85;
+      --muted-foreground: 148 163 184;
+      --border: 51 65 85;
+      --shadow: 0 4px 6px -1px rgba(96, 165, 250, 0.3);
+    }
+
+    /* Tailwind 扩展 */
+    .bg-background { background-color: rgb(var(--background)); }
+    .text-foreground { color: rgb(var(--foreground)); }
+    .bg-primary { background-color: rgb(var(--primary)); }
+    .text-primary { color: rgb(var(--primary)); }
+    .text-primaryForeground { color: rgb(var(--primary-foreground)); }
+    .bg-surface { background-color: rgb(var(--surface)); }
+    .text-surfaceForeground { color: rgb(var(--surface-foreground)); }
+    .bg-muted { background-color: rgb(var(--muted)); }
+    .text-mutedForeground { color: rgb(var(--muted-foreground)); }
+    .border-border { border-color: rgb(var(--border)); }
+    .shadow-theme { box-shadow: var(--shadow); }
+  </style>
+</head>
+<body class="theme-base light bg-background text-foreground min-h-screen transition-colors duration-300">
+  
+  <!-- 主题切换器 -->
+  <div class="fixed top-4 right-4 z-50">
+    <div class="bg-surface text-surfaceForeground border border-border rounded-lg p-4 shadow-theme">
+      <h3 class="text-sm font-semibold mb-3 text-primary">主题切换</h3>
+      
+      <div class="space-y-2">
+        <div>
+          <label class="text-xs text-mutedForeground">主题:</label>
+          <select id="theme-select" class="w-full mt-1 px-2 py-1 bg-surface border border-border rounded text-xs">
+            <option value="base">Base</option>
+            <option value="fire">Fire</option>
+            <option value="ocean">Ocean</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="text-xs text-mutedForeground">模式:</label>
+          <select id="mode-select" class="w-full mt-1 px-2 py-1 bg-surface border border-border rounded text-xs">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-8">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-primary mb-4">多主题 Pokemon 卡片系统</h1>
+      <p class="text-lg text-mutedForeground">支持多主题和亮/暗模式切换的演示</p>
+    </header>
+
+    <main class="space-y-8">
+      <!-- Pokemon 卡片演示 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Pikachu 卡片 -->
+        <div class="bg-surface text-surfaceForeground border border-border rounded-2xl shadow-theme overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
+          <div class="bg-primary text-primaryForeground p-6">
+            <div class="flex justify-between items-start mb-4">
+              <h2 class="text-2xl font-bold">Pikachu</h2>
+              <span class="text-sm opacity-90">2025.01.15</span>
+            </div>
+            
+            <div class="flex justify-center mb-4">
+              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" 
+                   alt="Pikachu" 
+                   class="w-32 h-32 object-contain drop-shadow-lg">
+            </div>
+            
+            <div class="flex flex-wrap gap-2 justify-center">
+              <span class="bg-surface text-surfaceForeground px-3 py-1 rounded-full text-sm font-medium opacity-90">Electric</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-primary mb-3 text-center">属性</h3>
+              <div class="grid grid-cols-3 gap-4">
+                <div class="text-center">
+                  <div class="bg-muted text-mutedForeground px-2 py-1 rounded text-xs">身高</div>
+                  <div class="font-medium mt-1 text-sm">0.4m</div>
+                </div>
+                <div class="text-center">
+                  <div class="bg-muted text-mutedForeground px-2 py-1 rounded text-xs">体重</div>
+                  <div class="font-medium mt-1 text-sm">6.0kg</div>
+                </div>
+                <div class="text-center">
+                  <div class="bg-muted text-mutedForeground px-2 py-1 rounded text-xs">特性</div>
+                  <div class="font-medium mt-1 text-sm">静电</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-muted text-mutedForeground rounded-lg p-4 mb-6">
+              <p class="text-sm leading-relaxed">皮卡丘是最受欢迎的宝可梦之一，以其可爱的外表和强大的电系技能而闻名。</p>
+            </div>
+            
+            <div>
+              <h3 class="text-lg font-semibold text-primary mb-3 text-center">基础数据</h3>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                  <div class="text-xs w-12 text-right font-medium">HP</div>
+                  <div class="text-xs w-8 text-center font-bold">8</div>
+                  <div class="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                    <div class="bg-primary h-full rounded-full transition-all duration-700 ease-out" style="width: 38%"></div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="text-xs w-12 text-right font-medium">攻击</div>
+                  <div class="text-xs w-8 text-center font-bold">12</div>
+                  <div class="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                    <div class="bg-primary h-full rounded-full transition-all duration-700 ease-out" style="width: 57%"></div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="text-xs w-12 text-right font-medium">速度</div>
+                  <div class="text-xs w-8 text-center font-bold">18</div>
+                  <div class="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                    <div class="bg-primary h-full rounded-full transition-all duration-700 ease-out" style="width: 86%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA 表单 -->
+        <div class="bg-surface text-surfaceForeground rounded-lg p-6 shadow-theme border border-border">
+          <h2 class="text-2xl font-bold text-center mb-6 text-primary">加入训练师</h2>
+          
+          <form class="space-y-4">
+            <input type="email" 
+                   placeholder="输入你的邮箱" 
+                   class="w-full px-4 py-3 bg-muted text-foreground border border-border rounded-lg 
+                          focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+                          transition-all duration-200">
+            
+            <button type="submit" 
+                    class="w-full bg-primary text-primaryForeground px-4 py-3 rounded-lg 
+                           font-medium transition-all duration-200 
+                           hover:opacity-90 hover:shadow-lg transform hover:scale-[1.02]
+                           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+              开始冒险
+            </button>
+          </form>
+        </div>
+
+        <!-- 主题说明 -->
+        <div class="bg-surface text-surfaceForeground rounded-lg p-6 shadow-theme border border-border">
+          <h3 class="text-lg font-semibold text-primary mb-4">主题系统特性</h3>
+          <ul class="space-y-2 text-sm text-mutedForeground">
+            <li>✅ 多主题支持 (base, fire, ocean)</li>
+            <li>✅ 亮/暗模式切换</li>
+            <li>✅ 语义化 CSS 变量</li>
+            <li>✅ Tailwind 语义化类名</li>
+            <li>✅ 实时主题切换</li>
+            <li>✅ 流畅过渡动画</li>
+          </ul>
+          
+          <div class="mt-4 p-3 bg-muted rounded text-xs">
+            <strong>使用方式:</strong><br>
+            右上角切换器可以实时预览不同主题和模式的效果
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="text-center mt-16 py-8 border-t border-border">
+      <p class="text-mutedForeground">© 2025 MDFriday Multi-Theme System</p>
+    </footer>
+  </div>
+
+  <script>
+    // 主题切换逻辑
+    (function() {
+      const themeSelect = document.getElementById('theme-select');
+      const modeSelect = document.getElementById('mode-select');
+      
+      function updateTheme() {
+        const theme = themeSelect.value;
+        const mode = modeSelect.value;
+        
+        // 移除所有主题类
+        document.body.className = document.body.className
+          .replace(/theme-\w+/g, '')
+          .replace(/\b(light|dark)\b/g, '')
+          .trim();
+        
+        // 添加新的主题类
+        document.body.classList.add(`theme-${theme}`, mode, 'bg-background', 'text-foreground', 'min-h-screen', 'transition-colors', 'duration-300');
+        document.body.setAttribute('data-theme', theme);
+        document.body.setAttribute('data-mode', mode);
+        
+        console.log(`主题切换到: ${theme} ${mode}`);
+      }
+      
+      themeSelect.addEventListener('change', updateTheme);
+      modeSelect.addEventListener('change', updateTheme);
+      
+      // 初始化
+      updateTheme();
+    })();
+  </script>
+</body>
+</html> 

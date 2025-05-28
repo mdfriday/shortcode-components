@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 导入主题样式 */
+@import './themes.css';
+
+/* 基础样式 */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* 组件样式 */
+@layer components {
+  .pokemon-card {
+    @apply bg-surface text-surfaceForeground border border-border rounded-2xl shadow-theme transition-all duration-300;
+  }
+  
+  .pokemon-card:hover {
+    @apply shadow-xl transform scale-105;
+  }
+  
+  .theme-container {
+    @apply min-h-screen transition-colors duration-300;
+  }
+} 
