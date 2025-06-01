@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
     const shortcode = initializeShortcode();
     
     const markdownContent = fs.readFileSync(
-      path.join(__dirname, '../content/index.md'), 
+      path.join(__dirname, '../customize/index.md'),
       'utf-8'
     );
     

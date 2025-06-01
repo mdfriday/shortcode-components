@@ -9,11 +9,11 @@ import tailwindDarkTheme from '../../../src/themes/jsons/tailwind-dark.json';
 import tailwindLightTheme from '../../../src/themes/jsons/tailwind-light.json';
 import baseDarkTheme from '../../../src/themes/jsons/base-dark.json';
 import baseLightTheme from '../../../src/themes/jsons/base-light.json';
-import {registerButtonShortcode} from "../../../src/components/content/Button";
-import {registerCardBanner} from "../../../src/components/content/CardBanner";
-import {registerFormulaPair} from "../../../src/components/content/FormulaPair";
-import {registerFormulaSingle} from "../../../src/components/content/FormulaSingle";
-import {registerFormulaFlow} from "../../../src/components/content/FormulaFlow";
+import {registerButtonShortcode} from "@/components/customize/Button";
+import {registerCardBanner} from "@/components/customize/CardBanner";
+import {registerFormulaPair} from "@/components/customize/FormulaPair";
+import {registerFormulaSingle} from "@/components/customize/FormulaSingle";
+import {registerFormulaFlow} from "@/components/customize/FormulaFlow";
 import {registerGridShortcode} from "../../../src/components/layout/Grid";
 import {registerRowShortcode} from "../../../src/components/layout/Row";
 import {registerColumnShortcode} from "../../../src/components/layout/Column";
@@ -109,7 +109,7 @@ async function renderPage(filePath: string, theme: string = 'base'): Promise<str
         .replace('{{ theme }}', `theme-${theme}`)
         .replace('{{ tailwindCSS }}', tailwindCSS);
 
-    // 替换内容（确保 renderedContent.content 是字符串）
+    // 替换内容（确保 renderedContent.customize 是字符串）
     if (renderedContent && renderedContent.content) {
         result = result.replace('{{ content }}', renderedContent.content);
     } else {

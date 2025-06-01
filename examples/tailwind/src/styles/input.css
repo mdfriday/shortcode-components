@@ -2,322 +2,163 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 主题系统 CSS 变量定义 */
-
-/* ===== BASE 主题 ===== */
-.theme-base {
-  /* Light 模式 (默认) */
-  --background: 255 255 255;
-  --foreground: 15 23 42;
-  --primary: 59 130 246;
-  --primary-foreground: 255 255 255;
-  --secondary: 241 245 249;
-  --secondary-foreground: 15 23 42;
-  --accent: 241 245 249;
-  --accent-foreground: 15 23 42;
-  --surface: 255 255 255;
-  --surface-foreground: 15 23 42;
-  --muted: 241 245 249;
-  --muted-foreground: 100 116 139;
-  --border: 226 232 240;
-  --input: 226 232 240;
-  --ring: 59 130 246;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --gradient: linear-gradient(135deg, rgb(59, 130, 246), rgb(29, 78, 216));
-}
-
-.theme-base.dark,
-.theme-base[data-mode="dark"] {
-  /* Dark 模式 */
-  --background: 15 23 42;
-  --foreground: 248 250 252;
-  --primary: 99 102 241;
-  --primary-foreground: 255 255 255;
-  --secondary: 30 41 59;
-  --secondary-foreground: 248 250 252;
-  --accent: 79 70 229;
-  --accent-foreground: 255 255 255;
-  --surface: 30 41 59;
-  --surface-foreground: 248 250 252;
-  --muted: 55 65 81;
-  --muted-foreground: 156 163 175;
-  --border: 55 65 81;
-  --input: 55 65 81;
-  --ring: 99 102 241;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  --gradient: linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229));
-}
-
-/* ===== FIRE 主题 ===== */
-.theme-fire {
-  /* Light 模式 */
-  --background: 255 240 240;
-  --foreground: 127 29 29;
-  --primary: 239 68 68;
-  --primary-foreground: 255 255 255;
-  --secondary: 254 242 242;
-  --secondary-foreground: 127 29 29;
-  --accent: 220 38 38;
-  --accent-foreground: 255 255 255;
-  --surface: 254 242 242;
-  --surface-foreground: 127 29 29;
-  --muted: 254 226 226;
-  --muted-foreground: 153 27 27;
-  --border: 252 165 165;
-  --input: 254 202 202;
-  --ring: 239 68 68;
-  --destructive: 185 28 28;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
-  --gradient: linear-gradient(135deg, rgb(239, 68, 68), rgb(220, 38, 38));
-}
-
-.theme-fire.dark,
-.theme-fire[data-mode="dark"] {
-  /* Dark 模式 */
-  --background: 31 31 31;
-  --foreground: 254 242 242;
-  --primary: 255 107 107;
-  --primary-foreground: 0 0 0;
-  --secondary: 55 25 25;
-  --secondary-foreground: 254 242 242;
-  --accent: 248 113 113;
-  --accent-foreground: 0 0 0;
-  --surface: 55 25 25;
-  --surface-foreground: 254 242 242;
-  --muted: 87 33 33;
-  --muted-foreground: 185 28 28;
-  --border: 87 33 33;
-  --input: 87 33 33;
-  --ring: 255 107 107;
-  --destructive: 185 28 28;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(255, 107, 107, 0.3);
-  --gradient: linear-gradient(135deg, rgb(255, 107, 107), rgb(248, 113, 113));
-}
-
-/* ===== OCEAN 主题 ===== */
-.theme-ocean {
-  /* Light 模式 */
-  --background: 240 249 255;
-  --foreground: 30 58 138;
-  --primary: 59 130 246;
-  --primary-foreground: 255 255 255;
-  --secondary: 239 246 255;
-  --secondary-foreground: 30 58 138;
-  --accent: 37 99 235;
-  --accent-foreground: 255 255 255;
-  --surface: 239 246 255;
-  --surface-foreground: 30 58 138;
-  --muted: 219 234 254;
-  --muted-foreground: 30 64 175;
-  --border: 147 197 253;
-  --input: 191 219 254;
-  --ring: 59 130 246;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-  --gradient: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235));
-}
-
-.theme-ocean.dark,
-.theme-ocean[data-mode="dark"] {
-  /* Dark 模式 */
-  --background: 15 23 42;
-  --foreground: 219 234 254;
-  --primary: 96 165 250;
-  --primary-foreground: 15 23 42;
-  --secondary: 30 58 138;
-  --secondary-foreground: 219 234 254;
-  --accent: 59 130 246;
-  --accent-foreground: 255 255 255;
-  --surface: 30 58 138;
-  --surface-foreground: 219 234 254;
-  --muted: 51 65 85;
-  --muted-foreground: 148 163 184;
-  --border: 51 65 85;
-  --input: 51 65 85;
-  --ring: 96 165 250;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(96, 165, 250, 0.3);
-  --gradient: linear-gradient(135deg, rgb(96, 165, 250), rgb(59, 130, 246));
-}
-
-/* ===== ELECTRIC 主题 ===== */
-.theme-electric {
-  /* Light 模式 */
-  --background: 254 252 232;
-  --foreground: 113 63 18;
-  --primary: 234 179 8;
-  --primary-foreground: 255 255 255;
-  --secondary: 254 252 232;
-  --secondary-foreground: 113 63 18;
-  --accent: 202 138 4;
-  --accent-foreground: 255 255 255;
-  --surface: 254 252 232;
-  --surface-foreground: 113 63 18;
-  --muted: 254 243 199;
-  --muted-foreground: 146 64 14;
-  --border: 253 224 71;
-  --input: 254 240 138;
-  --ring: 234 179 8;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.3);
-  --gradient: linear-gradient(135deg, rgb(234, 179, 8), rgb(202, 138, 4));
-}
-
-.theme-electric.dark,
-.theme-electric[data-mode="dark"] {
-  /* Dark 模式 */
-  --background: 41 37 36;
-  --foreground: 254 243 199;
-  --primary: 250 204 21;
-  --primary-foreground: 41 37 36;
-  --secondary: 68 64 60;
-  --secondary-foreground: 254 243 199;
-  --accent: 234 179 8;
-  --accent-foreground: 41 37 36;
-  --surface: 68 64 60;
-  --surface-foreground: 254 243 199;
-  --muted: 87 83 78;
-  --muted-foreground: 168 162 158;
-  --border: 87 83 78;
-  --input: 87 83 78;
-  --ring: 250 204 21;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 34 197 94;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(250, 204, 21, 0.3);
-  --gradient: linear-gradient(135deg, rgb(250, 204, 21), rgb(234, 179, 8));
-}
-
-/* ===== GRASS 主题 ===== */
-.theme-grass {
-  /* Light 模式 */
-  --background: 240 253 244;
-  --foreground: 20 83 45;
-  --primary: 34 197 94;
-  --primary-foreground: 255 255 255;
-  --secondary: 240 253 244;
-  --secondary-foreground: 20 83 45;
-  --accent: 22 163 74;
-  --accent-foreground: 255 255 255;
-  --surface: 240 253 244;
-  --surface-foreground: 20 83 45;
-  --muted: 220 252 231;
-  --muted-foreground: 22 101 52;
-  --border: 134 239 172;
-  --input: 187 247 208;
-  --ring: 34 197 94;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 22 163 74;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.3);
-  --gradient: linear-gradient(135deg, rgb(34, 197, 94), rgb(22, 163, 74));
-}
-
-.theme-grass.dark,
-.theme-grass[data-mode="dark"] {
-  /* Dark 模式 */
-  --background: 20 83 45;
-  --foreground: 220 252 231;
-  --primary: 74 222 128;
-  --primary-foreground: 20 83 45;
-  --secondary: 22 101 52;
-  --secondary-foreground: 220 252 231;
-  --accent: 34 197 94;
-  --accent-foreground: 255 255 255;
-  --surface: 22 101 52;
-  --surface-foreground: 220 252 231;
-  --muted: 34 197 94;
-  --muted-foreground: 187 247 208;
-  --border: 34 197 94;
-  --input: 34 197 94;
-  --ring: 74 222 128;
-  --destructive: 239 68 68;
-  --destructive-foreground: 255 255 255;
-  --warning: 245 158 11;
-  --warning-foreground: 255 255 255;
-  --success: 22 163 74;
-  --success-foreground: 255 255 255;
-  --shadow: 0 4px 6px -1px rgba(74, 222, 128, 0.3);
-  --gradient: linear-gradient(135deg, rgb(74, 222, 128), rgb(34, 197, 94));
-}
-
-/* 基础样式 */
-@layer base {
-  * {
-    @apply border-border;
-    /* 过渡动画 */
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
-  }
-  
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* 组件样式 */
 @layer components {
-  .pokemon-card {
-    @apply bg-surface text-surfaceForeground border border-border rounded-2xl shadow-theme transition-all duration-300;
+  /* 🏗️ 基础令牌层：只扩展 Tailwind 没有的 */
+  :root {
+    /* 字体族变量 */
+    --font-sans-default: theme('fontFamily.sans');
+    --font-note: theme('fontFamily.note');
+    --font-newspaper: theme('fontFamily.newspaper'); 
+    --font-mono-code: theme('fontFamily.mono-code');
+    
+    /* 品牌特色颜色 - Tailwind 调色板没有的 */
+    --brand-coral: #ff6b6b;
+    --brand-sage: #87a96b;
+    --brand-cream: #fdf6e3;
+    --brand-teal: #4ecdc4;
+    
+    /* 传统报纸色值 - 补充 Tailwind 灰色系的空隙 */
+    --gray-150: #f5f5f5;  /* 介于 gray-100 和 gray-200 之间 */
+    --gray-350: #c0c0c0;  /* 介于 gray-300 和 gray-400 之间 */
+    --navy-600: #006699;  /* 深蓝色，Tailwind 没有的色值 */
+    --pink-550: #d6336c;  /* 特定的粉色调 */
   }
-  
-  .pokemon-card:hover {
-    @apply shadow-xl transform scale-105;
+
+  /* ===== 语义设计令牌层 (基于 Tailwind) ===== */
+
+  /* BASE 主题 - 使用 Tailwind 蓝色系 */
+  .theme-base {
+    /* Light 模式 - 基于 Tailwind 蓝色和灰色令牌 */
+    --background: theme('colors.white');
+    --foreground: theme('colors.slate.900');
+    --primary: theme('colors.blue.500');
+    --primary-foreground: theme('colors.white');
+    --secondary: theme('colors.slate.100');
+    --secondary-foreground: theme('colors.slate.900');
+    --accent: theme('colors.slate.100');
+    --accent-foreground: theme('colors.slate.900');
+    --surface: theme('colors.white');
+    --surface-foreground: theme('colors.slate.900');
+    --muted: theme('colors.slate.100');
+    --muted-foreground: theme('colors.slate.600');
+    --border: theme('colors.slate.200');
+    --input: theme('colors.slate.200');
+    --ring: theme('colors.blue.500');
+    --destructive: theme('colors.red.500');
+    --destructive-foreground: theme('colors.white');
+    --warning: theme('colors.amber.500');
+    --warning-foreground: theme('colors.white');
+    --success: theme('colors.green.500');
+    --success-foreground: theme('colors.white');
+    --shadow: theme('boxShadow.md');
+    --gradient: linear-gradient(135deg, theme('colors.blue.500'), theme('colors.blue.700'));
   }
-  
-  .theme-container {
-    @apply min-h-screen transition-colors duration-300;
+
+  .theme-base.dark,
+  .theme-base[data-mode="dark"] {
+    /* Dark 模式 - 基于 Tailwind 暗色令牌 */
+    --background: theme('colors.slate.900');
+    --foreground: theme('colors.slate.50');
+    --primary: theme('colors.blue.400');
+    --primary-foreground: theme('colors.white');
+    --secondary: theme('colors.slate.800');
+    --secondary-foreground: theme('colors.slate.50');
+    --accent: theme('colors.blue.600');
+    --accent-foreground: theme('colors.white');
+    --surface: theme('colors.slate.800');
+    --surface-foreground: theme('colors.slate.50');
+    --muted: theme('colors.slate.700');
+    --muted-foreground: theme('colors.slate.400');
+    --border: theme('colors.slate.700');
+    --input: theme('colors.slate.700');
+    --ring: theme('colors.blue.400');
+    --destructive: theme('colors.red.500');
+    --destructive-foreground: theme('colors.white');
+    --warning: theme('colors.amber.500');
+    --warning-foreground: theme('colors.white');
+    --success: theme('colors.green.500');
+    --success-foreground: theme('colors.white');
+    --shadow: theme('boxShadow.lg');
+    --gradient: linear-gradient(135deg, theme('colors.blue.400'), theme('colors.blue.600'));
   }
-  
-  /* 主题切换器样式 */
-  .theme-switcher {
-    @apply bg-surface text-surfaceForeground border border-border rounded-lg shadow-theme;
+
+  /* NEWSPAPER 主题 - 传统报纸风格 */
+  .theme-newspaper {
+    /* Light 模式 - 基于传统报纸的黑白灰色调 */
+    --background: var(--gray-150);
+    --foreground: theme('colors.gray.800');
+    --primary: theme('colors.gray.800');
+    --primary-foreground: theme('colors.white');
+    --secondary: theme('colors.gray.100');
+    --secondary-foreground: theme('colors.gray.800');
+    --accent: var(--navy-600);
+    --accent-foreground: theme('colors.white');
+    --surface: theme('colors.white');
+    --surface-foreground: theme('colors.gray.800');
+    --muted: theme('colors.gray.50');
+    --muted-foreground: theme('colors.gray.600');
+    --border: theme('colors.gray.300');
+    --input: theme('colors.gray.200');
+    --ring: theme('colors.gray.800');
+    --destructive: theme('colors.red.600');
+    --destructive-foreground: theme('colors.white');
+    --warning: theme('colors.amber.600');
+    --warning-foreground: theme('colors.white');
+    --success: theme('colors.green.600');
+    --success-foreground: theme('colors.white');
+    --shadow: theme('boxShadow.md');
+    --gradient: linear-gradient(135deg, theme('colors.gray.800'), theme('colors.gray.700'));
+    
+    /* Newspaper 特殊语义变量 */
+    --container-bg: var(--gray-350);
+    --article-bg: var(--gray-150);
+    --header-border: theme('colors.gray.800');
+    --quote-bg: theme('colors.gray.50');
+    --quote-border: theme('colors.gray.800');
+    --code-bg: theme('colors.gray.50');
+    --code-text: var(--pink-550);
+    --link-color: var(--navy-600);
+    --table-header-bg: theme('colors.gray.800');
+    --table-stripe: theme('colors.gray.50');
   }
-  
-  /* CTA 表单样式 */
-  .cta-form {
-    @apply bg-surface text-surfaceForeground rounded-lg shadow-theme border border-border;
+
+  .theme-newspaper.dark,
+  .theme-newspaper[data-mode="dark"] {
+    /* Dark 模式 - 暗色报纸风格 */
+    --background: theme('colors.gray.900');
+    --foreground: theme('colors.gray.100');
+    --primary: theme('colors.gray.200');
+    --primary-foreground: theme('colors.gray.900');
+    --secondary: theme('colors.gray.800');
+    --secondary-foreground: theme('colors.gray.100');
+    --accent: theme('colors.blue.400');
+    --accent-foreground: theme('colors.white');
+    --surface: theme('colors.gray.800');
+    --surface-foreground: theme('colors.gray.100');
+    --muted: theme('colors.gray.700');
+    --muted-foreground: theme('colors.gray.400');
+    --border: theme('colors.gray.600');
+    --input: theme('colors.gray.700');
+    --ring: theme('colors.gray.200');
+    --destructive: theme('colors.red.500');
+    --destructive-foreground: theme('colors.white');
+    --warning: theme('colors.amber.500');
+    --warning-foreground: theme('colors.white');
+    --success: theme('colors.green.500');
+    --success-foreground: theme('colors.white');
+    --shadow: theme('boxShadow.lg');
+    --gradient: linear-gradient(135deg, theme('colors.gray.700'), theme('colors.gray.900'));
+    
+    /* Dark 模式特殊语义变量 */
+    --container-bg: theme('colors.gray.800');
+    --article-bg: theme('colors.gray.900');
+    --header-border: theme('colors.gray.300');
+    --quote-bg: theme('colors.gray.800');
+    --quote-border: theme('colors.gray.300');
+    --code-bg: theme('colors.gray.800');
+    --code-text: theme('colors.pink.400');
+    --link-color: theme('colors.blue.400');
+    --table-header-bg: theme('colors.gray.700');
+    --table-stripe: theme('colors.gray.800');
   }
-} 
+}

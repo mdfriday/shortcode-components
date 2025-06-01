@@ -1,18 +1,14 @@
-import {PageLexer, PageRenderer, ShortcodeRenderer} from '@mdfriday/shortcode-compiler';
-import {Theme} from './theme';
-import {ThemeManager} from "./themes";
-import {ShortcodeManager, ShortcodeMetadata, ShortcodeTemplateOptions} from "./shortcode-manager";
+import { PageLexer, PageRenderer, ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
+import { ShortcodeManager, ShortcodeMetadata, ShortcodeTemplateOptions } from "./shortcode-manager";
 
 export class Shortcode {
-    private readonly themeManager: ThemeManager;
-    private readonly renderer: ShortcodeRenderer;
+    public readonly renderer: ShortcodeRenderer;
     private readonly pageRenderer: PageRenderer;
     private readonly manager: ShortcodeManager;
 
     constructor() {
-        this.themeManager = new Theme('mdf').manager();
         this.renderer = new ShortcodeRenderer();
-        this.manager = new ShortcodeManager(this.themeManager);
+        this.manager = new ShortcodeManager();
         this.pageRenderer = new PageRenderer(this.renderer);
     }
 
@@ -90,12 +86,12 @@ export class Shortcode {
     }
 
     /**
-     * Extract all shortcode names from markdown content
-     * @param markdownContent The markdown content to extract shortcode names from
-     * @returns An array of shortcode names found in the content
+     * Extract all shortcode names from markdown customize
+     * @param markdownContent The markdown customize to extract shortcode names from
+     * @returns An array of shortcode names found in the customize
      */
     extractShortcodeNames(markdownContent: string): string[] {
-        // Parse the content using PageLexer
+        // Parse the customize using PageLexer
         const result = PageLexer.parse(markdownContent);
         
         // Set to collect unique shortcode names
@@ -126,12 +122,12 @@ export class Shortcode {
     }
 
     /**
-     * Perform a complete rendering of markdown content with shortcodes
-     * @param markdownContent The markdown content to render
-     * @returns The fully rendered content
+     * Perform a complete rendering of markdown customize with shortcodes
+     * @param markdownContent The markdown customize to render
+     * @returns The fully rendered customize
      */
     render(markdownContent: string): string {
-        // Render the content
+        // Render the customize
         const renderedResult = this.pageRenderer.render(markdownContent);
         
         return renderedResult.content;
@@ -139,8 +135,8 @@ export class Shortcode {
 
     /**
      * First step of the rendering process - replaces shortcodes with placeholders
-     * @param markdownContent The markdown content to process
-     * @returns The content with shortcodes replaced by placeholders
+     * @param markdownContent The markdown customize to process
+     * @returns The customize with shortcodes replaced by placeholders
      */
     stepRender(markdownContent: string): string {
         // Process the first step
@@ -151,8 +147,8 @@ export class Shortcode {
 
     /**
      * Final step of the rendering process - replaces placeholders with rendered shortcodes
-     * @param htmlContent The HTML content with placeholders
-     * @returns The fully rendered HTML content
+     * @param htmlContent The HTML customize with placeholders
+     * @returns The fully rendered HTML customize
      */
     finalRender(htmlContent: string): string {
         // Process the final step

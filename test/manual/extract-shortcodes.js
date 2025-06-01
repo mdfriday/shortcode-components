@@ -7,7 +7,7 @@ const sc = new Shortcode();
 // Check if the method exists
 console.log('extractShortcodeNames method type:', typeof sc.extractShortcodeNames);
 
-// Test extracting shortcode names from content
+// Test extracting shortcode names from customize
 try {
   // Simple case with one shortcode
   const simpleContent = 'Content with {{< shortcode param="value" >}} embedded.';

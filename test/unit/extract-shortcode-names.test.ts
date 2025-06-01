@@ -23,34 +23,34 @@ describe('Shortcode extractShortcodeNames', () => {
     shortcode = new Shortcode();
   });
 
-  it('should return an empty array for content without shortcodes', () => {
-    // Mock the parser to return content with no shortcodes
+  it('should return an empty array for customize without shortcodes', () => {
+    // Mock the parser to return customize with no shortcodes
     (PageLexer.parse as jest.Mock).mockReturnValue({
       items: [
-        { type: 'content', val: 'This is content without shortcodes' }
+        { type: 'content', val: 'This is customize without shortcodes' }
       ]
     });
 
-    const result = shortcode.extractShortcodeNames('This is content without shortcodes');
+    const result = shortcode.extractShortcodeNames('This is customize without shortcodes');
     expect(result).toEqual([]);
   });
 
   it('should extract a single shortcode name', () => {
-    // Mock the parser to return content with one shortcode
+    // Mock the parser to return customize with one shortcode
     (PageLexer.parse as jest.Mock).mockReturnValue({
       items: [
-        { type: 'content', val: 'This is content with a ' },
+        { type: 'content', val: 'This is customize with a ' },
         { type: 'shortcode', name: 'testShortcode', params: [], content: '' },
         { type: 'content', val: ' embedded in it.' }
       ]
     });
 
-    const result = shortcode.extractShortcodeNames('This is content with a {{< testShortcode >}} embedded in it.');
+    const result = shortcode.extractShortcodeNames('This is customize with a {{< testShortcode >}} embedded in it.');
     expect(result).toEqual(['testShortcode']);
   });
 
   it('should extract multiple different shortcode names', () => {
-    // Mock the parser to return content with multiple different shortcodes
+    // Mock the parser to return customize with multiple different shortcodes
     (PageLexer.parse as jest.Mock).mockReturnValue({
       items: [
         { type: 'content', val: 'This has ' },
@@ -66,7 +66,7 @@ describe('Shortcode extractShortcodeNames', () => {
   });
 
   it('should remove duplicate shortcode names', () => {
-    // Mock the parser to return content with duplicate shortcodes
+    // Mock the parser to return customize with duplicate shortcodes
     (PageLexer.parse as jest.Mock).mockReturnValue({
       items: [
         { type: 'content', val: 'This has ' },
@@ -82,7 +82,7 @@ describe('Shortcode extractShortcodeNames', () => {
   });
 
   it('should handle nested shortcodes', () => {
-    // Mock the parser to return content with nested shortcodes
+    // Mock the parser to return customize with nested shortcodes
     (PageLexer.parse as jest.Mock).mockReturnValue({
       items: [
         { type: 'content', val: 'This has a ' },
@@ -90,9 +90,9 @@ describe('Shortcode extractShortcodeNames', () => {
           type: 'shortcode', 
           name: 'outerShortcode', 
           params: [], 
-          content: 'content with {{< innerShortcode >}}',
+          content: 'customize with {{< innerShortcode >}}',
           items: [
-            { type: 'content', val: 'content with ' },
+            { type: 'content', val: 'customize with ' },
             { type: 'shortcode', name: 'innerShortcode', params: [], content: '' }
           ]
         },
@@ -100,14 +100,14 @@ describe('Shortcode extractShortcodeNames', () => {
       ]
     });
 
-    const result = shortcode.extractShortcodeNames('This has a {{< outerShortcode >}}content with {{< innerShortcode >}}{{< /outerShortcode >}} at the end.');
+    const result = shortcode.extractShortcodeNames('This has a {{< outerShortcode >}}customize with {{< innerShortcode >}}{{< /outerShortcode >}} at the end.');
     expect(result).toContain('outerShortcode');
     expect(result).toContain('innerShortcode');
     expect(result.length).toBe(2);
   });
 
-  it('should handle complex content with multiple and nested shortcodes', () => {
-    // Mock the parser to return complex content
+  it('should handle complex customize with multiple and nested shortcodes', () => {
+    // Mock the parser to return complex customize
     (PageLexer.parse as jest.Mock).mockReturnValue({
       items: [
         { type: 'content', val: '# Heading\n\n' },
@@ -158,7 +158,7 @@ describe('Shortcode extractShortcodeNames', () => {
     // Create a new instance to use the real implementation
     const realShortcode = new Shortcode();
     
-    const content = 'This is content with a {{< testShortcode >}} embedded in it.';
+    const content = 'This is customize with a {{< testShortcode >}} embedded in it.';
     const result = realShortcode.extractShortcodeNames(content);
     
     // The real PageLexer implementation might parse shortcodes differently

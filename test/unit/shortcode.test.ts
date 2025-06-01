@@ -6,12 +6,12 @@ import { Theme } from '../../src/theme';
 // Mock for PageRenderer
 const mockRender = jest.fn().mockImplementation((content, options) => {
   if (options && options.stepRender) {
-    return { content: 'step-rendered-content' };
+    return { content: 'step-rendered-customize' };
   }
-  return { content: 'rendered-content' };
+  return { content: 'rendered-customize' };
 });
 
-const mockFinalRender = jest.fn().mockReturnValue('final-rendered-content');
+const mockFinalRender = jest.fn().mockReturnValue('final-rendered-customize');
 
 // Mock dependencies
 jest.mock('@mdfriday/shortcode-compiler', () => ({
@@ -100,7 +100,7 @@ describe('Shortcode', () => {
       );
     });
 
-    it('should register a shortcode with custom options', () => {
+    it('should register a shortcode with customize options', () => {
       const options = {
         funcMap: new Map([['test', () => {}]]),
         dataProvider: () => ({})
@@ -159,12 +159,12 @@ describe('Shortcode', () => {
     const markdownContent = '# Test\n{{< testShortcode >}}';
     const htmlContent = '<h1>Test</h1>\n<!-- SHORTCODE_PLACEHOLDER_0 -->';
 
-    it('should render markdown content', () => {
+    it('should render markdown customize', () => {
       // Set up cache miss first, then hit
 
       const result = shortcode.render(markdownContent);
       
-      expect(result).toBe('rendered-content');
+      expect(result).toBe('rendered-customize');
       expect(mockRender).toHaveBeenCalledWith(markdownContent);
 
       // Should still be called only once
@@ -174,7 +174,7 @@ describe('Shortcode', () => {
     it('should perform step rendering', () => {
       const result = shortcode.stepRender(markdownContent);
       
-      expect(result).toBe('step-rendered-content');
+      expect(result).toBe('step-rendered-customize');
       expect(mockRender).toHaveBeenCalledWith(
         markdownContent, 
         { stepRender: true }
@@ -187,7 +187,7 @@ describe('Shortcode', () => {
     it('should perform final rendering', () => {
       const result = shortcode.finalRender(htmlContent);
       
-      expect(result).toBe('final-rendered-content');
+      expect(result).toBe('final-rendered-customize');
       expect(mockFinalRender).toHaveBeenCalledWith(htmlContent);
 
       // Should still be called only once

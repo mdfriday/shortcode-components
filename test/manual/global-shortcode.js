@@ -7,7 +7,7 @@ const globalShortcode = new pkg.Shortcode();
 // Check if the method exists
 console.log('Global - extractShortcodeNames method type:', typeof globalShortcode.extractShortcodeNames);
 
-// Test extracting shortcode names from content
+// Test extracting shortcode names from customize
 try {
   // Simple case with one shortcode
   const simpleContent = 'Content with {{< shortcode param="value" >}} embedded.';

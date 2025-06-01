@@ -3,7 +3,7 @@ import { ShortcodeRenderer, PageRenderer } from '@mdfriday/shortcode-compiler';
 import * as fs from 'fs';
 import * as path from 'path';
 
-// Read the markdown content from file or use a string directly
+// Read the markdown customize from file or use a string directly
 const markdownContent = `
 {{< mdfFormulaPair
 headerTitle="[爆款文案结构公式]"

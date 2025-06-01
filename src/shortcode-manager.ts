@@ -1,5 +1,4 @@
 import { ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
-import { ThemeManager } from './themes';
 
 // Default function map used by most shortcodes
 const defaultFuncMap = new Map<string, (...args: any[]) => any>([
@@ -15,7 +14,10 @@ const defaultFuncMap = new Map<string, (...args: any[]) => any>([
   ['add', (a: number, b: number) => a + b],
   ['div', (a: number, b: number) => a / b],
   ['mul', (a: number, b: number) => a * b],
-  ['float', (str: string) => parseFloat(str)]
+  ['float', (str: string) => parseFloat(str)],
+  ['ge', (a: number, b: number) => a >= b],
+  ['and', (a: any, b: any) => a && b],
+  ['index', (arr: any[], i: number) => arr[i]]
 ]);
 
 // Type for shortcode metadata
@@ -52,10 +54,8 @@ export class ShortcodeManager {
   private shortcodesByUuid: Map<string, ShortcodeMetadata> = new Map();
   private shortcodesById: Map<string | number, ShortcodeMetadata> = new Map();
   
-  private readonly themeManager: ThemeManager;
-  
-  constructor(themeManager: ThemeManager) {
-    this.themeManager = themeManager;
+  constructor() {
+    // Simplified constructor without ThemeManager
   }
   
   /**

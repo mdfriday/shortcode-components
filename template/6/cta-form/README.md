@@ -59,7 +59,7 @@ For custom colors, use `data-theme="custom"` and set the `--custom-theme-color` 
 
 ```html
 <div class="cta-form" data-theme="custom" style="--custom-theme-color: #9c27b0;">
-    <!-- content -->
+    <!-- customize -->
 </div>
 ```
 

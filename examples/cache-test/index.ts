@@ -37,7 +37,7 @@ function testCacheIssue() {
     }
   );
 
-  // Original markdown content with black title color
+  // Original markdown customize with black title color
   const originalMarkdown = `
 {{< testCard
 title="Test Card"
@@ -48,7 +48,7 @@ When the title color is changed, the cached version may not update.
 {{< /testCard >}}
   `;
 
-  // Updated markdown content with red title color
+  // Updated markdown customize with red title color
   const updatedMarkdown = `
 {{< testCard
 title="Test Card"
@@ -59,7 +59,7 @@ When the title color is changed, the cached version may not update.
 {{< /testCard >}}
   `;
 
-  // Step 1: Render the original content
+  // Step 1: Render the original customize
   console.log('\n--- STEP 1: First Render (black) ---');
   console.log('Input markdown contains titleColor="black"');
   const originalStepResult = shortcode.stepRender(originalMarkdown);

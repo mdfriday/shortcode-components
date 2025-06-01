@@ -43,11 +43,11 @@ const shortcode = new Shortcode();
 shortcode.registerShortcode({
   id: 1,
   name: 'alert',
-  template: '<div class="alert alert-{{.type}}">{{.content}}</div>',
+  template: '<div class="alert alert-{{.type}}">{{.customize}}</div>',
   uuid: 'alert-shortcode'
 });
 
-// Render markdown content with shortcodes
+// Render markdown customize with shortcodes
 const markdown = 'Normal text {{< alert type="danger" >}}This is an alert{{< /alert >}}';
 const html = shortcode.render(markdown);
 ```
@@ -66,11 +66,11 @@ const shortcode = new Shortcode();
 shortcode.registerShortcode({
   id: 2,
   name: 'button',
-  template: '<button class="btn btn-{{.type}}">{{.content}}</button>',
+  template: '<button class="btn btn-{{.type}}">{{.customize}}</button>',
   uuid: 'button-shortcode'
 });
 
-// Render markdown content with shortcodes
+// Render markdown customize with shortcodes
 const markdown = 'Normal text {{< button type="primary" >}}Click me{{< /button >}}';
 const html = shortcode.render(markdown);
 ```
@@ -87,7 +87,7 @@ When registering a shortcode, you should provide metadata:
 shortcode.registerShortcode({
   id: "unique-id", // Required: string or number
   name: "shortcode-name", // Required: the name used in markdown {{< shortcode-name >}}
-  template: "Template with {{.content}} and {{.params}}", // Required: the template to render
+  template: "Template with {{.customize}} and {{.params}}", // Required: the template to render
   uuid: "optional-uuid", // Optional: a UUID for the shortcode
   tags: ["optional", "tags"], // Optional: tags for categorization
   // Other optional fields: slug, example, asset, width, height, etc.
@@ -99,7 +99,7 @@ shortcode.registerShortcode({
 ### Custom Functions and Data Providers
 
 ```javascript
-// Register a shortcode with custom functions and data provider
+// Register a shortcode with customize functions and data provider
 shortcode.registerShortcode(
   {
     id: 3,
@@ -111,7 +111,7 @@ shortcode.registerShortcode(
     // Custom function map (optional)
     funcMap: new Map([
       ['uppercase', (str) => str.toUpperCase()],
-      // Add more custom functions...
+      // Add more customize functions...
     ]),
     
     // Custom data provider (optional)

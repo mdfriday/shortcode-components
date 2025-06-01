@@ -11,17 +11,17 @@ import baseDarkTheme from '../../../src/themes/jsons/base-dark.json';
 import baseLightTheme from '../../../src/themes/jsons/base-light.json';
 
 // Import component registration functions
-import {registerButtonShortcode} from "../../../src/components/content/Button";
-import {registerCardBanner} from "../../../src/components/content/CardBanner";
-import {registerFormulaPair} from "../../../src/components/content/FormulaPair";
-import {registerFormulaSingle} from "../../../src/components/content/FormulaSingle";
-import {registerFormulaFlow} from "../../../src/components/content/FormulaFlow";
-import {registerRankingFishingCard001} from "../../../src/components/content/RankingFishingCard001";
-import {registerMasterPoster001} from "../../../src/components/content/MasterPoster001";
-import {registerToyotaA3Template001} from "../../../src/components/content/ToyotaA3Template001";
-import {registerCornellNotes001} from "../../../src/components/content/CornellNotes001";
-import {registerMcKinseyMethod001} from "../../../src/components/content/McKinseyMethod001";
-import {registerStorytellingInfoCard001} from "../../../src/components/content/Storytelling-InfoCard-001";
+import {registerButtonShortcode} from "../../../src/components/customize/Button";
+import {registerCardBanner} from "../../../src/components/customize/CardBanner";
+import {registerFormulaPair} from "../../../src/components/customize/FormulaPair";
+import {registerFormulaSingle} from "../../../src/components/customize/FormulaSingle";
+import {registerFormulaFlow} from "../../../src/components/customize/FormulaFlow";
+import {registerRankingFishingCard001} from "../../../src/components/customize/RankingFishingCard001";
+import {registerMasterPoster001} from "../../../src/components/customize/MasterPoster001";
+import {registerToyotaA3Template001} from "../../../src/components/customize/ToyotaA3Template001";
+import {registerCornellNotes001} from "../../../src/components/customize/CornellNotes001";
+import {registerMcKinseyMethod001} from "../../../src/components/customize/McKinseyMethod001";
+import {registerStorytellingInfoCard001} from "../../../src/components/customize/Storytelling-InfoCard-001";
 import {registerGridShortcode} from "../../../src/components/layout/Grid";
 import {registerRowShortcode} from "../../../src/components/layout/Row";
 import {registerColumnShortcode} from "../../../src/components/layout/Column";
@@ -141,7 +141,7 @@ async function renderPage(component: string, theme: string = 'base'): Promise<st
     // Check if file exists, otherwise use index
     const markdownPath = fileExists(filePath) ? filePath : path.join(__dirname, 'components/index.md');
     
-    // Read markdown content
+    // Read markdown customize
     const markdownContent = fs.readFileSync(markdownPath, 'utf-8');
 
     // Extract frontmatter metadata (title and description)
@@ -158,7 +158,7 @@ async function renderPage(component: string, theme: string = 'base'): Promise<st
         if (descMatch) description = descMatch[1].trim();
     }
 
-    // Render markdown content
+    // Render markdown customize
     const renderedContent = pageRenderer.render(markdownContent);
 
     // Get generated Tailwind CSS with error handling
@@ -241,11 +241,11 @@ async function renderPage(component: string, theme: string = 'base'): Promise<st
         result = result.replace(`{{ ${key} }}`, value);
     }
 
-    // Replace content
+    // Replace customize
     if (renderedContent && renderedContent.content) {
         result = result.replace('{{ content }}', `<div class="component-preview">${renderedContent.content}</div>`);
     } else {
-        result = result.replace('{{ content }}', '<div class="component-preview">No content to display</div>');
+        result = result.replace('{{ content }}', '<div class="component-preview">No customize to display</div>');
     }
 
     return result;

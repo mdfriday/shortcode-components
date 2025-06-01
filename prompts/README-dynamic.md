@@ -25,7 +25,7 @@ When registering a shortcode, you need to provide metadata with the following st
 interface ShortcodeMetadata {
   id: string | number;     // Unique identifier (required)
   name: string;            // Shortcode name (required)
-  template: string;        // Template content (required)
+  template: string;        // Template customize (required)
   uuid?: string;           // Universal unique identifier
   slug?: string;           // URL-friendly shortcode name
   example?: string;        // Example usage
@@ -51,7 +51,7 @@ import { Shortcode } from '@mdfriday/shortcode';
 // Create a new Shortcode instance with a cache size of 100 items (default)
 const shortcode = new Shortcode();
 
-// Or specify a custom cache size
+// Or specify a customize cache size
 const shortcodeWithCustomCache = new Shortcode(50);
 ```
 
@@ -123,7 +123,7 @@ const allShortcodes = shortcode.getAllShortcodes();
 const markdownContent = `# Title
 {{< cardBanner title="My Banner" />}}`;
 
-// Render the content
+// Render the customize
 const rendered = shortcode.render(markdownContent);
 ```
 
@@ -182,7 +182,7 @@ function renderMarkdown(content) {
 }
 
 // Use the function
-const result = renderMarkdown('# Hello\n{{< myShortcode >}}content{{< /myShortcode >}}');
+const result = renderMarkdown('# Hello\n{{< myShortcode >}}customize{{< /myShortcode >}}');
 ```
 
 ## Default Function Map

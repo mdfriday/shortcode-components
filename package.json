@@ -21,6 +21,9 @@
     "start": "webpack serve",
     "build": "webpack",
     "prepublishOnly": "npm run build",
+    "build-css": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css",
+    "build-css:watch": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --watch",
+    "build-css:prod": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --minify",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:unit": "jest test/unit",
@@ -57,7 +60,8 @@
     "typescript": "^5.0.0",
     "webpack": "^5.80.0",
     "webpack-cli": "^5.0.2",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "tailwindcss": "^3.4.0"
   },
   "publishConfig": {
     "access": "public"

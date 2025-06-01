@@ -99,7 +99,7 @@ jest.mock('@mdfriday/shortcode-compiler', () => {
           };
         }
         
-        // Simple content render
+        // Simple customize render
         const regex = /{{<\s+([^\s>]+)([^>]*?)(?:\/>|>(?:[\s\S]*?){{<\s*\/\s*\1\s*>}})/g;
         let result = content;
         let match;
@@ -131,7 +131,7 @@ jest.mock('@mdfriday/shortcode-compiler', () => {
         return { content: result };
       }),
       finalRender: jest.fn().mockImplementation((content: string) => {
-        return content.replace(/<!-- SHORTCODE_PLACEHOLDER -->/g, '<div>Rendered content</div>');
+        return content.replace(/<!-- SHORTCODE_PLACEHOLDER -->/g, '<div>Rendered customize</div>');
       })
     }))
   };
@@ -178,11 +178,11 @@ describe('Shortcode Integration', () => {
     
     shortcode.registerShortcode(metadata);
     
-    // Render content with the shortcode
-    const content = '# Test\n\n{{< simple content="Hello World" />}}';
+    // Render customize with the shortcode
+    const content = '# Test\n\n{{< simple customize="Hello World" />}}';
     const rendered = shortcode.render(content);
     
-    // Check the rendered content
+    // Check the rendered customize
     expect(rendered).toContain('<div class="simple-shortcode">Hello World</div>');
   });
   
@@ -196,28 +196,28 @@ describe('Shortcode Integration', () => {
     
     shortcode.registerShortcode(metadata);
     
-    // Render content with the shortcode and showing content
-    const contentShown = '{{< complex title="Test Title" showContent="true" content="Test Content" items="item1,item2,item3" />}}';
+    // Render customize with the shortcode and showing customize
+    const contentShown = '{{< complex title="Test Title" showContent="true" customize="Test Content" items="item1,item2,item3" />}}';
     const renderedShown = shortcode.render(contentShown);
     
-    // Check the rendered content with content shown
+    // Check the rendered customize with customize shown
     expect(renderedShown).toContain('<h2>Test Title</h2>');
-    expect(renderedShown).toContain('<div class="content">Test Content</div>');
+    expect(renderedShown).toContain('<div class="customize">Test Content</div>');
     expect(renderedShown).toContain('<li>item1</li>');
     expect(renderedShown).toContain('<li>item2</li>');
     expect(renderedShown).toContain('<li>item3</li>');
-    expect(renderedShown).not.toContain('<div class="placeholder">No content to display</div>');
+    expect(renderedShown).not.toContain('<div class="placeholder">No customize to display</div>');
     
-    // Render content with the shortcode but hiding content
+    // Render customize with the shortcode but hiding customize
     const contentHidden = '{{< complex title="Test Title" showContent="false" items="item1,item2" />}}';
     const renderedHidden = shortcode.render(contentHidden);
     
-    // Check the rendered content with content hidden
+    // Check the rendered customize with customize hidden
     expect(renderedHidden).toContain('<h2>Test Title</h2>');
-    expect(renderedHidden).toContain('<div class="placeholder">No content to display</div>');
+    expect(renderedHidden).toContain('<div class="placeholder">No customize to display</div>');
     expect(renderedHidden).toContain('<li>item1</li>');
     expect(renderedHidden).toContain('<li>item2</li>');
-    expect(renderedHidden).not.toContain('<div class="content">');
+    expect(renderedHidden).not.toContain('<div class="customize">');
   });
   
   it('should support step rendering with a registered shortcode', () => {
@@ -228,7 +228,7 @@ describe('Shortcode Integration', () => {
       template: simpleTemplate
     });
     
-    const content = '# Step Test\n\n{{< step content="Step Content" />}}';
+    const content = '# Step Test\n\n{{< step customize="Step Content" />}}';
     
     // Step 1: Replace shortcodes with placeholders
     const step1 = shortcode.stepRender(content);
@@ -246,24 +246,24 @@ describe('Shortcode Integration', () => {
     // Step 3: Final rendering - replace placeholders with rendered shortcodes
     const finalResult = shortcode.finalRender(markdownRendered);
     expect(finalResult).toContain('<h1>Step Test</h1>');
-    expect(finalResult).toContain('<div>Rendered content</div>');
+    expect(finalResult).toContain('<div>Rendered customize</div>');
     
-    // Final rendered content should contain new content
+    // Final rendered customize should contain new customize
     expect(finalResult).not.toBe(markdownRendered);
   });
   
-  it('should handle multiple shortcodes in one content', () => {
+  it('should handle multiple shortcodes in one customize', () => {
     // Register two different shortcodes
     shortcode.registerShortcode({
       id: 5,
       name: 'first',
-      template: '<span class="first">{{ .Get "content" }}</span>'
+      template: '<span class="first">{{ .Get "customize" }}</span>'
     });
     
     shortcode.registerShortcode({
       id: 6,
       name: 'second',
-      template: '<span class="second">{{ .Get "content" }}</span>'
+      template: '<span class="second">{{ .Get "customize" }}</span>'
     });
     
     const content = `
@@ -283,7 +283,7 @@ describe('Shortcode Integration', () => {
     expect(rendered).toContain('Some text in between.');
   });
 
-  it('should extract shortcode names from content', () => {
+  it('should extract shortcode names from customize', () => {
     // Register multiple shortcodes
     shortcode.registerShortcode({
       id: 7,
@@ -300,22 +300,22 @@ describe('Shortcode Integration', () => {
     shortcode.registerShortcode({
       id: 9,
       name: 'tabs',
-      template: '<div class="tabs">{{ .Get "content" }}</div>'
+      template: '<div class="tabs">{{ .Get "customize" }}</div>'
     });
 
     shortcode.registerShortcode({
       id: 10,
       name: 'tab',
-      template: '<div class="tab">{{ .Get "content" }}</div>'
+      template: '<div class="tab">{{ .Get "customize" }}</div>'
     });
 
     // Test with no shortcodes
-    const emptyContent = 'This content has no shortcodes.';
+    const emptyContent = 'This customize has no shortcodes.';
     const emptyResult = shortcode.extractShortcodeNames(emptyContent);
     expect(emptyResult).toEqual([]);
 
     // Test with a single shortcode
-    const singleContent = 'This content has {{< alert message="Warning!" />}} a single shortcode.';
+    const singleContent = 'This customize has {{< alert message="Warning!" />}} a single shortcode.';
     const singleResult = shortcode.extractShortcodeNames(singleContent);
     expect(singleResult).toContain('alert');
     expect(singleResult.length).toBe(1);

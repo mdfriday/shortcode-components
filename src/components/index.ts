@@ -1,10 +1,10 @@
-// Export content components
-export * from './content/Button';
-export * from './content/CardBanner';
-export * from './content/FormulaSingle';
-export * from './content/FormulaPair';
-export * from './content/FormulaFlow';
-export * from './content/Storytelling-InfoCard-001';
+// Export customize components
+export * from './customize/Button';
+export * from './customize/CardBanner';
+export * from './customize/FormulaSingle';
+export * from './customize/FormulaPair';
+export * from './customize/FormulaFlow';
+export * from './customize/Storytelling-InfoCard-001';
 
 // Export layout components
 export * from './layout/Grid';

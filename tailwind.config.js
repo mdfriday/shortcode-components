@@ -9,11 +9,6 @@ module.exports = {
   safelist: [
     // 确保主题类始终被包含
     'theme-base',
-    'theme-fire',
-    'theme-ocean', 
-    'theme-electric',
-    'theme-grass',
-    'theme-newspaper',
     'light',
     'dark'
   ],
@@ -53,10 +48,7 @@ module.exports = {
     function({ addBase }) {
       addBase({
         // 确保主题类被强制包含
-        '.theme-newspaper': {},
         '.theme-base': {},
-        '.theme-newspaper.light': {},
-        '.theme-newspaper.dark': {},
       })
     }
   ],

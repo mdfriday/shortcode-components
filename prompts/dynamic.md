@@ -50,10 +50,10 @@ const stepOneResult = pageRenderer.render(content, { stepRender: true });
 // The second step: Markdown rendering
 const htmlContent = markdownRenderer(stepOneResult.content);
 
-// The third step: Final rendering, replace placeholder with actual content
+// The third step: Final rendering, replace placeholder with actual customize
 const finalResult = pageRenderer.finalRender(htmlContent);
 
-console.log(finalResult); // Complete correct HTML content
+console.log(finalResult); // Complete correct HTML customize
 ```
 
 需要在 render 的时候指明 stepRender。

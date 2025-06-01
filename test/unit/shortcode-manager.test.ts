@@ -32,7 +32,7 @@ describe('ShortcodeManager', () => {
       id: 1,
       uuid: 'test-uuid',
       name: 'testShortcode',
-      template: '<div>{{ .Get "content" }}</div>',
+      template: '<div>{{ .Get "customize" }}</div>',
       slug: 'test-slug',
       tags: ['test', 'example']
     };
@@ -99,7 +99,7 @@ describe('ShortcodeManager', () => {
       );
     });
 
-    it('should use custom funcMap and dataProvider if provided', () => {
+    it('should use customize funcMap and dataProvider if provided', () => {
       const customFuncMap = new Map([['custom', () => 'custom']]);
       const customDataProvider = () => ({ custom: 'data' });
       
@@ -108,7 +108,7 @@ describe('ShortcodeManager', () => {
         dataProvider: customDataProvider
       });
       
-      // Verify the renderer was called with custom options
+      // Verify the renderer was called with customize options
       expect(mockRenderer.registerTemplateShortcode).toHaveBeenCalledWith(
         testMetadata.name,
         expect.objectContaining({
