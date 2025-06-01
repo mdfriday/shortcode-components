@@ -4,11 +4,13 @@
   "description": "Multi-theme system with light/dark modes using Tailwind CSS",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build-css && tsc",
     "dev": "ts-node src/index.ts",
     "start": "node dist/index.js",
     "serve": "ts-node src/server.ts",
-    "build-css": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --watch"
+    "build-css": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css",
+    "build-css:watch": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --watch",
+    "build-css:prod": "tailwindcss -i ./src/styles/input.css -o ./dist/output.css --minify"
   },
   "dependencies": {
     "@mdfriday/shortcode-compiler": "^0.2.4",

@@ -1,5 +1,17 @@
 import { ShortcodeRenderer } from '@mdfriday/shortcode-compiler';
-import { ThemeManager } from '../theme-manager';
+
+/**
+ * 解析主题参数，返回有效的主题配置
+ */
+function parseTheme(theme?: string, mode?: string) {
+  const validThemes = ['base', 'fire', 'ocean', 'electric', 'grass'];
+  const validModes = ['light', 'dark'];
+  
+  return {
+    theme: validThemes.includes(theme || '') ? theme : 'base',
+    mode: validModes.includes(mode || '') ? mode : 'light'
+  };
+}
 
 /**
  * 注册 Pokemon 卡片组件
@@ -135,12 +147,7 @@ export function registerPokemonComponent(renderer: ShortcodeRenderer) {
       ['lt', (a: number, b: number) => a < b],
       ['and', (...args: any[]) => args.every(Boolean)],
       ['index', (arr: any[], i: number) => Array.isArray(arr) && i >= 0 && i < arr.length ? arr[i] : ''],
-      ['parseTheme', (theme?: string, mode?: string) => 
-        ThemeManager.parseThemeFromParams(theme, mode)
-      ],
-      ['getThemeClasses', (theme: string, mode: string) => 
-        ThemeManager.getThemeClasses(theme as any, mode as any)
-      ]
+      ['parseTheme', parseTheme]
     ]),
     dataProvider: (params: string[], content?: string) => ({ Inner: content })
   });
@@ -189,9 +196,7 @@ export function registerCtaFormComponent(renderer: ShortcodeRenderer) {
     `,
     funcMap: new Map<string, (...args: any[]) => any>([
       ['default', (value: any, defaultValue: any) => value || defaultValue],
-      ['parseTheme', (theme?: string, mode?: string) => 
-        ThemeManager.parseThemeFromParams(theme, mode)
-      ]
+      ['parseTheme', parseTheme]
     ])
   });
 }
@@ -203,13 +208,13 @@ export function registerThemeSwitcherComponent(renderer: ShortcodeRenderer) {
   renderer.registerTemplateShortcode('themeSwitcher', {
     template: `
 <div class="fixed top-4 right-4 z-50">
-  <div class="bg-surface text-surfaceForeground border border-border rounded-lg p-4 shadow-theme">
+  <div class="theme-switcher p-4">
     <h3 class="text-sm font-semibold mb-3 text-primary">主题切换</h3>
     
     <div class="space-y-2">
       <div>
         <label class="text-xs text-mutedForeground">主题:</label>
-        <select id="theme-select" class="w-full mt-1 px-2 py-1 bg-input border border-border rounded text-xs">
+        <select id="theme-select" class="w-full mt-1 px-2 py-1 bg-input text-foreground border border-border rounded text-xs">
           <option value="base">Base</option>
           <option value="fire">Fire</option>
           <option value="ocean">Ocean</option>
@@ -220,39 +225,17 @@ export function registerThemeSwitcherComponent(renderer: ShortcodeRenderer) {
       
       <div>
         <label class="text-xs text-mutedForeground">模式:</label>
-        <select id="mode-select" class="w-full mt-1 px-2 py-1 bg-input border border-border rounded text-xs">
+        <select id="mode-select" class="w-full mt-1 px-2 py-1 bg-input text-foreground border border-border rounded text-xs">
           <option value="light">Light</option>
           <option value="dark">Dark</option>
         </select>
       </div>
     </div>
-    
-    <script>
-      (function() {
-        const themeSelect = document.getElementById('theme-select');
-        const modeSelect = document.getElementById('mode-select');
-        
-        function updateTheme() {
-          const theme = themeSelect.value;
-          const mode = modeSelect.value;
-          
-          // 更新 body 类名
-          document.body.className = document.body.className
-            .replace(/theme-\\w+/g, '')
-            .replace(/\\b(light|dark)\\b/g, '')
-            .trim();
-          
-          document.body.classList.add(\`theme-\${theme}\`, mode);
-          document.body.setAttribute('data-theme', theme);
-          document.body.setAttribute('data-mode', mode);
-        }
-        
-        themeSelect.addEventListener('change', updateTheme);
-        modeSelect.addEventListener('change', updateTheme);
-      })();
-    </script>
   </div>
 </div>
-    `
+    `,
+    funcMap: new Map<string, (...args: any[]) => any>([
+      ['default', (value: any, defaultValue: any) => value || defaultValue]
+    ])
   });
 } 

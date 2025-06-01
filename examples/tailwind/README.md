@@ -30,18 +30,37 @@ cd examples/tailwind
 npm install
 ```
 
-### 启动开发服务器
+### 开发环境
 ```bash
+# 构建 CSS (监听模式)
+npm run build-css:watch
+
+# 启动开发服务器 (新终端)
 npm run serve
 ```
 
-访问 http://localhost:3000 查看演示。
-
-### 构建项目
+### 生产环境构建
 ```bash
+# 构建优化的 CSS
+npm run build-css:prod
+
+# 构建 TypeScript
 npm run build
+
+# 启动生产服务器
 npm start
 ```
+
+### 快速预览
+```bash
+# 构建 CSS 文件
+npm run build-css
+
+# 直接打开 demo.html (无需服务器)
+open demo.html
+```
+
+访问 http://localhost:3000 查看完整演示。
 
 ## 📁 项目结构
 

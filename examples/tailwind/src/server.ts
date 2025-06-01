@@ -1,40 +1,40 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import { ShortcodeRenderer, PageRenderer } from '@mdfriday/shortcode-compiler';
+import { Shortcode } from './shortcode';
 import { registerPokemonComponent, registerCtaFormComponent, registerThemeSwitcherComponent } from './components/pokemon';
 
 const app = express();
 const port = 3000;
 
-// 初始化组件系统
-function initializeComponents() {
-  const renderer = new ShortcodeRenderer();
+// 初始化 shortcode 系统
+function initializeShortcode() {
+  const shortcode = new Shortcode();
   
-  // 注册组件
-  registerPokemonComponent(renderer);
-  registerCtaFormComponent(renderer);
-  registerThemeSwitcherComponent(renderer);
+  // 注册组件到 shortcode 系统
+  registerPokemonComponent(shortcode.renderer);
+  registerCtaFormComponent(shortcode.renderer);
+  registerThemeSwitcherComponent(shortcode.renderer);
   
-  return renderer;
+  return shortcode;
 }
 
 // 静态文件服务
 app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
+app.use('/css', express.static(path.join(__dirname, '../dist')));
 
 // 主页路由
 app.get('/', (req, res) => {
   try {
-    const renderer = initializeComponents();
-    const pageRenderer = new PageRenderer(renderer);
+    const shortcode = initializeShortcode();
     
     const markdownContent = fs.readFileSync(
       path.join(__dirname, '../content/index.md'), 
       'utf-8'
     );
     
-    const result = pageRenderer.render(markdownContent);
+    const renderedContent = shortcode.render(markdownContent);
     
     const html = `
 <!DOCTYPE html>
@@ -43,75 +43,14 @@ app.get('/', (req, res) => {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>多主题 Pokemon 卡片系统</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    // 配置 Tailwind 以支持我们的自定义颜色
-    tailwind.config = {
-      darkMode: ['class', '[data-mode="dark"]'],
-      theme: {
-        extend: {
-          colors: {
-            background: 'rgb(var(--background) / <alpha-value>)',
-            foreground: 'rgb(var(--foreground) / <alpha-value>)',
-            primary: 'rgb(var(--primary) / <alpha-value>)',
-            primaryForeground: 'rgb(var(--primary-foreground) / <alpha-value>)',
-            secondary: 'rgb(var(--secondary) / <alpha-value>)',
-            secondaryForeground: 'rgb(var(--secondary-foreground) / <alpha-value>)',
-            accent: 'rgb(var(--accent) / <alpha-value>)',
-            accentForeground: 'rgb(var(--accent-foreground) / <alpha-value>)',
-            surface: 'rgb(var(--surface) / <alpha-value>)',
-            surfaceForeground: 'rgb(var(--surface-foreground) / <alpha-value>)',
-            muted: 'rgb(var(--muted) / <alpha-value>)',
-            mutedForeground: 'rgb(var(--muted-foreground) / <alpha-value>)',
-            border: 'rgb(var(--border) / <alpha-value>)',
-            input: 'rgb(var(--input) / <alpha-value>)',
-            ring: 'rgb(var(--ring) / <alpha-value>)',
-            destructive: 'rgb(var(--destructive) / <alpha-value>)',
-            destructiveForeground: 'rgb(var(--destructive-foreground) / <alpha-value>)',
-            warning: 'rgb(var(--warning) / <alpha-value>)',
-            warningForeground: 'rgb(var(--warning-foreground) / <alpha-value>)',
-            success: 'rgb(var(--success) / <alpha-value>)',
-            successForeground: 'rgb(var(--success-foreground) / <alpha-value>)',
-          },
-          boxShadow: {
-            'theme': 'var(--shadow)',
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* 主题样式 */
-    ${getThemeStyles()}
-    
-    /* 确保 Tailwind 类名正确应用 */
-    .bg-background { background-color: rgb(var(--background)) !important; }
-    .text-foreground { color: rgb(var(--foreground)) !important; }
-    .bg-primary { background-color: rgb(var(--primary)) !important; }
-    .text-primary { color: rgb(var(--primary)) !important; }
-    .text-primaryForeground { color: rgb(var(--primary-foreground)) !important; }
-    .bg-surface { background-color: rgb(var(--surface)) !important; }
-    .text-surfaceForeground { color: rgb(var(--surface-foreground)) !important; }
-    .bg-muted { background-color: rgb(var(--muted)) !important; }
-    .text-mutedForeground { color: rgb(var(--muted-foreground)) !important; }
-    .border-border { border-color: rgb(var(--border)) !important; }
-    .bg-accent { background-color: rgb(var(--accent)) !important; }
-    .text-accentForeground { color: rgb(var(--accent-foreground)) !important; }
-    .shadow-theme { box-shadow: var(--shadow) !important; }
-    .bg-input { background-color: rgb(var(--input)) !important; }
-    
-    /* 过渡动画 */
-    * {
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/output.css">
 </head>
 <body class="theme-base light min-h-screen bg-background text-foreground" 
       data-theme="base" data-mode="light">
   
   <!-- 主题切换器 -->
   <div class="fixed top-4 right-4 z-50">
-    <div class="bg-surface text-surfaceForeground border border-border rounded-lg p-4 shadow-theme">
+    <div class="theme-switcher p-4">
       <h3 class="text-sm font-semibold mb-3 text-primary">主题切换</h3>
       
       <div class="space-y-2">
@@ -144,7 +83,7 @@ app.get('/', (req, res) => {
     </header>
     
     <main class="space-y-8">
-      ${result.content}
+      ${renderedContent}
     </main>
     
     <footer class="text-center mt-16 py-8 border-t border-border">
